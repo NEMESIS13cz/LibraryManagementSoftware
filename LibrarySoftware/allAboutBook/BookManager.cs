@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
-namespace LibrarySoftware
+namespace LibrarySoftware.allAboutBook
 {
-    public class BookManager
+    class BookManager
     {
         public ObservableCollection<Book> Books;
 

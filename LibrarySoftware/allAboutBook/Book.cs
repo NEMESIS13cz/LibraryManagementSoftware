@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibrarySoftware
+namespace LibrarySoftware.allAboutBook
 {
-    public class Book
+    class Book
     {
         public string Author { get; private set; } // Později možná rozdělit podle jména a příjmení
         public string NameBook { get; private set; }

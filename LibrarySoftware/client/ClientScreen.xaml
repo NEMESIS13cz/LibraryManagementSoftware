@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySoftware.client"
         mc:Ignorable="d"
-        Title="The list of books in Library" Height="300" Width="400">
+        Title="The list of books in Library" Height="300" Width="400" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
 
         <TextBox Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Name="searchTextBox" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Height="25"/>
-        <ListBox Grid.Column="0" Grid.Row="1" Name="booksListBox" Margin="5"/>
+        <ListBox Grid.Column="0" Grid.Row="1" Name="booksListBox" Margin="5" ItemsSource="{Binding Books}"/>
 
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical">
             <StackPanel Orientation="Horizontal">

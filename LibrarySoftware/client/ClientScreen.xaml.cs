@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using LibrarySoftware.allAboutBook;
 
 namespace LibrarySoftware.client
 {
@@ -19,9 +20,12 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreen : Window
     {
+        BookManager manager;
         public ClientScreen()
         {
             InitializeComponent();
+            manager = new BookManager();
+            DataContext = manager;
         }
     }
 }
