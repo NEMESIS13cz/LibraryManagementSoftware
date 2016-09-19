@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="client\ClientScreen.xaml.cs">
+      <DependentUpon>ClientScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="utils\Address.cs" />
     <Compile Include="network\Connection.cs" />
     <Compile Include="network\packets\ConnectionPacket.cs" />
@@ -63,6 +66,10 @@
     <Compile Include="utils\Registry.cs" />
     <Compile Include="utils\Side.cs" />
     <Compile Include="ČtenářInfo.cs" />
+    <Page Include="client\ClientScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -107,7 +114,6 @@
     <Resource Include="owl-start-screen.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="client\" />
     <Folder Include="data\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
