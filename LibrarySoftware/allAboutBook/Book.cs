@@ -15,7 +15,7 @@ namespace LibrarySoftware
         public int DatePublishing { get; set; }
         public string ISBN { get; set; }
         public bool Borrowed { get; set; }
-
+        
         public Book(string author, string nameOfBook, int amountOfPages, string genre, int dateOfPublishing, string ISBN, bool borrowed)
         {
             this.Author = author;
@@ -25,6 +25,12 @@ namespace LibrarySoftware
             this.DatePublishing = dateOfPublishing;
             this.ISBN = ISBN;
             this.Borrowed = borrowed;
+        }
+
+        // Pro vypsání třeba v listBoxu
+        public override string ToString()
+        {
+            return NameBook + ", " + Author;
         }
     }
 }
