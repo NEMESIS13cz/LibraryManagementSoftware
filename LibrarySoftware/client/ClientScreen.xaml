@@ -24,6 +24,26 @@
                 <Label Content="Název:" Margin="2"/>
                 <TextBlock Name="NameTextBlock" Margin="2"/>
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Autor:" Margin="2"/>
+                <TextBlock Margin="2"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Žánr:" Margin="2"/>
+                <StackPanel Margin="2"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Datum vydání:" Margin="2"/>
+                <TextBlock Margin="2"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="ISBN:" Margin="2"/>
+                <TextBlock Margin="2"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Vypůjčeno:" Margin="2"/>
+                <TextBlock Margin="2"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>
