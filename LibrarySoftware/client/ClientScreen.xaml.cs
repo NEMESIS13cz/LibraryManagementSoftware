@@ -20,7 +20,7 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreen : Window
     {
-        BookManager manager;
+        private BookManager manager;
         public ClientScreen()
         {
             InitializeComponent();

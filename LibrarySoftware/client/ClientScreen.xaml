@@ -19,29 +19,29 @@
         <TextBox Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Name="searchTextBox" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Height="25"/>
         <ListBox Grid.Column="0" Grid.Row="1" Name="booksListBox" Margin="5" ItemsSource="{Binding Books}"/>
 
-        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical">
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" DataContext="{Binding ElementName=booksListBox,Path=SelectedItem}">
             <StackPanel Orientation="Horizontal">
-                <Label Content="Název:" Margin="2"/>
-                <TextBlock Name="NameTextBlock" Margin="2"/>
+                <TextBlock Text="Název:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding NameBook}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="Autor:" Margin="2"/>
-                <TextBlock Margin="2"/>
+                <TextBlock Text="Autor:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding Author}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="Žánr:" Margin="2"/>
-                <StackPanel Margin="2"/>
+                <TextBlock Text="Žánr:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding Genre}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="Datum vydání:" Margin="2"/>
-                <TextBlock Margin="2"/>
+                <TextBlock Text="Datum vydání:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding DatePublishing}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="ISBN:" Margin="2"/>
-                <TextBlock Margin="2"/>
+                <TextBlock Text="ISBN:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding ISBN}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="Vypůjčeno:" Margin="2"/>
+                <TextBlock Text="Vypůjčeno:" Margin="2"/>
                 <TextBlock Margin="2"/>
             </StackPanel>
         </StackPanel>
