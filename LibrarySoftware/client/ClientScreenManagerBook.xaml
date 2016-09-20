@@ -5,8 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySoftware.client"
         mc:Ignorable="d"
-        Title="Seznam Knih" Height="300" Width="300" WindowStartupLocation="CenterScreen">
+        Title="Seznam Knih" Height="300" Width="330" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBox Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Name="searchTextBox" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Height="25"/>
+        <ListBox Grid.Column="0" Grid.Row="1" Name="booksListBox" Margin="5" ItemsSource="{Binding Books}"/>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" DataContext="{Binding ElementName=booksListBox,Path=SelectedItem}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Název:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding NameBook}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Autor:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding Author}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Žánr:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding Genre}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Datum vydání:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding DatePublishing}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="ISBN:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding ISBN}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Vypůjčeno:" Margin="2"/>
+                <TextBlock Margin="2"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="2,10" HorizontalAlignment="Center">
+                <Button Content="Přidat" Name="AddButton" Height="25" Width="70" Margin="0,0,5,0" Click="AddButton_Click"/>
+                <Button Content="Upravit" Name="editButton" Height="25" Width="70" Margin="5,0,0,0" Click="editButton_Click"/>
+            </StackPanel>
+            <Button Content="Smazat" Name="deleteButton" Height="30" Width="150" HorizontalAlignment="Center" Margin="5,5" Click="deleteButton_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

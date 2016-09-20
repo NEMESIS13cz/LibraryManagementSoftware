@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using LibrarySoftware.allAboutBook;
 
 namespace LibrarySoftware.client
 {
@@ -19,9 +20,34 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenManagerBook : Window
     {
+        BookManager manager;
         public ClientScreenManagerBook()
         {
             InitializeComponent();
+            manager = new BookManager();
+            DataContext = manager;
+        }
+
+        private void deleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                manager.Odeber(booksListBox.SelectedItem as Book); // nevím jestli na to listBox automaticky zareaguje, pokud ne, tak implementuju INotifyPropertyChanged do BookManager
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Bude odkazovat na další okno, kde bude formulář na vyplnění
+        }
+
+        private void editButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Otevře se okno, kde se bude moc opravit jakákoli vlastnost té knihy a následně se uloží změny
         }
     }
 }

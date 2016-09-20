@@ -22,12 +22,33 @@ namespace LibrarySoftware.allAboutBook
         //Způsoby pracování s tím, později přidat další
         public void Odeber(Book book)
         {
+            if (book == null)
+                throw new ArgumentException("Není vybrána žádná položka. Prosím nejdříve označte položku, kterou chcete smazat.");
+
             Books.Remove(book);
         }
 
         public void Odeber(int index)
         {
+            if (index < 0)
+                throw new ArgumentException("Není vybrána žádná položka. Prosím nejdříve označte položku, kterou chcete smazat.");
+
             Books.RemoveAt(index);
+        }
+
+        public void Přidej(Book book)
+        {
+            Books.Add(book);
+        }
+
+        public int Hledej(string searchingString)
+        {
+            // pomocí toho najdeme, který to je a vrátí to index, na kterém se nachází a selectedIndex nastavíme na něj
+        }
+
+        public Book Hledej(string searchingString)
+        {
+            //tady totéž, ale jiná varianta
         }
     }
 }
