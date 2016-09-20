@@ -57,8 +57,11 @@
     </ApplicationDefinition>
     <Compile Include="allAboutBook\Book.cs" />
     <Compile Include="allAboutBook\BookManager.cs" />
-    <Compile Include="client\ClientScreen.xaml.cs">
-      <DependentUpon>ClientScreen.xaml</DependentUpon>
+    <Compile Include="client\ClientScreenManagerMain.xaml.cs">
+      <DependentUpon>ClientScreenManagerMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="client\ClientScreenReader.xaml.cs">
+      <DependentUpon>ClientScreenReader.xaml</DependentUpon>
     </Compile>
     <Compile Include="utils\Address.cs" />
     <Compile Include="network\Connection.cs" />
@@ -68,7 +71,11 @@
     <Compile Include="utils\Registry.cs" />
     <Compile Include="utils\Side.cs" />
     <Compile Include="ČtenářInfo.cs" />
-    <Page Include="client\ClientScreen.xaml">
+    <Page Include="client\ClientScreenManagerMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="client\ClientScreenReader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

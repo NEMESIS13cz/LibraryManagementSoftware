@@ -32,12 +32,12 @@ namespace LibrarySoftware
 
 
 
-            /* Podle toho, co zjistil, že je zač (správce/klient)
+            /* Podle toho, co zjistil, že je zač (správce/čtenář)
              * otevře příslušné okno*/
 
             /*
-             * if(client){
-             * ClientScreen ahoj = new ClientScreen();
+             * if(Reader){ /// Okno pro čtenáře
+             * ClientScreenReader ahoj = new ClientScreenReader();
              * ahoj.Show();
              * this.Close(); }
              * else{
