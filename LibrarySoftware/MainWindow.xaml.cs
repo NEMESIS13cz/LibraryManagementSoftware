@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LibrarySoftware.client;
 
 namespace LibrarySoftware
 {
@@ -23,6 +24,26 @@ namespace LibrarySoftware
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Zde nějak zjistit jestli to je client nebo správce
+
+
+
+            /* Podle toho, co zjistil, že je zač (správce/klient)
+             * otevře příslušné okno*/
+
+            /*
+             * if(client){
+             * ClientScreen ahoj = new ClientScreen();
+             * ahoj.Show();
+             * this.Close(); }
+             * else{
+             *  //// otevře se okno pro správce
+             *  }
+             */
         }
     }
 }

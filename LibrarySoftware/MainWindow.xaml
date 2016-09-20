@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySoftware"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="425" WindowStartupLocation="CenterScreen">
+        Title="LoginWindow" Height="350" Width="425" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1.5*"/>
@@ -22,7 +22,7 @@
                 <TextBox Name="passwordTextBox" Width="150"/>
             </StackPanel>
 
-            <Button Name="LoginButton" Content="Login" Width="100" Height="25" Margin="0,15,0,0"/>
+            <Button Name="LoginButton" Content="Login" Width="100" Height="25" Margin="0,15,0,0" Click="LoginButton_Click"/>
         </StackPanel>
 
         <Image Source="owl-start-screen.png" Grid.Row="0" />
