@@ -28,11 +28,19 @@ namespace LibrarySoftware.client
         {
             //zavření tohoto okna a otevření okna, kde bude obsluha moc vidět seznam čtenářů/uživatelů, hledat, mazat a 
             //tlačítko na odkaz nového okna, kde vyplní údaje pro přidání nového čtenáře
+            ClientScreenManagerReader window = new ClientScreenManagerReader();
+
+            window.Show();
+            this.Close();
         }
 
         private void BooksButton_Click(object sender, RoutedEventArgs e)
         {
             //v podstatě totéž jako horní, akorát na knihy
+            ClientScreenManagerBook window = new ClientScreenManagerBook();
+
+            window.Show();
+            this.Close();
         }
     }
 }
