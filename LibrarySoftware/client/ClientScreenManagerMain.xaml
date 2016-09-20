@@ -12,6 +12,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button Content="Čtenáři" Name="ReadersButton" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Width="100"/>
+        <Button Content="Čtenáři" Name="ReadersButton" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Width="100" Click="ReadersButton_Click"/>
+        <Button Content="Knihy" Name="BooksButton" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Width="100" Click="BooksButton_Click"/>
     </Grid>
 </Window>

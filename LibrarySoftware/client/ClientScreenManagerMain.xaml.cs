@@ -23,5 +23,16 @@ namespace LibrarySoftware.client
         {
             InitializeComponent();
         }
+
+        private void ReadersButton_Click(object sender, RoutedEventArgs e)
+        {
+            //zavření tohoto okna a otevření okna, kde bude obsluha moc vidět seznam čtenářů/uživatelů, hledat, mazat a 
+            //tlačítko na odkaz nového okna, kde vyplní údaje pro přidání nového čtenáře
+        }
+
+        private void BooksButton_Click(object sender, RoutedEventArgs e)
+        {
+            //v podstatě totéž jako horní, akorát na knihy
+        }
     }
 }
