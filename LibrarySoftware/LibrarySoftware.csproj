@@ -66,14 +66,15 @@
     <Compile Include="client\ClientScreenManagerReader.xaml.cs">
       <DependentUpon>ClientScreenManagerReader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="client\ClientScreenReader.xaml.cs">
-      <DependentUpon>ClientScreenReader.xaml</DependentUpon>
+    <Compile Include="client\ClientScreenReaderBook.xaml.cs">
+      <DependentUpon>ClientScreenReaderBook.xaml</DependentUpon>
     </Compile>
     <Compile Include="utils\Address.cs" />
     <Compile Include="network\Connection.cs" />
     <Compile Include="network\packets\ConnectionPacket.cs" />
     <Compile Include="network\IPacket.cs" />
     <Compile Include="server\Server.cs" />
+    <Compile Include="utils\Reader.cs" />
     <Compile Include="utils\Registry.cs" />
     <Compile Include="utils\Side.cs" />
     <Compile Include="ČtenářInfo.cs" />
@@ -89,7 +90,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="client\ClientScreenReader.xaml">
+    <Page Include="client\ClientScreenReaderBook.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

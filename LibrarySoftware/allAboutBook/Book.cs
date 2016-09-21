@@ -15,6 +15,8 @@ namespace LibrarySoftware.allAboutBook
         public int DatePublishing { get; set; }
         public string ISBN { get; set; }
         public bool Borrowed { get; set; }
+
+        //Nezapomenout později přidat odkaz na čtenáře, který tu knihu má vypůjčenou
         
         public Book(string author, string nameOfBook, int amountOfPages, string genre, int dateOfPublishing, string ISBN, bool borrowed)
         {
@@ -25,6 +27,10 @@ namespace LibrarySoftware.allAboutBook
             this.DatePublishing = dateOfPublishing;
             this.ISBN = ISBN;
             this.Borrowed = borrowed;
+        }
+        public Book()
+        {
+
         }
 
         // Pro vypsání třeba v listBoxu

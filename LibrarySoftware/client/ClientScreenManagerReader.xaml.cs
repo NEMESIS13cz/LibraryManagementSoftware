@@ -23,5 +23,14 @@ namespace LibrarySoftware.client
         {
             InitializeComponent();
         }
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            //vrátí se zpět na menu
+            ClientScreenManagerMain window = new ClientScreenManagerMain();
+
+            window.Show();
+            this.Close();
+        }
     }
 }

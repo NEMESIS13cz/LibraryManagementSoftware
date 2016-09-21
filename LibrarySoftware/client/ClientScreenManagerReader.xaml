@@ -7,6 +7,18 @@
         mc:Ignorable="d"
         Title="Seznam čtenářů" Height="300" Width="300" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBox Name="searchTextBox" Grid.ColumnSpan="2" Width="200" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ListBox Name="readerListBox" Grid.Column="0" Grid.Row="1" Margin="5"/>
+        <Button Content="Zpět" Name="backButton" Width="60" Height="20" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,5,5" Click="backButton_Click"/>
     </Grid>
 </Window>
