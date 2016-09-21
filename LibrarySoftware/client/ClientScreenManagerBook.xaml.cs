@@ -49,5 +49,14 @@ namespace LibrarySoftware.client
         {
             //Otevře se okno, kde se bude moc opravit jakákoli vlastnost té knihy a následně se uloží změny
         }
+
+        private void Backbutton_Click(object sender, RoutedEventArgs e)
+        {
+            // vrátí se zpět na hlavní okno
+            ClientScreenManagerMain window = new ClientScreenManagerMain();
+
+            window.Show();
+            this.Close();
+        }
     }
 }
