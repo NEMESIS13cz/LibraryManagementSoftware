@@ -57,6 +57,9 @@
     </ApplicationDefinition>
     <Compile Include="allAboutBook\Book.cs" />
     <Compile Include="allAboutBook\BookManager.cs" />
+    <Compile Include="client\AddBookWindow.xaml.cs">
+      <DependentUpon>AddBookWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="client\ClientScreenManagerBook.xaml.cs">
       <DependentUpon>ClientScreenManagerBook.xaml</DependentUpon>
     </Compile>
@@ -78,6 +81,10 @@
     <Compile Include="utils\Registry.cs" />
     <Compile Include="utils\Side.cs" />
     <Compile Include="ČtenářInfo.cs" />
+    <Page Include="client\AddBookWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="client\ClientScreenManagerBook.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
