@@ -72,6 +72,7 @@
     <Compile Include="client\ClientScreenReaderBook.xaml.cs">
       <DependentUpon>ClientScreenReaderBook.xaml</DependentUpon>
     </Compile>
+    <Compile Include="network\Client.cs" />
     <Compile Include="utils\Address.cs" />
     <Compile Include="network\Connection.cs" />
     <Compile Include="network\packets\ConnectionPacket.cs" />

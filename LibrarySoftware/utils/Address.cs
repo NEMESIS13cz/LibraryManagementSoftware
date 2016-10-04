@@ -8,8 +8,8 @@ namespace LibrarySoftware.utils
 {
     class Address
     {
-        private string host { get; }
-        private int port { get; }
+        public string host { get; }
+        public int port { get; }
 
         public Address(string host, int port)
         {
