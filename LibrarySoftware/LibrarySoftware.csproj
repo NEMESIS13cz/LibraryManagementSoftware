@@ -81,7 +81,7 @@
     <Compile Include="utils\Reader.cs" />
     <Compile Include="utils\Registry.cs" />
     <Compile Include="utils\Side.cs" />
-    <Compile Include="ČtenářInfo.cs" />
+    <Compile Include="utils\ČtenářInfo.cs" />
     <Page Include="client\AddBookWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
