@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Threading;
+using System.Xml.Serialization;
+using System.IO;
+using LibrarySoftware.allAboutBook;
+using LibrarySoftware.utils;
 
 namespace LibrarySoftware.network
 {
@@ -59,5 +63,52 @@ namespace LibrarySoftware.network
                 }
             }
         }
+
+        private string Serializace (Book book)
+        {
+            XmlSerializer serializer = new XmlSerializer(book.GetType());
+
+            using(StringWriter textWriter = new StringWriter()) // ošetření chyby
+            {
+                serializer.Serialize(textWriter, book);
+                return textWriter.ToString();
+            }
+        }
+
+        private string Serializace (Reader reader)
+        {
+            XmlSerializer serializer = new XmlSerializer(reader.GetType());
+
+            using (StringWriter textWriter = new StringWriter()) // ošetření chyby
+            {
+                serializer.Serialize(textWriter, reader);
+                return textWriter.ToString();
+            }
+        }
+        /*
+        // Potřeba domyslet, jak rozlišit co přichází, jestli info o čtenáři nebo kniha
+        
+        samo o sobě nemůžou být 2 funkce se stejným parametrem - musíme nějak rozlišit
+        co přišlo
+
+        private Book Deserializace (string inComingData)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(Book));
+
+            using(StringReader textReader = new StringReader(inComingData))
+            {
+                return serializer.Deserialize(textReader) as Book;
+            }
+        }
+
+        private Reader Deserializace (string inComingData)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(Reader));
+
+            using (StringReader textReader = new StringReader(inComingData))
+            {
+                return serializer.Deserialize(textReader) as Reader;
+            }
+        } */
     }
 }
