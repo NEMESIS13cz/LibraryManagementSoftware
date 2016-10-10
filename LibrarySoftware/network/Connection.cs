@@ -73,7 +73,7 @@ namespace LibrarySoftware
         private void connectionListener()
         {
             Console.WriteLine("Socket vytvořen...");
-
+                       
             // TODO check if server is running
             while (server.isRunning)
             {

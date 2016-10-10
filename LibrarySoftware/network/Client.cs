@@ -18,6 +18,8 @@ namespace LibrarySoftware.network
         private Thread receiver;
         private Thread transmitter;
         private List<IPacket> toSend = new List<IPacket>();
+        private object zámek = new object(); // na zabezpečení vlákna
+
         public Client(Socket sock)
         {
             this.sock = sock;
@@ -48,18 +50,22 @@ namespace LibrarySoftware.network
             byte[] buffer;
             while (sock.Connected)
             {
-                // TODO synchronize lists
-                try
+                lock (zámek)
                 {
-                    if (toSend.Count > 0)
+                    // TODO synchronize lists
+                    try
                     {
-                        IPacket packet = toSend[0];
-                        toSend.RemoveAt(0);
-                        buffer = Encoding.ASCII.GetBytes(packet.ToString());
-                        sock.Send(buffer);
+                        if (toSend.Count > 0)
+                        {
+                            IPacket packet = toSend[0];
+                            toSend.RemoveAt(0);
+                            buffer = Encoding.ASCII.GetBytes(packet.ToString());
+                            sock.Send(buffer);
+                        }
                     }
-                }
-                catch (ArgumentOutOfRangeException) {
+                    catch (ArgumentOutOfRangeException)
+                    {
+                    }
                 }
             }
         }
