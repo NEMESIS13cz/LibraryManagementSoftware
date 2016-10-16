@@ -8,12 +8,12 @@ using LibrarySoftware.network;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using LibrarySoftware.server;
 
 namespace LibrarySoftware
 {
     class Connection
     {
-        private byte[] buffer = new byte[1024];
         private Socket sock;
         private Server server;
 
@@ -23,10 +23,23 @@ namespace LibrarySoftware
             try
             {
                 IPHostEntry info = Dns.GetHostEntry(address.host);
-                IPAddress ip = info.AddressList[0];
+                IPAddress ip = null;
+                foreach (IPAddress i in info.AddressList)
+                {
+                    if (i.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        ip = i;
+                        break;
+                    }
+                }
+                if (ip == null)
+                {
+                    Console.WriteLine("Nepodařilo se najít IPv4 adresu!");
+                    Environment.Exit(-1);
+                }
                 IPEndPoint localEnd = new IPEndPoint(ip, address.port);
 
-                sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                sock = new Socket(localEnd.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
                 sock.Bind(localEnd);
                 sock.Listen(16);
@@ -37,49 +50,59 @@ namespace LibrarySoftware
             }
             catch (SocketException e)
             {
-                Console.Error.WriteLine("Nepodařilo se vytvořit socket!");
-                Console.Error.WriteLine(e.StackTrace);
+                Console.WriteLine("Nepodařilo se vytvořit socket!");
+                Console.WriteLine(e.ToString());
                 Environment.Exit(-1);
             }
         }
 
-        public void connect(Address address)
+        public Client connect(Address address)
         {
-
+            IPAddress ip = null;
+            foreach (IPAddress i in Dns.GetHostEntry(address.host).AddressList)
+            {
+                if (i.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    ip = i;
+                    break;
+                }
+            }
+            if (ip == null)
+            {
+                Console.WriteLine("Nepodařilo se najít IPv4 adresu!");
+                Environment.Exit(-1);
+            }
+            IPEndPoint remote = new IPEndPoint(ip, address.port);
+            sock = new Socket(remote.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            try
+            {
+                sock.Connect(remote);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Nepodařilo se připojit (" + remote.Address + ":" + remote.Port + ")");
+                return null;
+            }
+            Console.WriteLine("Připojeno (" + remote.Address + ":" + remote.Port + ")");
+            return new Client(sock);
         }
 
         public void closeConnection()
         {
-
-        }
-
-        public void sendPacket(IPacket packet)
-        {
-
-        }
-
-        public void onPacketReceived(IPacket packet)
-        {
-            if (Side.isClient)
-            {
-
-            }
-            else
-            {
-
-            }
+            sock.Close();
         }
         
         private void connectionListener()
         {
             Console.WriteLine("Socket vytvořen...");
-                       
-            // TODO check if server is running
+            
             while (server.isRunning)
             {
                 Socket clientSocket = sock.Accept();
                 Client client = new Client(clientSocket);
+                IPEndPoint ep = ((IPEndPoint)clientSocket.RemoteEndPoint);
 
+                Console.WriteLine("Nové připojení (" + ep.Address + ":" + ep.Port + ")");
                 server.clients.Add(client);
             }
         }

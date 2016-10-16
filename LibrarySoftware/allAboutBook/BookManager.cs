@@ -40,15 +40,15 @@ namespace LibrarySoftware.allAboutBook
         {
             Books.Add(book);
         }
-
+        /*
         public int Hledej(string searchingString)
         {
             // pomocí toho najdeme, který to je a vrátí to index, na kterém se nachází a selectedIndex nastavíme na něj
         }
-
+        
         public Book Hledej(string searchingString)
         {
             //tady totéž, ale jiná varianta
-        }
+        }*/
     }
 }

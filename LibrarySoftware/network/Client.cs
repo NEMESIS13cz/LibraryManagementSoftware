@@ -9,6 +9,11 @@ using System.Xml.Serialization;
 using System.IO;
 using LibrarySoftware.allAboutBook;
 using LibrarySoftware.utils;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Soap;
+using LibrarySoftware.network.client;
+using LibrarySoftware.network.server;
+using System.Net;
 
 namespace LibrarySoftware.network
 {
@@ -18,7 +23,8 @@ namespace LibrarySoftware.network
         private Thread receiver;
         private Thread transmitter;
         private List<IPacket> toSend = new List<IPacket>();
-        private object zámek = new object(); // na zabezpečení vlákna
+        private object lck = new object(); // na zabezpečení vlákna
+        private IFormatter serializer = new SoapFormatter();
 
         public Client(Socket sock)
         {
@@ -33,88 +39,105 @@ namespace LibrarySoftware.network
 
         public void sendPacket(IPacket packet)
         {
-            // TODO synchronized lists
-            toSend.Add(packet);
+            lock (lck)
+            {
+                toSend.Add(packet);
+            }
         }
 
         private void receiverRun()
         {
+            IPEndPoint ep = (IPEndPoint)sock.RemoteEndPoint;
+            List<byte> incomingData = new List<byte>();
+            byte[] buffer = null;
+            byte[] temp = null;
+            int received = 0;
+
             while (sock.Connected)
             {
-
+                try
+                {
+                    while (true)
+                    {
+                        buffer = new byte[1024];
+                        received = sock.Receive(buffer);
+                        if (received == 1024)
+                        {
+                            incomingData.AddRange(buffer);
+                        }
+                        else
+                        {
+                            temp = new byte[received];
+                            Array.Copy(buffer, temp, received);
+                            incomingData.AddRange(temp);
+                        }
+                        if (Enumerable.SequenceEqual(incomingData.GetRange(incomingData.Count - Registry.endOfPacket.Length, Registry.endOfPacket.Length).ToArray(), Registry.endOfPacket))
+                        {
+                            break;
+                        }
+                    }
+                    if (Side.isClient)
+                    {
+                        ClientNetworkManager.receivedPacketFromServer(deserialize(incomingData.ToArray()));
+                    }
+                    else
+                    {
+                        ServerNetworkManager.receivedPacketFromClient(this, deserialize(incomingData.ToArray()));
+                    }
+                    incomingData.Clear();
+                }
+                catch (Exception)
+                {
+                    if (sock.Poll(1000, SelectMode.SelectRead) && sock.Available == 0)
+                    {
+                        break;
+                    }
+                    Console.WriteLine("Chyba při přijímání packetu! Ignoruji...");
+                }
             }
+            while (transmitter.IsAlive)
+            {
+                Thread.Sleep(1);
+            }
+            Console.WriteLine("Pripojení ztraceno (" + ep.Address + ":" + ep.Port + ")");
         }
 
         private void transmitterRun()
         {
-            byte[] buffer;
             while (sock.Connected)
             {
-                lock (zámek)
+                lock (lck)
                 {
-                    // TODO synchronize lists
                     try
                     {
                         if (toSend.Count > 0)
                         {
                             IPacket packet = toSend[0];
                             toSend.RemoveAt(0);
-                            buffer = Encoding.ASCII.GetBytes(packet.ToString());
-                            sock.Send(buffer);
+                            sock.Send(serialize(packet));
                         }
+                        Thread.Sleep(1);
                     }
-                    catch (ArgumentOutOfRangeException)
+                    catch (Exception)
                     {
+                        Console.WriteLine("Chyba při posílání packetu!");
                     }
                 }
             }
         }
 
-        private string Serializace (Book book)
+        private byte[] serialize(IPacket packet)
         {
-            XmlSerializer serializer = new XmlSerializer(book.GetType());
-
-            using(StringWriter textWriter = new StringWriter()) // ošetření chyby
-            {
-                serializer.Serialize(textWriter, book);
-                return textWriter.ToString();
-            }
+            MemoryStream mem = new MemoryStream();
+            serializer.Serialize(mem, packet);
+            mem.Write(Registry.endOfPacket, 0, Registry.endOfPacket.Length);
+            return mem.ToArray();
         }
 
-        private string Serializace (Reader reader)
+        private IPacket deserialize(byte[] data)
         {
-            XmlSerializer serializer = new XmlSerializer(reader.GetType());
-
-            using (StringWriter textWriter = new StringWriter()) // ošetření chyby
-            {
-                serializer.Serialize(textWriter, reader);
-                return textWriter.ToString();
-            }
+            MemoryStream mem = new MemoryStream(data);
+            return (IPacket) serializer.Deserialize(mem);
         }
-        /*
-        // Potřeba domyslet, jak rozlišit co přichází, jestli info o čtenáři nebo kniha
-        
-        samo o sobě nemůžou být 2 funkce se stejným parametrem - musíme nějak rozlišit
-        co přišlo
-
-        private Book Deserializace (string inComingData)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(Book));
-
-            using(StringReader textReader = new StringReader(inComingData))
-            {
-                return serializer.Deserialize(textReader) as Book;
-            }
-        }
-
-        private Reader Deserializace (string inComingData)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(Reader));
-
-            using (StringReader textReader = new StringReader(inComingData))
-            {
-                return serializer.Deserialize(textReader) as Reader;
-            }
-        } */
     }
 }

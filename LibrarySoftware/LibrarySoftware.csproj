@@ -34,9 +34,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>LibrarySoftware.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -73,6 +77,8 @@
       <DependentUpon>ClientScreenReaderBook.xaml</DependentUpon>
     </Compile>
     <Compile Include="network\Client.cs" />
+    <Compile Include="network\client\ClientNetworkManager.cs" />
+    <Compile Include="network\server\ServerNetworkManager.cs" />
     <Compile Include="utils\Address.cs" />
     <Compile Include="network\Connection.cs" />
     <Compile Include="network\packets\ConnectionPacket.cs" />

@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LibrarySoftware.client;
+using LibrarySoftware.network.client;
+
+using LibrarySoftware.network.packets;
 
 namespace LibrarySoftware
 {
@@ -44,6 +47,8 @@ namespace LibrarySoftware
              *  //// otevře se okno pro správce
              *  }
              */
+            
+            ClientNetworkManager.connectToServer(new utils.Address("localhost"));
         }
     }
 }

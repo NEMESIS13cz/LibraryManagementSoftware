@@ -5,22 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using LibrarySoftware.utils;
 using LibrarySoftware.network;
+using LibrarySoftware.network.server;
+using System.Threading;
 
-namespace LibrarySoftware
+namespace LibrarySoftware.server
 {
     class Server
     {
-        private static Server instance;
-
-        private Connection conn;
+        public static Server instance;
+        
         private Address addr;
 
         public bool isRunning = true;
         public List<Client> clients = new List<Client>();
+
         static void Main(string[] args)
         {
             Side.isClient = false;
-            instance = new LibrarySoftware.Server();
+            instance = new Server();
             instance.start();
         }
 
@@ -28,10 +30,14 @@ namespace LibrarySoftware
         {
             loadConfigFiles();
             initializeMySQL();
-
-            conn = new Connection();
+            
             addr = new Address("localhost");
-            conn.startListening(addr, this);
+            ServerNetworkManager.openSocket(addr);
+
+            while (true)
+            {
+                Thread.Sleep(1);
+            }
         }
 
         private void loadConfigFiles()
