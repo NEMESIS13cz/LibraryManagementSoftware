@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading;
 using LibrarySoftware.allAboutBook;
 
 namespace LibrarySoftware.client
@@ -26,6 +27,35 @@ namespace LibrarySoftware.client
             InitializeComponent();
             manager = new BookManager();
             DataContext = manager;
+        }
+        
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // načtou se data ...
+        }
+
+        private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // vyhledávání
+            if(searchTextBox.Text != "")
+            {
+                string text = searchTextBox.Text, pom = null;
+                int i = 0;
+                
+                while(i < manager.Books.Count)
+                {
+                    pom = null;
+                    if (manager.Books[i].NameBook.Length >= text.Length)
+                        for (int a = 0; a < text.Length; a++)
+                            pom += manager.Books[i].NameBook[a];
+                    if(pom.ToLower() == text.ToLower())
+                    {
+                        booksListBox.SelectedItem = manager.Books[i];
+                        i = manager.Books.Count + 1;
+                    }
+                    i++;
+                }
+            }
         }
     }
 }

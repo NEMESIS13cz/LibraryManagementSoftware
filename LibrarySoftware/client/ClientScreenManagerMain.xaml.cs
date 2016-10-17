@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using LibrarySoftware.network.client;
 
 namespace LibrarySoftware.client
 {
@@ -42,5 +43,8 @@ namespace LibrarySoftware.client
             window.Show();
             this.Close();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {}
     }
 }

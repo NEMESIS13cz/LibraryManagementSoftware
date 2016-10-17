@@ -43,6 +43,10 @@ namespace LibrarySoftware.client
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             //Bude odkazovat na další okno, kde bude formulář na vyplnění
+
+            AddBookWindow window = new AddBookWindow();
+
+            window.ShowDialog();
         }
 
         private void editButton_Click(object sender, RoutedEventArgs e)
@@ -57,6 +61,13 @@ namespace LibrarySoftware.client
 
             window.Show();
             this.Close();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // načtou se data ze serveru
+
+
         }
     }
 }

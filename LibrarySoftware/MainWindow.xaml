@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySoftware"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="350" Width="425" WindowStartupLocation="CenterScreen">
+        Title="LoginWindow" Height="400" Width="425" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1.5*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Vertical" Grid.Row="1" VerticalAlignment="Top" Margin="0,8">
@@ -23,8 +24,10 @@
             </StackPanel>
 
             <Button Name="LoginButton" Content="Login" Width="100" Height="25" Margin="0,15,0,0" Click="LoginButton_Click"/>
+            
         </StackPanel>
 
         <Image Source="owl-start-screen.png" Grid.Row="0" />
+        <Button Name="guestButton" Content="Guest" Grid.Row="2" Width="100" Height="25" HorizontalAlignment="Right"/>
     </Grid>
 </Window>

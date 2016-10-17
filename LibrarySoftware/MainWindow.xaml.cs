@@ -47,7 +47,8 @@ namespace LibrarySoftware
              *  //// otevře se okno pro správce
              *  }
              */
-            
+
+            // stáhnutí aktualizací databáze a tudíž vytvoření dočasné nebo stálé kopie
             ClientNetworkManager.connectToServer(new utils.Address("localhost"));
         }
     }
