@@ -39,13 +39,34 @@ namespace LibrarySoftware.allAboutBook
         public void Přidej(Book book)
         {
             Books.Add(book);
+            Books.OrderBy(a => a.NameBook); // seřadí knihy podle jména
         }
-        /*
+        
         public int Hledej(string searchingString)
         {
             // pomocí toho najdeme, který to je a vrátí to index, na kterém se nachází a selectedIndex nastavíme na něj
+            if (searchingString != "")
+            {
+                string text = searchingString, pom = null;
+                int i = 0;
+
+                while (i < Books.Count)
+                {
+                    pom = null;
+                    if (Books[i].NameBook.Length >= text.Length)
+                        for (int a = 0; a < text.Length; a++)
+                            pom += Books[i].NameBook[a];
+                    if (pom.ToLower() == text.ToLower())
+                    {
+                        return i;
+                        i = Books.Count + 1;
+                    }
+                    i++;
+                }
+            }
+            return -1;
         }
-        
+        /*
         public Book Hledej(string searchingString)
         {
             //tady totéž, ale jiná varianta

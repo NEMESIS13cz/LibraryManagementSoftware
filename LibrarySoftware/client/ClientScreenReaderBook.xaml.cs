@@ -37,25 +37,10 @@ namespace LibrarySoftware.client
         private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             // vyhledávání
-            if(searchTextBox.Text != "")
-            {
-                string text = searchTextBox.Text, pom = null;
-                int i = 0;
-                
-                while(i < manager.Books.Count)
-                {
-                    pom = null;
-                    if (manager.Books[i].NameBook.Length >= text.Length)
-                        for (int a = 0; a < text.Length; a++)
-                            pom += manager.Books[i].NameBook[a];
-                    if(pom.ToLower() == text.ToLower())
-                    {
-                        booksListBox.SelectedItem = manager.Books[i];
-                        i = manager.Books.Count + 1;
-                    }
-                    i++;
-                }
-            }
+            int i = manager.Hledej(searchTextBox.Text);
+
+            if (i != -1)
+                booksListBox.SelectedIndex = i;
         }
     }
 }
