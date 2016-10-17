@@ -51,6 +51,25 @@ namespace LibrarySoftware
             // stáhnutí aktualizací databáze a tudíž vytvoření dočasné nebo stálé kopie
             if (!ClientNetworkManager.connectToServer(new utils.Address("localhost")))
                 MessageBox.Show("Nepodařilo se připojit k serveru", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            else
+            {
+                ClientScreenManagerMain window = new ClientScreenManagerMain();
+                window.Show();
+                this.Close();
+            }
+        }
+
+        private void guestButton_Click(object sender, RoutedEventArgs e)
+        {
+            // otevření okna pro hosta
+            if (!ClientNetworkManager.connectToServer(new utils.Address("localhost")))
+                MessageBox.Show("Nepodařilo se připojit k serveru, zkuste to prosím později", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            else
+            {
+                ClientScreenReaderBook window = new ClientScreenReaderBook();
+                window.Show();
+                this.Close();
+            }
         }
     }
 }

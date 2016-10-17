@@ -76,6 +76,9 @@
     <Compile Include="client\ClientScreenReaderBook.xaml.cs">
       <DependentUpon>ClientScreenReaderBook.xaml</DependentUpon>
     </Compile>
+    <Compile Include="client\EditBookWindow.xaml.cs">
+      <DependentUpon>EditBookWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="network\Client.cs" />
     <Compile Include="network\client\ClientNetworkManager.cs" />
     <Compile Include="network\server\ServerNetworkManager.cs" />
@@ -105,6 +108,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="client\ClientScreenReaderBook.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="client\EditBookWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

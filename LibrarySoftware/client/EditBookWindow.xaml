@@ -1,0 +1,44 @@
+﻿<Window x:Class="LibrarySoftware.client.EditBookWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibrarySoftware.client"
+        mc:Ignorable="d"
+        Title="EditBookWindow" Height="300" Width="300" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Jméno:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=nameTextBox}"/>
+        <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Height="25" Margin="5" Name="nameTextBox"/>
+        <Label Content="Autor:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=authorTextBox}"/>
+        <TextBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Height="25" Margin="5" Name="authorTextBox"/>
+        <Label Content="Žánr:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=genreTextBox}"/>
+        <TextBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Height="25" Margin="5" Name="genreTextBox"/>
+        <Label Content="Datum vydání:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=dateOfPublishingTextBox}"/>
+        <TextBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Height="25" Margin="5" Name="dateOfPublishingTextBox"/>
+        <Label Content="Počet stran:" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=amountOfPagesTextBox}"/>
+        <TextBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Height="25" Margin="5" Name="amountOfPagesTextBox"/>
+        <Label Content="ISBN:" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=ISBNTextBox}"/>
+        <TextBox Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Height="25" Margin="5" Name="ISBNTextBox"/>
+        <Label Content="Vypůjčeno:" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=genreTextBox}"/>
+        <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <RadioButton Content="Ne" Name="NoRadioButton" Margin="0,0,10,0"/>
+            <RadioButton Content="Ano" Name="YesRadioButton" Margin="10,0,0,0"/>
+        </StackPanel>
+        <Button Content="Uložit" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Width="100"/>
+    </Grid>
+</Window>

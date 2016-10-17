@@ -52,6 +52,14 @@ namespace LibrarySoftware.client
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
             //Otevře se okno, kde se bude moc opravit jakákoli vlastnost té knihy a následně se uloží změny
+
+            if (booksListBox.SelectedItem != null)
+            {
+                EditBookWindow window = new EditBookWindow();
+                window.ShowDialog();
+            }
+            else
+                MessageBox.Show("Nebyla zvolena žádná kniha", "Upozornění", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
 
         private void Backbutton_Click(object sender, RoutedEventArgs e)
