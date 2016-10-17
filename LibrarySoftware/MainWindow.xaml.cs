@@ -49,7 +49,8 @@ namespace LibrarySoftware
              */
 
             // stáhnutí aktualizací databáze a tudíž vytvoření dočasné nebo stálé kopie
-            ClientNetworkManager.connectToServer(new utils.Address("localhost"));
+            if (!ClientNetworkManager.connectToServer(new utils.Address("localhost")))
+                MessageBox.Show("Nepodařilo se připojit k serveru", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
