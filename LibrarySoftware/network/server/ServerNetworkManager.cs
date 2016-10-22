@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using LibrarySoftware.utils;
 using LibrarySoftware.server;
-
 using LibrarySoftware.network.packets;
 
 namespace LibrarySoftware.network.server
@@ -23,7 +22,19 @@ namespace LibrarySoftware.network.server
 
         public static void receivedPacketFromClient(Client client, IPacket packet)
         {
+            switch (packet.getPacketID())
+            {
+                case Registry.packet_loginData:
+                    string username = ((LoginDataPacket)packet).username;
+                    string password = ((LoginDataPacket)packet).password;
 
+                    //TODO autentikace
+
+                    sendPacketToClient(client, new LoginReplyPacket(1));
+                    return;
+                case Registry.packet_loginReply:
+                    return; // client-only packet
+            }
         }
 
         public static void sendPacketToClient(Client client, IPacket packet)

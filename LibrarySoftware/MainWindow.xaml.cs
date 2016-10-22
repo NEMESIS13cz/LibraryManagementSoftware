@@ -14,7 +14,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LibrarySoftware.client;
 using LibrarySoftware.network.client;
-
 using LibrarySoftware.network.packets;
 
 namespace LibrarySoftware
@@ -56,6 +55,9 @@ namespace LibrarySoftware
                 ClientScreenManagerMain window = new ClientScreenManagerMain();
                 window.Show();
                 this.Close();
+
+                // TODO bleh
+                ClientNetworkManager.sendPacketToServer(new LoginDataPacket("username", "password"));
             }
         }
 

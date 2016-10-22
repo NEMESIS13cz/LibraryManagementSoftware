@@ -81,10 +81,11 @@
     </Compile>
     <Compile Include="network\Client.cs" />
     <Compile Include="network\client\ClientNetworkManager.cs" />
+    <Compile Include="network\packets\LoginReplyPacket.cs" />
     <Compile Include="network\server\ServerNetworkManager.cs" />
     <Compile Include="utils\Address.cs" />
     <Compile Include="network\Connection.cs" />
-    <Compile Include="network\packets\ConnectionPacket.cs" />
+    <Compile Include="network\packets\LoginDataPacket.cs" />
     <Compile Include="network\IPacket.cs" />
     <Compile Include="server\Server.cs" />
     <Compile Include="utils\Reader.cs" />

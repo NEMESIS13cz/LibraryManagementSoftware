@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibrarySoftware.utils;
+using LibrarySoftware.network.packets;
 
 namespace LibrarySoftware.network.client
 {
@@ -27,7 +28,15 @@ namespace LibrarySoftware.network.client
         
         public static void receivedPacketFromServer(IPacket packet)
         {
-
+            switch (packet.getPacketID())
+            {
+                case Registry.packet_loginData:
+                    return; // server-only packet
+                case Registry.packet_loginReply:
+                    byte returnCode = ((LoginReplyPacket)packet).status;
+                    // TODO magik
+                    return;
+            }
         }
 
         public static void sendPacketToServer(IPacket packet)
