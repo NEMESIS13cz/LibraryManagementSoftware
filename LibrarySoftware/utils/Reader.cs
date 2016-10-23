@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace LibrarySoftware.utils
 {
-    class Reader
+    public class Reader
     {
         // zde bude vše o čtenáři
         public string Name { get; set; }

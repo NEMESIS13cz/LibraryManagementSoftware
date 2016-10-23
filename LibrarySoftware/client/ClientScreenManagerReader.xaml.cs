@@ -41,12 +41,19 @@ namespace LibrarySoftware.client
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-
+            AddReaderWindow window = new AddReaderWindow(); // možná předat nějaké parametry
+            window.ShowDialog();
         }
 
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (readerListBox.SelectedItem != null)
+            {
+                EditReaderWindow window = new EditReaderWindow(readerListBox.SelectedItem as Reader);
+                window.ShowDialog();
+            }
+            else
+                MessageBox.Show("Nebyl vybrán žádný čtenář!", "Upozornění", MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
@@ -54,11 +61,15 @@ namespace LibrarySoftware.client
             if (readerListBox.SelectedItem != null)
             {
                 string name = readerListBox.SelectedItem.ToString();
+                // nutno potom vyzkoušet!!
                 if (MessageBox.Show("Přejete si vymazat " + name + "?", "Dotaz", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     manager.DeleteReader(readerListBox.SelectedItem as Reader);
+                    MessageBox.Show("Hotovo!", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
+            else
+                MessageBox.Show("Nebyl vybrán žádný čtenář!", "Upozornění", MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
