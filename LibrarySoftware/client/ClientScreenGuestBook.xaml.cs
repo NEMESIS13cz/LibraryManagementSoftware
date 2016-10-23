@@ -34,13 +34,21 @@ namespace LibrarySoftware.client
             // načtou se data ...
         }
 
-        private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            // vyhledávání
-            int i = manager.Hledej(searchTextBox.Text);
+            string searchString = searchTextBox.Text;
 
-            if (i != -1)
-                booksListBox.SelectedIndex = i;
+            //Pošle se serveru a on pošle zpět vyhovující ve formátu ObservableCollection<Book>
+        }
+
+        private void backListButton_Click(object sender, RoutedEventArgs e)
+        {
+            // zobrazí se předchozí packet/seznam/stránka
+        }
+
+        private void nextListButton_Click(object sender, RoutedEventArgs e)
+        {
+            // zobrazí se následující stránka
         }
     }
 }

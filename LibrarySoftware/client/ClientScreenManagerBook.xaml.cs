@@ -77,5 +77,22 @@ namespace LibrarySoftware.client
 
 
         }
+
+        private void searchButton_Click(object sender, RoutedEventArgs e)
+        {
+            string searchString = searchTextBox.Text;
+
+            //Pošle se serveru a on pošle zpět vyhovující ve formátu ObservableCollection<Book>
+        }
+
+        private void backListButton_Click(object sender, RoutedEventArgs e)
+        {
+            // zobrazí se předchozí packet/seznam/stránka
+        }
+
+        private void nextListButton_Click(object sender, RoutedEventArgs e)
+        {
+            // zobrazí se následující stránka
+        }
     }
 }

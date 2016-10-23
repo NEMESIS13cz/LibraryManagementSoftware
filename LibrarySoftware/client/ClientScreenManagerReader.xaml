@@ -17,8 +17,17 @@
             <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBox Name="searchTextBox" Grid.ColumnSpan="2" Width="200" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ListBox Name="readerListBox" Grid.Column="0" Grid.Row="1" Margin="5" ItemsSource="{Binding Readers}"/>
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox Name="searchTextBox" Width="200" Height="25"/>
+            <Button Height="25" Name="searchButton" Margin="10,0,0,0" Content="Hledat" Click="searchButton_Click"/>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Name="backListButton" Content="&lt;" Margin="3" Height="20" Click="backListButton_Click"/>
+                <Button Name="nextListButton" Content="&gt;" Margin="3" Height="20" Click="nextListButton_Click"/>
+            </StackPanel>
+            <ListBox Name="readerListBox" Margin="5" ItemsSource="{Binding Readers}"/>
+        </StackPanel>
         <Button Content="Zpět" Name="backButton" Width="60" Height="20" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,5,5" Click="backButton_Click"/>
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" DataContext="{Binding ElementName=readerListBox,Path=SelectedItem}">
             <StackPanel Orientation="Horizontal">

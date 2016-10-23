@@ -60,5 +60,22 @@ namespace LibrarySoftware.client
                 }
             }
         }
+
+        private void searchButton_Click(object sender, RoutedEventArgs e)
+        {
+            string searchString = searchTextBox.Text;
+
+            //pošle se serveru a ten pošle zpět vyběr, který se uloží do manager = manager(..pole výsledků ve verzi ObservableCollection<Reader>...)
+        }
+
+        private void backListButton_Click(object sender, RoutedEventArgs e)
+        {
+            // zobrazí se předchozí packet/seznam/stránka
+        }
+
+        private void nextListButton_Click(object sender, RoutedEventArgs e)
+        {
+            // zobrazí se následující stránka
+        }
     }
 }
