@@ -17,12 +17,12 @@ using LibrarySoftware.allAboutBook;
 namespace LibrarySoftware.client
 {
     /// <summary>
-    /// Interaction logic for ClientScreenReaderBook.xaml
+    /// Interaction logic for ClientScreenGuestBook.xaml
     /// </summary>
-    public partial class ClientScreenReaderBook : Window
+    public partial class ClientScreenGuestBook : Window
     {
         private BookManager manager;
-        public ClientScreenReaderBook()
+        public ClientScreenGuestBook()
         {
             InitializeComponent();
             manager = new BookManager();

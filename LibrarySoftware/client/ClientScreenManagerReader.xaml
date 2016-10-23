@@ -18,7 +18,42 @@
         </Grid.ColumnDefinitions>
 
         <TextBox Name="searchTextBox" Grid.ColumnSpan="2" Width="200" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ListBox Name="readerListBox" Grid.Column="0" Grid.Row="1" Margin="5"/>
+        <ListBox Name="readerListBox" Grid.Column="0" Grid.Row="1" Margin="5" ItemsSource="{Binding Readers}"/>
         <Button Content="Zpět" Name="backButton" Width="60" Height="20" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,5,5" Click="backButton_Click"/>
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" DataContext="{Binding ElementName=readerListBox,Path=SelectedItem}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Jméno:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding Name}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Adresa:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding Address}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Datum narození:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding DateOfBirth, StringFormat=dd.MM.yyyy}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Rodné číslo:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding BirthNumber}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="2" Text="Vypůjčené knihy:"/>
+                <TextBlock Margin="2" Text="{Binding BorrowedBooks}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="2" Text="Přihlašovací jméno:"/>
+                <TextBlock Margin="2" Text="{Binding LoginName}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="2" Text="Heslo:"/>
+                <TextBlock Margin="2" Text="{Binding LoginPassword}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Name="addButton" Content="Přidat" Width="80" Margin="2" Height="25" Click="addButton_Click"/>
+                <Button Name="editButton" Content="Upravit" Width="80" Margin="2" Height="25" Click="editButton_Click"/>
+            </StackPanel>
+            <Button Name="deleteButton" Content="Smazat" Margin="2" Height="25" HorizontalAlignment="Center" Width="164" Click="deleteButton_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

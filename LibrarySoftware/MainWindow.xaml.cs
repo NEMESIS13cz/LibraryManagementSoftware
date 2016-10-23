@@ -68,7 +68,7 @@ namespace LibrarySoftware
                 MessageBox.Show("Nepodařilo se připojit k serveru, zkuste to prosím později", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             else
             {
-                ClientScreenReaderBook window = new ClientScreenReaderBook();
+                ClientScreenGuestBook window = new ClientScreenGuestBook();
                 window.Show();
                 this.Close();
             }

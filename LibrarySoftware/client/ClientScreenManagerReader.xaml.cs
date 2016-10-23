@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using LibrarySoftware.utils;
 
 namespace LibrarySoftware.client
 {
@@ -19,9 +20,14 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenManagerReader : Window
     {
+        // !! udělat spojení se serverem + jak přidat vypůjčené knihy 
+
+        ManagerReader manager;
         public ClientScreenManagerReader()
         {
             InitializeComponent();
+            manager = new ManagerReader();
+            DataContext = manager;
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)
@@ -31,6 +37,28 @@ namespace LibrarySoftware.client
 
             window.Show();
             this.Close();
+        }
+
+        private void addButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void editButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void deleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (readerListBox.SelectedItem != null)
+            {
+                string name = readerListBox.SelectedItem.ToString();
+                if (MessageBox.Show("Přejete si vymazat " + name + "?", "Dotaz", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    manager.DeleteReader(readerListBox.SelectedItem as Reader);
+                }
+            }
         }
     }
 }

@@ -16,15 +16,22 @@ namespace LibrarySoftware.utils
         public string BirthNumber { get; set; }
         public DateTime DateOfBirth { get; set; } // možná později změnit na jiný typ
         public ObservableCollection<Book> BorrowedBooks { get; set; } // Odkaz na vypůjčené knihy
+        public string LoginName { get; set; }
+        public string LoginPassword { get; set; }
         
-        public Reader() { }
-        public Reader(string name, string address, string birthNumber, DateTime dateOfBirth, ObservableCollection<Book> borrowedBooks)
+        public Reader()
+        {
+            BorrowedBooks = new ObservableCollection<Book>();
+        }
+        public Reader(string name, string address, string birthNumber, DateTime dateOfBirth, ObservableCollection<Book> borrowedBooks, string password, string loginName)
         {
             this.Name = name;
             this.Address = address;
             this.BirthNumber = birthNumber;
             this.DateOfBirth = dateOfBirth;
             this.BorrowedBooks = borrowedBooks;
+            this.LoginName = loginName;
+            this.LoginPassword = password;
         }
 
         public void AddNewBorrowedBook(Book book)
