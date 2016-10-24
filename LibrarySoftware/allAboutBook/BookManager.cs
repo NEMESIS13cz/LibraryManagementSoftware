@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace LibrarySoftware.allAboutBook
 {
-    class BookManager
+    public class BookManager
     {
         public ObservableCollection<Book> Books;
 
