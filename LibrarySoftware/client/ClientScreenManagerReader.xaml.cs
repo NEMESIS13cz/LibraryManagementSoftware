@@ -94,5 +94,38 @@ namespace LibrarySoftware.client
             ClientScreenManagerMain window = new ClientScreenManagerMain();
             window.Show();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            sortComboBox.Items.Add("Jméno");
+            sortComboBox.Items.Add("Rodné číslo");
+            sortComboBox.Items.Add("Email");
+            sortComboBox.Items.Add("Datum narození");
+
+            //načtou se data
+        }
+
+        private void borrowButton_Click(object sender, RoutedEventArgs e)
+        {
+            // otevře se nové okno
+        }
+
+        private void returnButton_Click(object sender, RoutedEventArgs e)
+        {
+            // otevře se nové okno
+        }
+
+        private void deleteReserveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(readerListBox.SelectedItem != null)
+            {
+                if(MessageBox.Show("Přejete si zrušit rezervaci u "+readerListBox.SelectedItem.ToString(),"Dotaz",MessageBoxButton.YesNo,MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    (readerListBox.SelectedItem as Reader).ReservedBooks = null;
+
+                    //úprava se pošle do databáze
+                }
+            }
+        }
     }
 }

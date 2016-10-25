@@ -29,7 +29,7 @@ namespace LibrarySoftware.client
         {
             try
             {
-                Reader newReader = new Reader(nameTextBox.Text, addressTextBox.Text, birthNumberTextBox.Text, dateOfBirthDataPicker.SelectedDate.Value.Date, null, passwordTextBox.Text, emailTextBox.Text);
+                Reader newReader = new Reader(nameTextBox.Text, addressTextBox.Text, birthNumberTextBox.Text, dateOfBirthDataPicker.SelectedDate.Value.Date, null, passwordTextBox.Text, emailTextBox.Text, null);
 
                 //poslat do databáze
 

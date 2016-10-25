@@ -73,6 +73,11 @@ namespace LibrarySoftware.client
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            sortComboBox.Items.Add("Název");
+            sortComboBox.Items.Add("Žánr");
+            sortComboBox.Items.Add("Autor");
+            sortComboBox.Items.Add("ISBN");
+
             // načtou se data ze serveru
 
 

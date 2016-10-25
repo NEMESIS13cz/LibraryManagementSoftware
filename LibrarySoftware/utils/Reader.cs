@@ -19,12 +19,13 @@ namespace LibrarySoftware.utils
         public string LoginName { get; set; }
         public string LoginPassword { get; set; }
         public string Email { get; set; }
+        public ObservableCollection<Book> ReservedBooks { get; set; }
         
         public Reader()
         {
             BorrowedBooks = new ObservableCollection<Book>();
         }
-        public Reader(string name, string address, string birthNumber, DateTime dateOfBirth, ObservableCollection<Book> borrowedBooks, string password, string loginName, string email)
+        public Reader(string name, string address, string birthNumber, DateTime dateOfBirth, ObservableCollection<Book> borrowedBooks, string password, string loginName, string email, ObservableCollection<Book> reservedBooks)
         {
             this.Name = name;
             this.Address = address;
@@ -34,9 +35,10 @@ namespace LibrarySoftware.utils
             this.LoginName = loginName;
             this.LoginPassword = password;
             this.Email = email;
+            this.ReservedBooks = reservedBooks;
         }
 
-        public Reader(string name, string address, string birthNumber, DateTime dateOfBirth, ObservableCollection<Book> borrowedBooks, string password, string email)
+        public Reader(string name, string address, string birthNumber, DateTime dateOfBirth, ObservableCollection<Book> borrowedBooks, string password, string email, ObservableCollection<Book> reservedBooks)
         {
             this.Name = name;
             this.Address = address;
@@ -45,6 +47,7 @@ namespace LibrarySoftware.utils
             this.BorrowedBooks = borrowedBooks;
             this.LoginPassword = password;
             this.Email = email;
+            this.ReservedBooks = reservedBooks;
         }
 
         public void AddNewBorrowedBook(Book book)

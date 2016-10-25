@@ -17,7 +17,8 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-            <TextBox Name="searchTextBox" Width="200" Height="25"/>
+            <ComboBox Name="sortComboBox" Margin="0,0,10,0" Width="80" Height="25"/>
+            <TextBox Name="searchTextBox" Width="150" Height="25"/>
             <Button Name="searchButton" Content="Hledat" Margin="10,0,0,0" Height="25" Click="searchButton_Click"/>
         </StackPanel>
 
@@ -52,6 +53,10 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Vypůjčeno:" Margin="2"/>
+                <TextBlock Margin="2"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Rezervováno:" Margin="2"/>
                 <TextBlock Margin="2"/>
             </StackPanel>
             <Button Name="reserveButton" Content="Rezervovat" Height="25" Width="100" VerticalAlignment="Center" Margin="2" Click="reserveButton_Click"/>

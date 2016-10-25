@@ -32,7 +32,7 @@ namespace LibrarySoftware.client
             try
             {
                 // místo null dát pak něco jiného
-                reader = new Reader(nameTextBox.Text, addressTextBox.Text, birthNumberTextBox.Text, dateOfBirthDataPicker.SelectedDate.Value.Date, null, passwordTextBox.Text, emailTextBox.Text);
+                reader = new Reader(nameTextBox.Text, addressTextBox.Text, birthNumberTextBox.Text, dateOfBirthDataPicker.SelectedDate.Value.Date, null, passwordTextBox.Text, emailTextBox.Text, null);
 
                 // odeslat změny do databáze!!
 

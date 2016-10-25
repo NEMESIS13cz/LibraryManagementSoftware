@@ -55,6 +55,10 @@
                 <TextBlock Text="Vypůjčeno:" Margin="2"/>
                 <TextBlock Margin="2"/>
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Rezervováno:" Margin="2"/>
+                <TextBlock Margin="2"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

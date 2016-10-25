@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibrarySoftware.utils;
 
 namespace LibrarySoftware.allAboutBook
 {
@@ -15,10 +16,13 @@ namespace LibrarySoftware.allAboutBook
         public int DatePublishing { get; set; }
         public string ISBN { get; set; }
         public bool Borrowed { get; set; }
+        public bool Reserved { get; set; }
+        public Reader ReaderOfBook { get; set; }
+
 
         //Nezapomenout později přidat odkaz na čtenáře, který tu knihu má vypůjčenou
         
-        public Book(string author, string nameOfBook, int amountOfPages, string genre, int dateOfPublishing, string ISBN, bool borrowed)
+        public Book(string author, string nameOfBook, int amountOfPages, string genre, int dateOfPublishing, string ISBN, bool borrowed, bool reserved, Reader readerOfThisBook)
         {
             this.Author = author;
             this.NameBook = nameOfBook;
@@ -27,6 +31,8 @@ namespace LibrarySoftware.allAboutBook
             this.DatePublishing = dateOfPublishing;
             this.ISBN = ISBN;
             this.Borrowed = borrowed;
+            this.Reserved = reserved;
+            this.ReaderOfBook = readerOfThisBook;
         }
         public Book()
         {
@@ -36,7 +42,7 @@ namespace LibrarySoftware.allAboutBook
         // Pro vypsání třeba v listBoxu
         public override string ToString()
         {
-            return NameBook + ", " + Author;
+            return NameBook;
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySoftware.client"
         mc:Ignorable="d"
-        Title="Seznam čtenářů" Height="300" Width="300" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+        Title="Seznam čtenářů" Height="350" Width="330" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -18,7 +18,8 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBox Name="searchTextBox" Width="200" Height="25"/>
+            <ComboBox Name="sortComboBox" Margin="0,0,10,0" Width="80" Height="25"/>
+            <TextBox Name="searchTextBox" Width="150" Height="25"/>
             <Button Height="25" Name="searchButton" Margin="10,0,0,0" Content="Hledat" Click="searchButton_Click"/>
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical">
@@ -58,11 +59,22 @@
                 <TextBlock Margin="2" Text="Heslo:"/>
                 <TextBlock Margin="2" Text="{Binding LoginPassword}"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Name="addButton" Content="Přidat" Width="80" Margin="2" Height="25" Click="addButton_Click"/>
-                <Button Name="editButton" Content="Upravit" Width="80" Margin="2" Height="25" Click="editButton_Click"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="2" Text="Rezervonané knihy:"/>
+                <TextBlock Margin="2"/>
             </StackPanel>
-            <Button Name="deleteButton" Content="Smazat" Margin="2" Height="25" HorizontalAlignment="Center" Width="164" Click="deleteButton_Click"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Name="addButton" Content="Přidat" Width="85" Margin="2" Height="25" Click="addButton_Click"/>
+                <Button Name="editButton" Content="Upravit" Width="85" Margin="2" Height="25" Click="editButton_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Name="borrowButton" Content="Půjčit knihu" Margin="2" Height="25" Width="85" Click="borrowButton_Click"/>
+                <Button Name="returnButton" Content="Vrátit knihu" Margin="2" Height="25" Width="85" Click="returnButton_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Name="deleteButton" Content="Smazat" Margin="2" Height="25" Width="85" Click="deleteButton_Click"/>
+                <Button Name="deleteReserveButton" Content="Zrušit rezervaci" Margin="2" Height="25" Width="85" Click="deleteReserveButton_Click"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>
