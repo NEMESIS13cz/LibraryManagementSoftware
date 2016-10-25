@@ -32,7 +32,7 @@ namespace LibrarySoftware.client
             try
             {
                 // místo null dát pak něco jiného
-                reader = new Reader(nameTextBox.Text, addressTextBox.Text, birthNumberTextBox.Text, dateOfBirthDataPicker.SelectedDate.Value.Date, null, passwordTextBox.Text, loginNameTextBox.Text);
+                reader = new Reader(nameTextBox.Text, addressTextBox.Text, birthNumberTextBox.Text, dateOfBirthDataPicker.SelectedDate.Value.Date, null, passwordTextBox.Text, emailTextBox.Text);
 
                 // odeslat změny do databáze!!
 
@@ -53,7 +53,7 @@ namespace LibrarySoftware.client
             dateOfBirthDataPicker.SelectedDate = reader.DateOfBirth;
             birthNumberTextBox.Text = reader.BirthNumber;
             //borrowed books
-            loginNameTextBox.Text = reader.LoginName;
+            emailTextBox.Text = reader.LoginName;
             passwordTextBox.Text = reader.LoginPassword;
         }
     }

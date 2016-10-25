@@ -18,12 +18,13 @@ namespace LibrarySoftware.utils
         public ObservableCollection<Book> BorrowedBooks { get; set; } // Odkaz na vypůjčené knihy
         public string LoginName { get; set; }
         public string LoginPassword { get; set; }
+        public string Email { get; set; }
         
         public Reader()
         {
             BorrowedBooks = new ObservableCollection<Book>();
         }
-        public Reader(string name, string address, string birthNumber, DateTime dateOfBirth, ObservableCollection<Book> borrowedBooks, string password, string loginName)
+        public Reader(string name, string address, string birthNumber, DateTime dateOfBirth, ObservableCollection<Book> borrowedBooks, string password, string loginName, string email)
         {
             this.Name = name;
             this.Address = address;
@@ -32,6 +33,18 @@ namespace LibrarySoftware.utils
             this.BorrowedBooks = borrowedBooks;
             this.LoginName = loginName;
             this.LoginPassword = password;
+            this.Email = email;
+        }
+
+        public Reader(string name, string address, string birthNumber, DateTime dateOfBirth, ObservableCollection<Book> borrowedBooks, string password, string email)
+        {
+            this.Name = name;
+            this.Address = address;
+            this.BirthNumber = birthNumber;
+            this.DateOfBirth = dateOfBirth;
+            this.BorrowedBooks = borrowedBooks;
+            this.LoginPassword = password;
+            this.Email = email;
         }
 
         public void AddNewBorrowedBook(Book book)

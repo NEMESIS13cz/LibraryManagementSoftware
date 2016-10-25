@@ -51,8 +51,8 @@
                 <TextBlock Margin="2" Text="{Binding BorrowedBooks}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="2" Text="Přihlašovací jméno:"/>
-                <TextBlock Margin="2" Text="{Binding LoginName}"/>
+                <TextBlock Margin="2" Text="Email:"/>
+                <TextBlock Margin="2" Text="{Binding Email}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="2" Text="Heslo:"/>
