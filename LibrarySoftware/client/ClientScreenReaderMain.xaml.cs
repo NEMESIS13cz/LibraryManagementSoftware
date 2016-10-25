@@ -33,7 +33,7 @@ namespace LibrarySoftware.client
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-
+            string searchString = searchTextBox.Text; // ten se následně pošle do databáze a ona pošle výsledky
         }
 
         private void backListButton_Click(object sender, RoutedEventArgs e)

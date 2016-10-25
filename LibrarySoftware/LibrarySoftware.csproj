@@ -88,6 +88,9 @@
     <Compile Include="client\EditReaderWindow.xaml.cs">
       <DependentUpon>EditReaderWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="client\ReturnBookManagerWindow.xaml.cs">
+      <DependentUpon>ReturnBookManagerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="network\Client.cs" />
     <Compile Include="network\client\ClientNetworkManager.cs" />
     <Compile Include="network\packets\LoginReplyPacket.cs" />
@@ -134,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="client\EditReaderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="client\ReturnBookManagerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

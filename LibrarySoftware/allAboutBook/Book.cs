@@ -39,6 +39,14 @@ namespace LibrarySoftware.allAboutBook
 
         }
 
+        public void ReturnOfBook()
+        {
+            Borrowed = false;
+            Reader reader = ReaderOfBook;
+            reader.BorrowedBooks.Remove(this);
+            ReaderOfBook = null;
+        }
+
         // Pro vypsání třeba v listBoxu
         public override string ToString()
         {

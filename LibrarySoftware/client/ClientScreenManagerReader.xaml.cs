@@ -113,6 +113,11 @@ namespace LibrarySoftware.client
         private void returnButton_Click(object sender, RoutedEventArgs e)
         {
             // otevře se nové okno
+            if(readerListBox.SelectedItem != null)
+            {
+                ReturnBookManagerWindow window = new ReturnBookManagerWindow((Reader)readerListBox.SelectedItem);
+                window.ShowDialog();
+            }
         }
 
         private void deleteReserveButton_Click(object sender, RoutedEventArgs e)
