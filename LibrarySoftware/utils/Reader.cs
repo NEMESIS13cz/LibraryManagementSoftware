@@ -55,6 +55,19 @@ namespace LibrarySoftware.utils
             BorrowedBooks.Add(book);
         }
 
+        public void AddReserveBook(Book book)
+        {
+            ReservedBooks.Add(book);
+        }
+
+        public void DeleteReservationOfBook(Book book)
+        {
+            if (!ReservedBooks.Contains(book))
+                throw new ArgumentException("Tuto knihu nemáte rezervovanou.");
+
+            ReservedBooks.Remove(book);
+        }
+
         public override string ToString()
         {
             return Name;
