@@ -88,5 +88,11 @@ namespace LibrarySoftware.client
         {
             // zobrazí se následující stránka
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ClientScreenManagerMain window = new ClientScreenManagerMain();
+            window.Show();
+        }
     }
 }

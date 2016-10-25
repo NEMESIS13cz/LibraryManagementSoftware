@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LibrarySoftware.allAboutBook;
+using LibrarySoftware.network.client;
 
 namespace LibrarySoftware.client
 {
@@ -67,6 +68,14 @@ namespace LibrarySoftware.client
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // načtou se data do manager.Přidej();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ClientNetworkManager.disconnect();
+
+            MainWindow window = new MainWindow();
+            window.Show();
         }
     }
 }

@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Threading;
 using LibrarySoftware.allAboutBook;
+using LibrarySoftware.network.client;
+using LibrarySoftware.network;
 
 namespace LibrarySoftware.client
 {
@@ -31,11 +33,17 @@ namespace LibrarySoftware.client
         
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            // Data do ComboBoxu, hledat se bude pro hosta pouze podle těchto 3. věcí
+            sortComboBox.Items.Add("Název");
+            sortComboBox.Items.Add("Žánr");
+            sortComboBox.Items.Add("Autor");
+
             // načtou se data ...
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
+            string podleČehoHledat = sortComboBox.SelectedItem.ToString();
             string searchString = searchTextBox.Text;
 
             //Pošle se serveru a on pošle zpět vyhovující ve formátu ObservableCollection<Book>
@@ -49,6 +57,14 @@ namespace LibrarySoftware.client
         private void nextListButton_Click(object sender, RoutedEventArgs e)
         {
             // zobrazí se následující stránka
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ClientNetworkManager.disconnect(); // po zavření okna se odpojí
+
+            MainWindow window = new MainWindow();
+            window.Show();
         }
     }
 }

@@ -46,5 +46,18 @@ namespace LibrarySoftware.client
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {}
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ClientNetworkManager.disconnect(); // po zavření okna se odpojí
+
+            MainWindow window = new MainWindow();
+            window.Show();
+        }
+
+        private void librariansButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Otevře se okno na zaregistrování nového knihovníka nebo vymazání, či nějakou změnu
+        }
     }
 }

@@ -57,7 +57,7 @@ namespace LibrarySoftware
                 this.Close();
 
                 // TODO bleh
-                ClientNetworkManager.sendPacketToServer(new LoginDataPacket("username", "password"));
+                ClientNetworkManager.sendPacketToServer(new LoginDataPacket("username", "password")); //Zatím není rozeznáno, kdo je jen čtenář a kdo obsluha
             }
         }
 

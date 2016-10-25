@@ -5,14 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySoftware.client"
         mc:Ignorable="d"
-        Title="Library software" Height="300" Width="300" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+        Title="Library software" Height="300" Width="300" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Button Content="Čtenáři" Name="ReadersButton" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Width="100" Click="ReadersButton_Click"/>
         <Button Content="Knihy" Name="BooksButton" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Width="100" Click="BooksButton_Click"/>
+        <Button Content="Knihovníci" Name="librariansButton" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Width="100" Click="librariansButton_Click"/>
     </Grid>
 </Window>
