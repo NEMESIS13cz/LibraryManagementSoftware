@@ -68,6 +68,24 @@ namespace LibrarySoftware.utils
             ReservedBooks.Remove(book);
         }
 
+        public void BorrowBook(Book book)
+        {
+            if (book == null)
+                throw new Exception("Nebyla vybrána žádná kniha");
+            if (book.Borrowed)
+                throw new ArgumentException("Knihu si už někdo půjčil.");
+            if (book.Reserved && !ReservedBooks.Contains(book))
+                throw new ArgumentException("Knihu už má bohužel někdo zarezervovaný a ty to nejsi.");
+
+            BorrowedBooks.Add(book);
+            if (ReservedBooks.Contains(book))
+            {
+                ReservedBooks.Remove(book);
+                book.Reserved = false;
+            }
+            book.ReaderOfBook = this;
+        }
+
         public override string ToString()
         {
             return Name;

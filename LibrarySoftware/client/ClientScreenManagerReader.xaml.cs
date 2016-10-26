@@ -108,6 +108,11 @@ namespace LibrarySoftware.client
         private void borrowButton_Click(object sender, RoutedEventArgs e)
         {
             // otevře se nové okno
+            if(readerListBox.SelectedItem != null)
+            {
+                BorrowBookWindow window = new BorrowBookWindow((Reader)readerListBox.SelectedItem);
+                window.ShowDialog();
+            }
         }
 
         private void returnButton_Click(object sender, RoutedEventArgs e)

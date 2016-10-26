@@ -44,7 +44,14 @@ namespace LibrarySoftware.client
 
         private void borrowBook_Click(object sender, RoutedEventArgs e)
         {
-            // na tohle potom vytvořím funkci ve tříde Reader
+            try
+            {
+                reader.AddNewBorrowedBook(booksListBox.SelectedItem as Book);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         protected void MakeChange(string property)
