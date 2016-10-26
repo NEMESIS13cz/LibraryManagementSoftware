@@ -26,7 +26,7 @@ namespace LibrarySoftware.client
         {
             InitializeComponent();
             this.reader = reader;
-            DataContext = reader;
+            DataContext = this.reader;
         }
 
         private void returnBookButton_Click(object sender, RoutedEventArgs e)

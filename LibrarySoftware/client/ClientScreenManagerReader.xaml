@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySoftware.client"
         mc:Ignorable="d"
-        Title="Seznam čtenářů" Height="350" Width="330" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="Seznam čtenářů" Height="370" Width="330" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -49,7 +49,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="2" Text="Vypůjčené knihy:"/>
-                <TextBlock Margin="2" Text="{Binding BorrowedBooks}"/>
+                <TextBlock Margin="2" Text="{Binding BorrowedBooks}" TextWrapping="Wrap"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="2" Text="Email:"/>
@@ -61,7 +61,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="2" Text="Rezervonané knihy:"/>
-                <TextBlock Margin="2"/>
+                <TextBlock Margin="2" TextWrapping="Wrap"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Name="addButton" Content="Přidat" Width="85" Margin="2" Height="25" Click="addButton_Click"/>

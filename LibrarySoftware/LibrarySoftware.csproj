@@ -67,6 +67,9 @@
     <Compile Include="client\AddReaderWindow.xaml.cs">
       <DependentUpon>AddReaderWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="client\BorrowBookWindow.xaml.cs">
+      <DependentUpon>BorrowBookWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="client\ClientScreenManagerBook.xaml.cs">
       <DependentUpon>ClientScreenManagerBook.xaml</DependentUpon>
     </Compile>
@@ -109,6 +112,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="client\AddReaderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="client\BorrowBookWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
