@@ -34,7 +34,7 @@ namespace LibrarySoftware
                 }
                 if (ip == null)
                 {
-                    Console.WriteLine("Nepodařilo se najít IPv4 adresu!");
+                    Console.WriteLine("[Network]: Nepodařilo se najít IPv4 adresu!");
                     Environment.Exit(-1);
                 }
                 IPEndPoint localEnd = new IPEndPoint(ip, address.port);
@@ -50,7 +50,7 @@ namespace LibrarySoftware
             }
             catch (SocketException e)
             {
-                Console.WriteLine("Nepodařilo se vytvořit socket!");
+                Console.WriteLine("[Network]: Nepodařilo se vytvořit socket!");
                 Console.WriteLine(e.ToString());
                 Environment.Exit(-1);
             }
@@ -69,7 +69,7 @@ namespace LibrarySoftware
             }
             if (ip == null)
             {
-                Console.WriteLine("Nepodařilo se najít IPv4 adresu!");
+                Console.WriteLine("[Network]: Nepodařilo se najít IPv4 adresu!");
                 Environment.Exit(-1);
             }
             IPEndPoint remote = new IPEndPoint(ip, address.port);
@@ -80,10 +80,10 @@ namespace LibrarySoftware
             }
             catch (Exception)
             {
-                Console.WriteLine("Nepodařilo se připojit (" + remote.Address + ":" + remote.Port + ")");
+                Console.WriteLine("[Network]: Nepodařilo se připojit (" + remote.Address + ":" + remote.Port + ")");
                 return null;
             }
-            Console.WriteLine("Připojeno (" + remote.Address + ":" + remote.Port + ")");
+            Console.WriteLine("[Network]: Připojeno (" + remote.Address + ":" + remote.Port + ")");
             return new Client(sock);
         }
 
@@ -94,16 +94,22 @@ namespace LibrarySoftware
         
         private void connectionListener()
         {
-            Console.WriteLine("Socket vytvořen...");
+            Console.WriteLine("[Network]: Socket vytvořen...");
             
             while (server.isRunning)
             {
-                Socket clientSocket = sock.Accept();
-                Client client = new Client(clientSocket);
-                IPEndPoint ep = ((IPEndPoint)clientSocket.RemoteEndPoint);
+                try
+                {
+                    Socket clientSocket = sock.Accept();
+                    Client client = new Client(clientSocket);
+                    IPEndPoint ep = ((IPEndPoint)clientSocket.RemoteEndPoint);
 
-                Console.WriteLine("Nové připojení (" + ep.Address + ":" + ep.Port + ")");
-                server.clients.Add(client);
+                    Console.WriteLine("[Network]: Nové připojení (" + ep.Address + ":" + ep.Port + ")");
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
     }

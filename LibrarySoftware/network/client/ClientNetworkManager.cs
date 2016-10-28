@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using LibrarySoftware.utils;
 using LibrarySoftware.network.packets;
+using LibrarySoftware.client;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace LibrarySoftware.network.client
 {
@@ -12,6 +15,7 @@ namespace LibrarySoftware.network.client
     {
         private static Client client;
         private static Connection conn;
+        private static List<IPacket> syncPackets = new List<IPacket>();
 
         public static bool connectToServer(Address address)
         {
@@ -30,12 +34,48 @@ namespace LibrarySoftware.network.client
         {
             switch (packet.getPacketID())
             {
-                case Registry.packet_loginData:
-                    return; // server-only packet
                 case Registry.packet_loginReply:
-                    byte returnCode = ((LoginReplyPacket)packet).status;
-                    // TODO magik
+                case Registry.packet_bookData:
+                case Registry.packet_readerData:
+                case Registry.packet_searchReplyBooks:
+                case Registry.packet_searchReplyUsers:
+                    lock (syncPackets)
+                    {
+                        syncPackets.Add(packet);
+                    }
                     return;
+                default:
+                    return;
+            }
+        }
+
+        private static IPacket receivedPacketSync(IPacket packet)
+        {
+            switch (packet.getPacketID())
+            {
+                case Registry.packet_loginReply:
+                    SharedInfo.userType = ((LoginReplyPacket)packet).status;
+                    SharedInfo.currentUser = ((LoginReplyPacket)packet).reader;
+                    return null;
+                default:
+                    return packet;
+            }
+        }
+
+        public static IPacket pollSynchronizedPackets()
+        {
+            while (true)
+            {
+                lock (syncPackets)
+                {
+                    if (syncPackets.Count > 0)
+                    {
+                        IPacket packet = syncPackets[0];
+                        syncPackets.RemoveAt(0);
+                        return receivedPacketSync(packet);
+                    }
+                }
+                Thread.Sleep(1);
             }
         }
 

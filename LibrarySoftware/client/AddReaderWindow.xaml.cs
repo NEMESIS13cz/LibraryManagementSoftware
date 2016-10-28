@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LibrarySoftware.utils;
+using LibrarySoftware.data;
+using LibrarySoftware.network.client;
+using LibrarySoftware.network.packets;
 
 namespace LibrarySoftware.client
 {
@@ -29,11 +32,16 @@ namespace LibrarySoftware.client
         {
             try
             {
-                Reader newReader = new Reader(nameTextBox.Text, addressTextBox.Text, birthNumberTextBox.Text, dateOfBirthDataPicker.SelectedDate.Value.Date, null, passwordTextBox.Text, emailTextBox.Text, null);
-
-                //poslat do databáze
-
-
+                Reader r = new Reader();
+                r.name = nameTextBox.Text;
+                r.address = addressTextBox.Text;
+                r.birthDate = dateOfBirthDataPicker.SelectedDate.Value.Ticks;
+                r.birthNumber = birthNumberTextBox.Text;
+                r.borrowedBooks = new Book[0];
+                r.reservedBooks = new Book[0];
+                r.email = emailTextBox.Text;
+                r.password = passwordTextBox.Text;
+                ClientNetworkManager.sendPacketToServer(new AddUserPacket(r));
                 Close();
             }
             catch (Exception ex)

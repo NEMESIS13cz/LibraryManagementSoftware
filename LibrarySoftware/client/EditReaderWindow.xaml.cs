@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LibrarySoftware.utils;
+using LibrarySoftware.network.client;
+using LibrarySoftware.network.packets;
+using LibrarySoftware.data;
 
 namespace LibrarySoftware.client
 {
@@ -20,24 +23,20 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class EditReaderWindow : Window
     {
-        Reader reader;
-        public EditReaderWindow(Reader reader)
-        {
-            InitializeComponent();
-            this.reader = reader;
-        }
-
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // místo null dát pak něco jiného
-                reader = new Reader(nameTextBox.Text, addressTextBox.Text, birthNumberTextBox.Text, dateOfBirthDataPicker.SelectedDate.Value.Date, null, passwordTextBox.Text, emailTextBox.Text, null);
-
-                // odeslat změny do databáze!!
-
-
-
+                Reader r = new Reader();
+                r.name = nameTextBox.Text;
+                r.address = addressTextBox.Text;
+                r.birthDate = dateOfBirthDataPicker.SelectedDate.Value.Ticks;
+                r.birthNumber = birthNumberTextBox.Text;
+                r.borrowedBooks = SharedInfo.currentlyEditingUser.borrowedBooks;
+                r.reservedBooks = SharedInfo.currentlyEditingUser.reservedBooks;
+                r.email = emailTextBox.Text;
+                r.password = passwordTextBox.Text;
+                ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentlyEditingUser.ID));
                 Close();
             }
             catch (Exception ex)
@@ -48,13 +47,12 @@ namespace LibrarySoftware.client
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            nameTextBox.Text = reader.Name;
-            addressTextBox.Text = reader.Address;
-            dateOfBirthDataPicker.SelectedDate = reader.DateOfBirth;
-            birthNumberTextBox.Text = reader.BirthNumber;
-            //borrowed books
-            emailTextBox.Text = reader.LoginName;
-            passwordTextBox.Text = reader.LoginPassword;
+            nameTextBox.Text = SharedInfo.currentlyEditingUser.name;
+            addressTextBox.Text = SharedInfo.currentlyEditingUser.address;
+            dateOfBirthDataPicker.SelectedDate = new DateTime(SharedInfo.currentlyEditingUser.birthDate);
+            birthNumberTextBox.Text = SharedInfo.currentlyEditingUser.birthNumber;
+            emailTextBox.Text = SharedInfo.currentlyEditingUser.email;
+            nameTextBox.Text = SharedInfo.currentlyEditingUser.name;
         }
     }
 }

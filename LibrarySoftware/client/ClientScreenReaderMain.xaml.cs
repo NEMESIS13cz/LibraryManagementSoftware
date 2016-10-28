@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using LibrarySoftware.allAboutBook;
 using LibrarySoftware.network.client;
 using LibrarySoftware.utils;
 
@@ -22,13 +21,13 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenReaderMain : Window
     {
-        BookManager manager;
-        Reader presentUser; // proměná uchovávající současného uživatele ve formě třídy Reader
+        //BookManager manager;
+        //Reader presentUser; // proměná uchovávající současného uživatele ve formě třídy Reader
         public ClientScreenReaderMain()
         {
             InitializeComponent();
-            manager = new BookManager();
-            DataContext = manager;
+            //manager = new BookManager();
+            //DataContext = manager;
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
@@ -47,7 +46,7 @@ namespace LibrarySoftware.client
         }
 
         private void reserveButton_Click(object sender, RoutedEventArgs e)
-        {
+        {/*
             if (booksListBox.SelectedItem != null)
             {
                 Book kniha = booksListBox.SelectedItem as Book;
@@ -69,11 +68,11 @@ namespace LibrarySoftware.client
                     MessageBox.Show("Kniha byla úspěšně zarezervována, vyzvědněte si ji v knihovně do " + datumMaxZarezervování.Date.ToString(),
                         "Informace", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-            }
+            }*/
         }
 
         private void deleteReserveButton_Click(object sender, RoutedEventArgs e)
-        {
+        {/*
             if(booksListBox.SelectedItem != null)
             {
                 Book kniha = booksListBox.SelectedItem as Book;
@@ -86,9 +85,9 @@ namespace LibrarySoftware.client
                 {
                     MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-
+                
                 //poslat do databáze změnu
-            }
+            }*/
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

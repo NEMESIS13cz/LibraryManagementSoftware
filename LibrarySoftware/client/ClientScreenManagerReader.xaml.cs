@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LibrarySoftware.utils;
+using LibrarySoftware.data;
+using LibrarySoftware.network.client;
+using LibrarySoftware.network.packets;
+using LibrarySoftware.network;
 
 namespace LibrarySoftware.client
 {
@@ -20,19 +24,13 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenManagerReader : Window
     {
-        // !! udělat spojení se serverem + jak přidat vypůjčené knihy 
-
-        ManagerReader manager;
         public ClientScreenManagerReader()
         {
             InitializeComponent();
-            manager = new ManagerReader();
-            DataContext = manager;
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
-            //vrátí se zpět na menu
             ClientScreenManagerMain window = new ClientScreenManagerMain();
 
             window.Show();
@@ -41,7 +39,7 @@ namespace LibrarySoftware.client
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            AddReaderWindow window = new AddReaderWindow(); // možná předat nějaké parametry
+            AddReaderWindow window = new AddReaderWindow();
             window.ShowDialog();
         }
 
@@ -49,11 +47,15 @@ namespace LibrarySoftware.client
         {
             if (readerListBox.SelectedItem != null)
             {
-                EditReaderWindow window = new EditReaderWindow(readerListBox.SelectedItem as Reader);
+                SharedInfo.currentlyEditingUser = readerListBox.SelectedItem as Reader;
+                EditReaderWindow window = new EditReaderWindow();
                 window.ShowDialog();
+                SharedInfo.currentlyEditingUser = null;
             }
             else
+            {
                 MessageBox.Show("Nebyl vybrán žádný čtenář!", "Upozornění", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
@@ -64,7 +66,7 @@ namespace LibrarySoftware.client
                 // nutno potom vyzkoušet!!
                 if (MessageBox.Show("Přejete si vymazat " + name + "?", "Dotaz", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    manager.DeleteReader(readerListBox.SelectedItem as Reader);
+                    ClientNetworkManager.sendPacketToServer(new DeleteUserPacket(readerListBox.SelectedItem as Reader));
                     MessageBox.Show("Hotovo!", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
@@ -74,9 +76,28 @@ namespace LibrarySoftware.client
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            string searchString = searchTextBox.Text;
-
-            //pošle se serveru a ten pošle zpět vyběr, který se uloží do manager = manager(..pole výsledků ve verzi ObservableCollection<Reader>...)
+            byte searchType = 0;
+            if (sortComboBox.SelectedItem.Equals("Rodné číslo"))
+            {
+                searchType = 1;
+            }
+            else if (sortComboBox.SelectedItem.Equals("Email"))
+            {
+                searchType = 2;
+            }
+            ClientNetworkManager.sendPacketToServer(new SearchUsersPacket(searchTextBox.Text, searchType, 5, 0));
+            IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
+            switch (packet.getPacketID())
+            {
+                case Registry.packet_bookData:
+                    return;
+                case Registry.packet_readerData:
+                    return;
+                case Registry.packet_searchReplyBooks:
+                    return;
+                case Registry.packet_searchReplyUsers:
+                    return;
+            }
         }
 
         private void backListButton_Click(object sender, RoutedEventArgs e)
@@ -100,9 +121,6 @@ namespace LibrarySoftware.client
             sortComboBox.Items.Add("Jméno");
             sortComboBox.Items.Add("Rodné číslo");
             sortComboBox.Items.Add("Email");
-            sortComboBox.Items.Add("Datum narození");
-
-            //načtou se data
         }
 
         private void borrowButton_Click(object sender, RoutedEventArgs e)
@@ -110,8 +128,8 @@ namespace LibrarySoftware.client
             // otevře se nové okno
             if(readerListBox.SelectedItem != null)
             {
-                BorrowBookWindow window = new BorrowBookWindow((Reader)readerListBox.SelectedItem);
-                window.ShowDialog();
+                //BorrowBookWindow window = new BorrowBookWindow((Reader)readerListBox.SelectedItem);
+                //window.ShowDialog();
             }
         }
 
@@ -120,8 +138,8 @@ namespace LibrarySoftware.client
             // otevře se nové okno
             if(readerListBox.SelectedItem != null)
             {
-                ReturnBookManagerWindow window = new ReturnBookManagerWindow((Reader)readerListBox.SelectedItem);
-                window.ShowDialog();
+                //ReturnBookManagerWindow window = new ReturnBookManagerWindow((Reader)readerListBox.SelectedItem);
+                //window.ShowDialog();
             }
         }
 
@@ -131,7 +149,7 @@ namespace LibrarySoftware.client
             {
                 if(MessageBox.Show("Přejete si zrušit rezervaci u "+readerListBox.SelectedItem.ToString(),"Dotaz",MessageBoxButton.YesNo,MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    (readerListBox.SelectedItem as Reader).ReservedBooks = null;
+                    //(readerListBox.SelectedItem as Reader).ReservedBooks = null;
 
                     //úprava se pošle do databáze
                 }

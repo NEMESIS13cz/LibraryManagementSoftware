@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using LibrarySoftware.client;
 using LibrarySoftware.network.client;
 using LibrarySoftware.network.packets;
+using LibrarySoftware.utils;
 
 namespace LibrarySoftware
 {
@@ -23,6 +24,8 @@ namespace LibrarySoftware
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static bool windowClosing = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,48 +33,68 @@ namespace LibrarySoftware
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            // Zde nějak zjistit jestli to je client nebo správce
-
-
-
-            /* Podle toho, co zjistil, že je zač (správce/čtenář)
-             * otevře příslušné okno*/
-
-            /*
-             * if(Reader){ /// Okno pro čtenáře
-             * ClientScreenReader ahoj = new ClientScreenReader();
-             * ahoj.Show();
-             * this.Close(); }
-             * else{
-             *  //// otevře se okno pro správce
-             *  }
-             */
-
-            // stáhnutí aktualizací databáze a tudíž vytvoření dočasné nebo stálé kopie
-            if (!ClientNetworkManager.connectToServer(new utils.Address("localhost")))
+            if (!ClientNetworkManager.connectToServer(new Address(Registry.serverAddress)))
                 MessageBox.Show("Nepodařilo se připojit k serveru", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             else
             {
-                ClientScreenManagerMain window = new ClientScreenManagerMain();
-                window.Show();
-                this.Close();
-
-                // TODO bleh
-                ClientNetworkManager.sendPacketToServer(new LoginDataPacket("username", "password")); //Zatím není rozeznáno, kdo je jen čtenář a kdo obsluha
+                if (passwordBox.Password.Length == 0 || usernameTextBox.Text.Length == 0)
+                {
+                    MessageBox.Show("Heslo nebo jméno nemůže být prázdné.", "Login", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    ClientNetworkManager.sendPacketToServer(new LoginDataPacket(usernameTextBox.Text, passwordBox.Password));
+                    ClientNetworkManager.pollSynchronizedPackets();
+                    switch (SharedInfo.userType)
+                    {
+                        case 1:
+                            ClientScreenReaderMain newWindowR = new ClientScreenReaderMain();
+                            newWindowR.Show();
+                            windowClosing = true;
+                            this.Close();
+                            break;
+                        case 2:
+                            ClientScreenManagerMain newWindowA = new ClientScreenManagerMain();
+                            newWindowA.Show();
+                            windowClosing = true;
+                            this.Close();
+                            break;
+                        case 3:
+                            MessageBox.Show("Špatné heslo pro uživatele '" + usernameTextBox.Text + "'.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                            break;
+                        case 4:
+                            MessageBox.Show("Uživatel '" + usernameTextBox.Text + "' neexistuje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                            break;
+                        default:
+                            MessageBox.Show("Neznámá chyba při přihašování.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                            break;
+                    }
+                }
             }
         }
 
         private void guestButton_Click(object sender, RoutedEventArgs e)
         {
             // otevření okna pro hosta
-            if (!ClientNetworkManager.connectToServer(new utils.Address("localhost")))
+            if (!ClientNetworkManager.connectToServer(new Address(Registry.serverAddress)))
                 MessageBox.Show("Nepodařilo se připojit k serveru, zkuste to prosím později", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             else
             {
                 ClientScreenGuestBook window = new ClientScreenGuestBook();
                 window.Show();
+                windowClosing = true;
                 this.Close();
             }
+        }
+
+        private void windowClose(object sender, EventArgs e)
+        {
+            if (!windowClosing)
+            {
+                ClientNetworkManager.disconnect();
+                SharedInfo.reset();
+            }
+            windowClosing = false;
         }
     }
 }

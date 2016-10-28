@@ -29,7 +29,7 @@
         <Label Content="Žánr:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=genreTextBox}"/>
         <TextBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Height="25" Margin="5" Name="genreTextBox"/>
         <Label Content="Datum vydání:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=dateOfPublishingTextBox}"/>
-        <TextBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Height="25" Margin="5" Name="dateOfPublishingTextBox"/>
+        <DatePicker Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Height="25" Margin="5" Name="dateOfPublishingTextBox"/>
         <Label Content="Počet stran:" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=amountOfPagesTextBox}"/>
         <TextBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Height="25" Margin="5" Name="amountOfPagesTextBox"/>
         <Label Content="ISBN:" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=ISBNTextBox}"/>
@@ -39,6 +39,6 @@
             <RadioButton Content="Ne" Name="NoRadioButton" Margin="0,0,10,0"/>
             <RadioButton Content="Ano" Name="YesRadioButton" Margin="10,0,0,0"/>
         </StackPanel>
-        <Button Content="Uložit" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Width="100"/>
+        <Button Content="Uložit" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Width="100" Click="saveButton_Click"/>
     </Grid>
 </Window>

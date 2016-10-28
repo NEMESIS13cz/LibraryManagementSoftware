@@ -20,6 +20,8 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenManagerMain : Window
     {
+        public static bool windowClosing = false;
+
         public ClientScreenManagerMain()
         {
             InitializeComponent();
@@ -27,32 +29,32 @@ namespace LibrarySoftware.client
 
         private void ReadersButton_Click(object sender, RoutedEventArgs e)
         {
-            //zavření tohoto okna a otevření okna, kde bude obsluha moc vidět seznam čtenářů/uživatelů, hledat, mazat a 
-            //tlačítko na odkaz nového okna, kde vyplní údaje pro přidání nového čtenáře
             ClientScreenManagerReader window = new ClientScreenManagerReader();
 
             window.Show();
+            windowClosing = true;
             this.Close();
         }
 
         private void BooksButton_Click(object sender, RoutedEventArgs e)
         {
-            //v podstatě totéž jako horní, akorát na knihy
             ClientScreenManagerBook window = new ClientScreenManagerBook();
 
             window.Show();
+            windowClosing = true;
             this.Close();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {}
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            ClientNetworkManager.disconnect(); // po zavření okna se odpojí
+            if (!windowClosing)
+            {
+                ClientNetworkManager.disconnect();
 
-            MainWindow window = new MainWindow();
-            window.Show();
+                MainWindow window = new MainWindow();
+                window.Show();
+            }
+            windowClosing = false;
         }
 
         private void librariansButton_Click(object sender, RoutedEventArgs e)

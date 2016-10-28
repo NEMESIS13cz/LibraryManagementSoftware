@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LibrarySoftware.utils;
-using LibrarySoftware.allAboutBook;
 using System.ComponentModel;
 
 namespace LibrarySoftware.client
@@ -23,17 +22,17 @@ namespace LibrarySoftware.client
     public partial class BorrowBookWindow : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged; // snad lepší způsob, než do listboxu dávat data po jednom
-        Reader reader;
-        List<Book> temporalyBooks = new List<Book>();
-        public BorrowBookWindow(Reader reader)
+        //Reader reader;
+        //List<Book> temporalyBooks = new List<Book>();
+        /*public BorrowBookWindow(Reader reader)
         {
             InitializeComponent();
-            this.reader = reader;
-        }
+           // this.reader = reader;
+        }*/
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            temporalyBooks.AddRange(reader.ReservedBooks.ToArray());
+            //temporalyBooks.AddRange(reader.ReservedBooks.ToArray());
             MakeChange("booksListBox");
         }
 
@@ -43,7 +42,7 @@ namespace LibrarySoftware.client
         }
 
         private void borrowBook_Click(object sender, RoutedEventArgs e)
-        {
+        {/*
             try
             {
                 reader.AddNewBorrowedBook(booksListBox.SelectedItem as Book);
@@ -51,7 +50,7 @@ namespace LibrarySoftware.client
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            }*/
         }
 
         protected void MakeChange(string property)

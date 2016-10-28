@@ -11,6 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using LibrarySoftware.network.client;
+using LibrarySoftware.network.packets;
+using LibrarySoftware.data;
 
 namespace LibrarySoftware.client
 {
@@ -22,6 +25,20 @@ namespace LibrarySoftware.client
         public AddBookWindow()
         {
             InitializeComponent();
+        }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            Book book = new Book();
+
+            book.name = nameTextBox.Text;
+            book.author = authorTextBox.Text;
+            book.genre = genreTextBox.Text;
+            book.datePublished = dateOfPublishingTextBox.SelectedDate.Value.Ticks;
+            book.pages = Convert.ToInt32(amountOfPagesTextBox.Text);
+            book.ISBN = ISBNTextBox.Text;
+
+            ClientNetworkManager.sendPacketToServer(new AddBookPacket(book));
         }
     }
 }

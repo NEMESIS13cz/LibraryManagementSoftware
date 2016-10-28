@@ -11,7 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using LibrarySoftware.allAboutBook;
+using LibrarySoftware.data;
+using LibrarySoftware.network.client;
+using LibrarySoftware.network.packets;
 
 namespace LibrarySoftware.client
 {
@@ -20,19 +22,17 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenManagerBook : Window
     {
-        BookManager manager;
         public ClientScreenManagerBook()
         {
             InitializeComponent();
-            manager = new BookManager();
-            DataContext = manager;
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                manager.Odeber(booksListBox.SelectedItem as Book); // nevím jestli na to listBox automaticky zareaguje, pokud ne, tak implementuju INotifyPropertyChanged do BookManager
+                ClientNetworkManager.sendPacketToServer(new DeleteBookPacket(booksListBox.SelectedItem as Book));
+                //TODO možná refreshnout booksList?
             }
             catch (Exception ex)
             {
@@ -42,29 +42,27 @@ namespace LibrarySoftware.client
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            //Bude odkazovat na další okno, kde bude formulář na vyplnění
-
             AddBookWindow window = new AddBookWindow();
-
             window.ShowDialog();
         }
 
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
-            //Otevře se okno, kde se bude moc opravit jakákoli vlastnost té knihy a následně se uloží změny
-
             if (booksListBox.SelectedItem != null)
             {
+                SharedInfo.currentlyEditingBook = booksListBox.SelectedItem as Book;
                 EditBookWindow window = new EditBookWindow();
                 window.ShowDialog();
+                SharedInfo.currentlyEditingBook = null;
             }
             else
+            {
                 MessageBox.Show("Nebyla zvolena žádná kniha", "Upozornění", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            }
         }
 
         private void Backbutton_Click(object sender, RoutedEventArgs e)
         {
-            // vrátí se zpět na hlavní okno
             ClientScreenManagerMain window = new ClientScreenManagerMain();
 
             window.Show();
@@ -77,10 +75,6 @@ namespace LibrarySoftware.client
             sortComboBox.Items.Add("Žánr");
             sortComboBox.Items.Add("Autor");
             sortComboBox.Items.Add("ISBN");
-
-            // načtou se data ze serveru
-
-
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
@@ -104,6 +98,7 @@ namespace LibrarySoftware.client
         {
             ClientScreenManagerMain window = new ClientScreenManagerMain();
             window.Show();
+            this.Close();
         }
     }
 }

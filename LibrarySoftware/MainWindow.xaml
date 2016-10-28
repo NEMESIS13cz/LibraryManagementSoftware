@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySoftware"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="400" Width="425" WindowStartupLocation="CenterScreen">
+        Title="LoginWindow" Height="400" Width="425" WindowStartupLocation="CenterScreen" Closed="windowClose">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1.5*"/>
@@ -15,12 +15,12 @@
 
         <StackPanel Orientation="Vertical" Grid.Row="1" VerticalAlignment="Top" Margin="0,8">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Label Content="_Username:" Target="{Binding ElementName=usernameTextBox}" Width="70"/>
+                <Label Content="_E-mail:" Target="{Binding ElementName=usernameTextBox}" Width="45"/>
                 <TextBox Name="usernameTextBox" Width="150"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-                <Label Content="_Password:" Target="{Binding ElementName=passwordTextBox}" Width="70"/>
-                <TextBox Name="passwordTextBox" Width="150"/>
+                <Label Content="_Heslo:" Target="{Binding ElementName=passwordTextBox}" Width="45"/>
+                <PasswordBox Name="passwordBox" Width="150"/>
             </StackPanel>
 
             <Button Name="LoginButton" Content="Login" Width="100" Height="25" Margin="0,15,0,0" Click="LoginButton_Click"/>

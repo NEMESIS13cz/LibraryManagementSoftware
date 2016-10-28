@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Threading;
-using LibrarySoftware.allAboutBook;
 using LibrarySoftware.network.client;
 using LibrarySoftware.network;
 
@@ -23,22 +22,16 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenGuestBook : Window
     {
-        private BookManager manager;
         public ClientScreenGuestBook()
         {
             InitializeComponent();
-            manager = new BookManager();
-            DataContext = manager;
         }
         
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // Data do ComboBoxu, hledat se bude pro hosta pouze podle těchto 3. věcí
             sortComboBox.Items.Add("Název");
             sortComboBox.Items.Add("Žánr");
             sortComboBox.Items.Add("Autor");
-
-            // načtou se data ...
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)

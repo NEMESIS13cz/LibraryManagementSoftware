@@ -7,7 +7,6 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Xml.Serialization;
 using System.IO;
-using LibrarySoftware.allAboutBook;
 using LibrarySoftware.utils;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Soap;
@@ -88,18 +87,25 @@ namespace LibrarySoftware.network
                 }
                 catch (Exception)
                 {
-                    if (sock.Poll(1000, SelectMode.SelectRead) && sock.Available == 0)
+                    try
+                    {
+                        if (sock.Poll(1000, SelectMode.SelectRead) && sock.Available == 0)
+                        {
+                            break;
+                        }
+                    }
+                    catch (Exception)
                     {
                         break;
                     }
-                    Console.WriteLine("Chyba při přijímání packetu! Ignoruji...");
+                    Console.WriteLine("[Network]: Chyba při přijímání packetu! Ignoruji...");
                 }
             }
             while (transmitter.IsAlive)
             {
                 Thread.Sleep(1);
             }
-            Console.WriteLine("Pripojení ztraceno (" + ep.Address + ":" + ep.Port + ")");
+            Console.WriteLine("[Network]: Pripojení ztraceno (" + ep.Address + ":" + ep.Port + ")");
         }
 
         private void transmitterRun()
@@ -116,13 +122,13 @@ namespace LibrarySoftware.network
                             toSend.RemoveAt(0);
                             sock.Send(serialize(packet));
                         }
-                        Thread.Sleep(1);
                     }
                     catch (Exception)
                     {
-                        Console.WriteLine("Chyba při posílání packetu!");
+                        Console.WriteLine("[Network]: Chyba při posílání packetu!");
                     }
                 }
+                Thread.Sleep(1);
             }
         }
 
