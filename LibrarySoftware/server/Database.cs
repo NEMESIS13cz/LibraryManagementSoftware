@@ -175,6 +175,9 @@ namespace LibrarySoftware.server
             {
                 borrowed = borrowed.Substring(0, borrowed.Length - 1);
             }
+            SQLiteCommand idCmd = new SQLiteCommand("SELECT Count(*) FROM users;", db);
+            reader.ID = (string)idCmd.ExecuteScalar();
+
             query("INSERT INTO users (name, address, birthNumber, birthDate, email, borrowedBooks, " + 
                 "reservedBooks, admin, password, id) VALUES (@name, @address, @birthNumber, @birthDate, @email, " + 
                 "@borrowedBooks, @reservedBooks, @admin, @password, @id);", new SQLiteParameter[] { new SQLiteParameter("@name", reader.name),
