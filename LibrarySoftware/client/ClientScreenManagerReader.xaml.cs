@@ -96,6 +96,11 @@ namespace LibrarySoftware.client
                 case Registry.packet_searchReplyBooks:
                     return;
                 case Registry.packet_searchReplyUsers:
+                    readerListBox.Items.Clear();
+                    foreach (Reader r in ((SearchUsersReplyPacket)packet).readers)
+                    {
+                        readerListBox.Items.Add(r);
+                    }
                     return;
             }
         }

@@ -32,6 +32,10 @@ namespace LibrarySoftware.network.client
         
         public static void receivedPacketFromServer(IPacket packet)
         {
+            if (packet == null)
+            {
+                return;
+            }
             switch (packet.getPacketID())
             {
                 case Registry.packet_loginReply:
@@ -56,7 +60,7 @@ namespace LibrarySoftware.network.client
                 case Registry.packet_loginReply:
                     SharedInfo.userType = ((LoginReplyPacket)packet).status;
                     SharedInfo.currentUser = ((LoginReplyPacket)packet).reader;
-                    return null;
+                    return packet;
                 default:
                     return packet;
             }

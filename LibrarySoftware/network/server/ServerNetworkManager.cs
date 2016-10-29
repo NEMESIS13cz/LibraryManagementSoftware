@@ -23,6 +23,10 @@ namespace LibrarySoftware.network.server
 
         public static void receivedPacketFromClient(Client client, IPacket packet)
         {
+            if (packet == null)
+            {
+                return;
+            }
             switch (packet.getPacketID())
             {
                 case Registry.packet_loginData:
