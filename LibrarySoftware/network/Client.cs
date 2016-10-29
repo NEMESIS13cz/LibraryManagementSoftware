@@ -85,7 +85,7 @@ namespace LibrarySoftware.network
                     }
                     incomingData.Clear();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     try
                     {
@@ -98,6 +98,7 @@ namespace LibrarySoftware.network
                     {
                         break;
                     }
+                    Console.WriteLine(ex.Message);
                     Console.WriteLine("[Network]: Chyba při přijímání packetu! Ignoruji...");
                 }
             }
