@@ -63,7 +63,7 @@ namespace LibrarySoftware.client
             if (readerListBox.SelectedItem != null)
             {
                 string name = readerListBox.SelectedItem.ToString();
-                // nutno potom vyzkoušet!!
+                
                 if (MessageBox.Show("Přejete si vymazat " + name + "?", "Dotaz", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     ClientNetworkManager.sendPacketToServer(new DeleteUserPacket(readerListBox.SelectedItem as Reader));
@@ -136,8 +136,8 @@ namespace LibrarySoftware.client
             if(readerListBox.SelectedItem != null)
             {
                 SharedInfo.currentlyEditingUser = readerListBox.SelectedItem as Reader;
-                //BorrowBookWindow window = new BorrowBookWindow((Reader)readerListBox.SelectedItem);
-                //window.ShowDialog();
+                BorrowBookWindow window = new BorrowBookWindow();
+                window.ShowDialog();
                 SharedInfo.currentlyEditingUser = null;
             }
         }
@@ -161,6 +161,16 @@ namespace LibrarySoftware.client
                 if(MessageBox.Show("Přejete si zrušit rezervaci(e) u "+readerListBox.SelectedItem.ToString(),"Dotaz",MessageBoxButton.YesNo,MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     Reader r = readerListBox.SelectedItem as Reader;
+                    foreach (Book kniha in r.reservedBooks)
+                    {
+                        if (kniha != null)
+                        {
+                            Book b = kniha;
+                            b.reserved = false;
+                            b.reservedBy = null;
+                            ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(kniha, b)); 
+                        }
+                    }
                     r.reservedBooks = null;
                     ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, r.ID));
                 }

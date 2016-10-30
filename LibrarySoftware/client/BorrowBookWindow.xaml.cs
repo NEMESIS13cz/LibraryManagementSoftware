@@ -36,7 +36,7 @@ namespace LibrarySoftware.client
             sortComboBox.Items.Add("Žánr");
             sortComboBox.Items.Add("Autor");
             sortComboBox.Items.Add("ISBN");
-            sortComboBox.SelectedItem = "Název";
+            sortComboBox.SelectedItem = "ISBN";
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
@@ -75,15 +75,45 @@ namespace LibrarySoftware.client
         }
 
         private void borrowBook_Click(object sender, RoutedEventArgs e)
-        {/*
-            try
+        {
+            if(booksListBox.SelectedItem != null)
             {
-                reader.AddNewBorrowedBook(booksListBox.SelectedItem as Book);
+                Book b = (Book)booksListBox.SelectedItem;
+                if (b.borrowed || (b.reserved && b.reservedBy != SharedInfo.currentlyEditingUser.ID))
+                {
+                    MessageBox.Show("Kniha je vypůjčená nebo rezervována jiným čtenářem.", "Varování", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                // Změny pro knihu
+                Book n = b;
+                n.reserved = false;
+                n.reservedBy = null;
+                n.borrowed = true;
+                n.borrowedBy = SharedInfo.currentlyEditingUser.ID;
+                // Změny pro uživatele
+                Reader r = SharedInfo.currentlyEditingUser;
+                if (r.reservedBooks.Contains(b))
+                {
+                    Book[] reserve = new Book[r.reservedBooks.Count() - 1];
+                    for (int i = 0, j = 0; i < r.reservedBooks.Count(); i++, j++)
+                    {
+                        if (r.reservedBooks[i] != b)
+                            reserve[j] = r.reservedBooks[i];
+                        else
+                            j--;
+                    }
+                    r.reservedBooks = reserve;
+                }
+                Book[] borrow = new Book[r.borrowedBooks.Count() + 1];
+                Array.Copy(r.borrowedBooks, borrow, r.reservedBooks.Count());
+                borrow[r.reservedBooks.Count()] = b;
+                r.reservedBooks = borrow;
+
+                ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(b, n));
+                ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentlyEditingUser.ID));
+
+                MessageBox.Show("Úspěšně vypůjčeno", "Úspěch", MessageBoxButton.OK);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-            }*/
         }
     }
 }

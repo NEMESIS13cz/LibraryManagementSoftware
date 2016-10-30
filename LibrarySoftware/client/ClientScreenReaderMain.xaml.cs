@@ -75,48 +75,86 @@ namespace LibrarySoftware.client
         }
 
         private void reserveButton_Click(object sender, RoutedEventArgs e)
-        {/*
+        {
             if (booksListBox.SelectedItem != null)
             {
                 Book kniha = booksListBox.SelectedItem as Book;
-                if (kniha.Reserved == true)
+                if (kniha.reserved || kniha.borrowed)
+                {
+                    MessageBox.Show("Kniha je už rezervována nebo půjčená, zkuste to prosím později.", "Upozornění", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                     return;
+                }
 
                 string message = "Přejete si zarezervovat " + kniha + "?";
 
                 if (MessageBox.Show(message, "Dotaz", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    kniha.Reserved = true;
-                    presentUser.AddReserveBook(kniha);
+                    // změny pro knihu
+                    Book b = kniha;
+                    b.reserved = true;
+                    b.reservedBy = SharedInfo.currentUser.ID;
+                    // změny pro uživatele
+                    Reader r = new Reader();
+                    r = SharedInfo.currentUser;
+                    Book[] reserve = new Book[r.reservedBooks.Count() + 1];
+                    Array.Copy(r.reservedBooks, reserve, r.reservedBooks.Count());
+                    reserve[r.reservedBooks.Count()] = b;
+                    r.reservedBooks = reserve;
+                    r.ID = null;
 
-                    DateTime dnes = DateTime.Today;
-                    DateTime datumMaxZarezervování = dnes.AddDays(2);
+                    ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(kniha, b));
+                    ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentUser.ID));
 
-                    //poslat změnu do databáze
+                    booksListBox.Items.Remove(kniha);
+                    booksListBox.Items.Add(b);
+                    SharedInfo.currentUser = r;
 
-                    MessageBox.Show("Kniha byla úspěšně zarezervována, vyzvědněte si ji v knihovně do " + datumMaxZarezervování.Date.ToString(),
+                    MessageBox.Show("Kniha byla úspěšně zarezervována, vyzvědněte si ji v knihovně.",
                         "Informace", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-            }*/
+            }
         }
 
         private void deleteReserveButton_Click(object sender, RoutedEventArgs e)
-        {/*
+        {
             if(booksListBox.SelectedItem != null)
             {
                 Book kniha = booksListBox.SelectedItem as Book;
+                if (!SharedInfo.currentUser.reservedBooks.Contains(kniha))
+                {
+                    MessageBox.Show("Tato kniha není rezervována nebo není k dispozici nebo rezervace nepatří vám.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
 
                 try
                 {
-                    presentUser.DeleteReservationOfBook(kniha);
+                    // pro knihu
+                    Book b = kniha;
+                    b.reserved = false;
+                    b.reservedBy = null;
+                    // pro uživatele
+                    Reader r = new Reader();
+                    r = SharedInfo.currentUser;
+                    Book[] reserve = new Book[r.reservedBooks.Count() - 1];
+                    for(int i = 0, j = 0; i < r.reservedBooks.Count(); i++, j++)
+                    {
+                        if (r.reservedBooks[i] != kniha)
+                            reserve[j] = r.reservedBooks[i];
+                        else
+                            j--;
+                    }
+                    r.reservedBooks = reserve;
+
+                    ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(kniha, b));
+                    ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentUser.ID));
+
+                    MessageBox.Show("Rezervace odstraněna.", "Úspěch", MessageBoxButton.OK);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                
-                //poslat do databáze změnu
-            }*/
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
