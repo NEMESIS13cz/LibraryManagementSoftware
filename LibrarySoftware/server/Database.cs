@@ -35,7 +35,7 @@ namespace LibrarySoftware.server
             {
                 Console.WriteLine("[Database]: Vytvářím SQL table 'users'");
                 query("CREATE TABLE users (name VARCHAR(512), address VARCHAR(512), birthNumber VARCHAR(10), birthDate BIGINT, " + 
-                    "email VARCHAR(512), borrowedBooks VARCHAR(6656), reservedBooks VARCHAR(6656), admin TINYINT, password CHAR(64), id VARCHAR(64))",
+                    "email VARCHAR(512), borrowedBooks VARCHAR(6656), reservedBooks VARCHAR(6656), admin TINYINT, password CHAR(64), id CHAR(64))",
                     new SQLiteParameter[0]);
             }
             Reader admin = getUser("0");
