@@ -132,8 +132,8 @@ namespace LibrarySoftware.server
                 book.ISBN = (string)reader["isbn"];
                 book.borrowed = (byte)reader["borrowed"] > 0;
                 book.reserved = (byte)reader["reserved"] > 0;
-                book.borrowedBy = (string)reader["borrowedBy"];
-                book.reservedBy = (string)reader["reservedBy"];
+                book.borrowedBy = reader["borrowedBy"].ToString();
+                book.reservedBy = reader["reservedBy"].ToString();
             }
             return book;
         }

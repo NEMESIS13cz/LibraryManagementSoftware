@@ -100,7 +100,6 @@ namespace LibrarySoftware.client
                     Array.Copy(r.reservedBooks, reserve, r.reservedBooks.Count());
                     reserve[r.reservedBooks.Count()] = b;
                     r.reservedBooks = reserve;
-                    r.ID = null;
 
                     ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(kniha, b));
                     ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentUser.ID));

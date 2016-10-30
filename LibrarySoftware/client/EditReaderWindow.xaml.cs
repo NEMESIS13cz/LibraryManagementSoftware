@@ -41,6 +41,7 @@ namespace LibrarySoftware.client
                 r.borrowedBooks = SharedInfo.currentlyEditingUser.borrowedBooks;
                 r.reservedBooks = SharedInfo.currentlyEditingUser.reservedBooks;
                 r.email = emailTextBox.Text;
+                r.ID = SharedInfo.currentlyEditingUser.ID;
                 if (changePassword)
                 {
                     r.password = passwordTextBox.Text;
