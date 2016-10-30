@@ -19,7 +19,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Label Content="_Jméno:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=nameTextBox}"/>
@@ -30,12 +29,10 @@
         <DatePicker Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Height="25" Margin="5" Name="dateOfBirthDataPicker"/>
         <Label Content="_Rodné číslo:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=birthNumberTextBox}"/>
         <TextBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Height="25" Margin="5" Name="birthNumberTextBox"/>
-        <Label Content="_Vypůjčené knihy:" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=borrowedBooksTextBox}"/>
-        <TextBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Height="25" Margin="5" Name="borrowedBooksTextBox"/>
-        <Label Content="Email:" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=emailTextBox}"/>
-        <TextBox Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Height="25" Margin="5" Name="emailTextBox"/>
-        <Label Content="Heslo:" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=passwordTextBox}"/>
-        <TextBox Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Height="25" Margin="5" Name="passwordTextBox"/>
-        <Button Content="Uložit" Name="saveButton" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Width="100" Click="saveButton_Click"/>
+        <Label Content="Email:" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=emailTextBox}"/>
+        <TextBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Height="25" Margin="5" Name="emailTextBox"/>
+        <Label Content="Heslo:" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=passwordTextBox}"/>
+        <TextBox Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Height="25" Margin="5" Name="passwordTextBox"/>
+        <Button Content="Uložit" Name="saveButton" Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Width="100" Click="saveButton_Click"/>
     </Grid>
 </Window>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySoftware"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="400" Width="425" WindowStartupLocation="CenterScreen" Closed="windowClose">
+        Title="Login" Height="400" Width="425" WindowStartupLocation="CenterScreen" Closed="windowClose">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1.5*"/>

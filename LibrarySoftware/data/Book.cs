@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LibrarySoftware.data
 {
     [Serializable]
-    class Book
+    public class Book
     {
         public string author;
         public string name;
@@ -19,5 +19,10 @@ namespace LibrarySoftware.data
         public bool reserved;
         public string borrowedBy; // user ID
         public string reservedBy; // user ID
+
+        public override string ToString()
+        {
+            return name;
+        }
     }
 }

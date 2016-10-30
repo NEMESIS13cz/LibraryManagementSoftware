@@ -23,6 +23,12 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class EditReaderWindow : Window
     {
+        bool changePassword = false;
+        public EditReaderWindow()
+        {
+            InitializeComponent();
+        }
+
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -35,7 +41,10 @@ namespace LibrarySoftware.client
                 r.borrowedBooks = SharedInfo.currentlyEditingUser.borrowedBooks;
                 r.reservedBooks = SharedInfo.currentlyEditingUser.reservedBooks;
                 r.email = emailTextBox.Text;
-                r.password = passwordTextBox.Text;
+                if (changePassword)
+                    r.password = passwordTextBox.Text;
+                else
+                    r.password = SharedInfo.currentlyEditingUser.password;
                 ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentlyEditingUser.ID));
                 Close();
             }
@@ -53,6 +62,14 @@ namespace LibrarySoftware.client
             birthNumberTextBox.Text = SharedInfo.currentlyEditingUser.birthNumber;
             emailTextBox.Text = SharedInfo.currentlyEditingUser.email;
             nameTextBox.Text = SharedInfo.currentlyEditingUser.name;
+        }
+
+        private void changePasswordButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (passwordTextBox.Text != "")
+                changePassword = true;
+            else
+                MessageBox.Show("Heslo nesmí být prázdné!", "Upozornění", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 }
