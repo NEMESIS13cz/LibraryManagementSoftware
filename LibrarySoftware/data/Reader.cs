@@ -19,6 +19,7 @@ namespace LibrarySoftware.data
         public string password;
         public bool administrator;
         public string ID;
+        public bool changedPassword;
 
         // pro potřeby bindingu
         public override string ToString()

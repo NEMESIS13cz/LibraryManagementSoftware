@@ -176,6 +176,7 @@ namespace LibrarySoftware.server
                 borrowed = borrowed.Substring(0, borrowed.Length - 1);
             }
             reader.ID = Authenticator.hashPassword(Convert.ToString(DateTime.UtcNow.Ticks) + reader.email);
+            reader.password = Authenticator.hashPassword(reader.password);
 
             query("INSERT INTO users (name, address, birthNumber, birthDate, email, borrowedBooks, " + 
                 "reservedBooks, admin, password, id) VALUES (@name, @address, @birthNumber, @birthDate, @email, " + 
@@ -207,6 +208,10 @@ namespace LibrarySoftware.server
             if (borrowed.EndsWith(":"))
             {
                 borrowed = borrowed.Substring(0, borrowed.Length - 1);
+            }
+            if (reader.changedPassword)
+            {
+                reader.password = Authenticator.hashPassword(reader.password);
             }
             query("UPDATE users SET name = @name, address = @address, birthNumber = @birthNumber, " + 
                 "birthDate = @birthDate, email = @email, borrowedBooks = @borrowedBooks, " +
