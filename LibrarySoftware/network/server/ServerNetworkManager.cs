@@ -98,13 +98,19 @@ namespace LibrarySoftware.network.server
                     sendPacketToClient(client, new SearchBooksReplyPacket(booksArray));
                     return;
                 case Registry.packet_addUser:
-                    Database.addUser(((AddUserPacket)packet).reader);
+                    if (((ModifyUserPacket)packet).reader.email.Contains("@"))
+                    {
+                        Database.addUser(((AddUserPacket)packet).reader);
+                    }
                     return;
                 case Registry.packet_deleteUser:
                     Database.deleteUser(((DeleteUserPacket)packet).ID);
                     return;
                 case Registry.packet_modifyUser:
-                    Database.updateUser(((ModifyUserPacket)packet).ID, ((ModifyUserPacket)packet).reader);
+                    if (((ModifyUserPacket)packet).reader.email.Contains("@"))
+                    {
+                        Database.updateUser(((ModifyUserPacket)packet).ID, ((ModifyUserPacket)packet).reader);
+                    }
                     return;
                 case Registry.packet_requestUser:
                     Reader reader = Database.getUser(((ReaderRequestPacket)packet).ID);

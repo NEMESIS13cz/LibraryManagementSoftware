@@ -175,7 +175,14 @@ namespace LibrarySoftware.server
             {
                 borrowed = borrowed.Substring(0, borrowed.Length - 1);
             }
-            reader.ID = Authenticator.hashPassword(Convert.ToString(DateTime.UtcNow.Ticks) + reader.email);
+            if (reader.email.Equals("admin"))
+            {
+                reader.ID = "0";
+            }
+            else
+            {
+                reader.ID = Authenticator.hashPassword(Convert.ToString(DateTime.UtcNow.Ticks) + reader.email);
+            }
             reader.password = Authenticator.hashPassword(reader.password);
 
             query("INSERT INTO users (name, address, birthNumber, birthDate, email, borrowedBooks, " + 
