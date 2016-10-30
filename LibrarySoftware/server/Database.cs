@@ -192,7 +192,8 @@ namespace LibrarySoftware.server
             string borrowed = "";
             foreach (Book b in reader.reservedBooks)
             {
-                reserved += b.ISBN + ":";
+                if (b != null)
+                    reserved += b.ISBN + ":";
             }
             if (reserved.EndsWith(":"))
             {
@@ -200,7 +201,8 @@ namespace LibrarySoftware.server
             }
             foreach (Book b in reader.borrowedBooks)
             {
-                borrowed += b.ISBN + ":";
+                if (b != null)
+                    borrowed += b.ISBN + ":";
             }
             if (borrowed.EndsWith(":"))
             {
@@ -290,7 +292,7 @@ namespace LibrarySoftware.server
                 r.birthNumber = (string)reader["birthNumber"];
                 r.birthDate = (long)reader["birthDate"];
                 r.email = (string)reader["email"];
-                r.ID = (string)reader["id"];
+                r.ID = reader["id"].ToString();
                 r.administrator = (byte)reader["admin"] > 0;
                 r.password = (string)reader["password"];
                 // TODO join the queries into one
