@@ -42,7 +42,10 @@ namespace LibrarySoftware.client
                 r.reservedBooks = SharedInfo.currentlyEditingUser.reservedBooks;
                 r.email = emailTextBox.Text;
                 if (changePassword)
+                {
                     r.password = passwordTextBox.Text;
+                    r.changedPassword = true;
+                }
                 else
                     r.password = SharedInfo.currentlyEditingUser.password;
                 ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentlyEditingUser.ID));

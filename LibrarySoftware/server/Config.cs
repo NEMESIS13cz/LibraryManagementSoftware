@@ -10,6 +10,6 @@ namespace LibrarySoftware.server
     class Config
     {
         public static int serverPort = Registry.serverPort;
-        public static string adminPassword = Authenticator.hashPassword(Registry.defaultAdminPass);
+        public static string adminPassword = "fd3691fa6c5cbb664a0a13b9928ea66b313d84df24bcea5cea4501bad10d9fc6";
     }
 }
