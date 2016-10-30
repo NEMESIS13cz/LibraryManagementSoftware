@@ -68,6 +68,7 @@ namespace LibrarySoftware.client
                 {
                     ClientNetworkManager.sendPacketToServer(new DeleteUserPacket(readerListBox.SelectedItem as Reader));
                     MessageBox.Show("Hotovo!", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+                    readerListBox.Items.Remove(readerListBox.SelectedItem as Reader);
                 }
             }
             else
@@ -126,6 +127,7 @@ namespace LibrarySoftware.client
             sortComboBox.Items.Add("Jméno");
             sortComboBox.Items.Add("Rodné číslo");
             sortComboBox.Items.Add("Email");
+            sortComboBox.SelectedItem = "Jméno";
         }
 
         private void borrowButton_Click(object sender, RoutedEventArgs e)
@@ -133,8 +135,10 @@ namespace LibrarySoftware.client
             // otevře se nové okno
             if(readerListBox.SelectedItem != null)
             {
+                SharedInfo.currentlyEditingUser = readerListBox.SelectedItem as Reader;
                 //BorrowBookWindow window = new BorrowBookWindow((Reader)readerListBox.SelectedItem);
                 //window.ShowDialog();
+                SharedInfo.currentlyEditingUser = null;
             }
         }
 
@@ -143,8 +147,10 @@ namespace LibrarySoftware.client
             // otevře se nové okno
             if(readerListBox.SelectedItem != null)
             {
-                //ReturnBookManagerWindow window = new ReturnBookManagerWindow((Reader)readerListBox.SelectedItem);
-                //window.ShowDialog();
+                SharedInfo.currentlyEditingUser = readerListBox.SelectedItem as Reader;
+                ReturnBookManagerWindow window = new ReturnBookManagerWindow();
+                window.ShowDialog();
+                SharedInfo.currentlyEditingUser = null;
             }
         }
 
@@ -152,11 +158,11 @@ namespace LibrarySoftware.client
         {
             if(readerListBox.SelectedItem != null)
             {
-                if(MessageBox.Show("Přejete si zrušit rezervaci u "+readerListBox.SelectedItem.ToString(),"Dotaz",MessageBoxButton.YesNo,MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if(MessageBox.Show("Přejete si zrušit rezervaci(e) u "+readerListBox.SelectedItem.ToString(),"Dotaz",MessageBoxButton.YesNo,MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    //(readerListBox.SelectedItem as Reader).ReservedBooks = null;
-
-                    //úprava se pošle do databáze
+                    Reader r = readerListBox.SelectedItem as Reader;
+                    r.reservedBooks = null;
+                    ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, r.ID));
                 }
             }
         }

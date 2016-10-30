@@ -39,6 +39,8 @@ namespace LibrarySoftware.client
             book.ISBN = ISBNTextBox.Text;
 
             ClientNetworkManager.sendPacketToServer(new AddBookPacket(book));
+            MessageBox.Show("Hotovo", "informace o stavu", MessageBoxButton.OK, MessageBoxImage.Information);
+            Close();
         }
     }
 }

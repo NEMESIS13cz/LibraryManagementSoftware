@@ -54,11 +54,13 @@ namespace LibrarySoftware.network.server
                         {
                             // admin
                             sendPacketToClient(client, new LoginReplyPacket(r, 2));
+                            return;
                         }
                         else
                         {
                             // normální čtenář
                             sendPacketToClient(client, new LoginReplyPacket(r, 1));
+                            return;
                         }
                     }
                     // špatné heslo
@@ -98,7 +100,7 @@ namespace LibrarySoftware.network.server
                     sendPacketToClient(client, new SearchBooksReplyPacket(booksArray));
                     return;
                 case Registry.packet_addUser:
-                    if (((ModifyUserPacket)packet).reader.email.Contains("@"))
+                    if (((AddUserPacket)packet).reader.email.Contains("@"))
                     {
                         Database.addUser(((AddUserPacket)packet).reader);
                     }

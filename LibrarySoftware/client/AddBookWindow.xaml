@@ -19,10 +19,9 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label Content="Jméno:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=nameTextBox}"/>
+        <Label Content="Název:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=nameTextBox}"/>
         <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Height="25" Margin="5" Name="nameTextBox"/>
         <Label Content="Autor:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=authorTextBox}"/>
         <TextBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Height="25" Margin="5" Name="authorTextBox"/>
@@ -34,11 +33,6 @@
         <TextBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Height="25" Margin="5" Name="amountOfPagesTextBox"/>
         <Label Content="ISBN:" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=ISBNTextBox}"/>
         <TextBox Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Height="25" Margin="5" Name="ISBNTextBox"/>
-        <Label Content="Vypůjčeno:" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Margin="3" Target="{Binding ElementName=genreTextBox}"/>
-        <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <RadioButton Content="Ne" Name="NoRadioButton" Margin="0,0,10,0"/>
-            <RadioButton Content="Ano" Name="YesRadioButton" Margin="10,0,0,0"/>
-        </StackPanel>
-        <Button Content="Uložit" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Width="100" Click="saveButton_Click"/>
+        <Button Content="Uložit" Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" Width="100" Click="saveButton_Click"/>
     </Grid>
 </Window>

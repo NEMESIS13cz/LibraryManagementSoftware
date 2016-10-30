@@ -105,8 +105,8 @@ namespace LibrarySoftware.server
                 book.ISBN = (string)reader["isbn"];
                 book.borrowed = (byte)reader["borrowed"] > 0;
                 book.reserved = (byte)reader["reserved"] > 0;
-                book.borrowedBy = (string)reader["borrowedBy"];
-                book.reservedBy = (string)reader["reservedBy"];
+                book.borrowedBy = reader["borrowedBy"].ToString();
+                book.reservedBy = reader["reservedBy"].ToString();
                 books.Add(book);
             }
             return books;
@@ -343,7 +343,7 @@ namespace LibrarySoftware.server
             SQLiteDataReader reader = query("SELECT id FROM users WHERE email = @email;", new SQLiteParameter[] { new SQLiteParameter("@email", email) });
             while (reader.Read())
             {
-                return (string)reader["id"];
+                return reader["id"].ToString();
             }
             return "-";
         }

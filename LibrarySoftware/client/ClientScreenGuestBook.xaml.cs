@@ -14,6 +14,9 @@ using System.Windows.Shapes;
 using System.Threading;
 using LibrarySoftware.network.client;
 using LibrarySoftware.network;
+using LibrarySoftware.network.packets;
+using LibrarySoftware.utils;
+using LibrarySoftware.data;
 
 namespace LibrarySoftware.client
 {
@@ -32,14 +35,43 @@ namespace LibrarySoftware.client
             sortComboBox.Items.Add("Název");
             sortComboBox.Items.Add("Žánr");
             sortComboBox.Items.Add("Autor");
+            sortComboBox.Items.Add("ISBN");
+            sortComboBox.SelectedItem = "Název";
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            string podleČehoHledat = sortComboBox.SelectedItem.ToString();
-            string searchString = searchTextBox.Text;
-
-            //Pošle se serveru a on pošle zpět vyhovující ve formátu ObservableCollection<Book>
+            byte searchType = 0;
+            if (sortComboBox.SelectedItem.Equals("Žánr"))
+            {
+                searchType = 1;
+            }
+            else if (sortComboBox.SelectedItem.Equals("Autor"))
+            {
+                searchType = 2;
+            }
+            else if (sortComboBox.SelectedItem.Equals("ISBN"))
+            {
+                searchType = 3;
+            }
+            ClientNetworkManager.sendPacketToServer(new SearchBooksPacket(searchTextBox.Text, searchType, 5, 0));
+            IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
+            switch (packet.getPacketID())
+            {
+                case Registry.packet_bookData:
+                    return;
+                case Registry.packet_readerData:
+                    return;
+                case Registry.packet_searchReplyBooks:
+                    booksListBox.Items.Clear();
+                    foreach (Book b in ((SearchBooksReplyPacket)packet).books)
+                    {
+                        booksListBox.Items.Add(b);
+                    }
+                    return;
+                case Registry.packet_searchReplyUsers:
+                    return;
+            }
         }
 
         private void backListButton_Click(object sender, RoutedEventArgs e)

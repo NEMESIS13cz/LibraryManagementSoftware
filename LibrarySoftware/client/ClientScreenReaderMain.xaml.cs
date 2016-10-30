@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LibrarySoftware.network.client;
 using LibrarySoftware.utils;
+using LibrarySoftware.network;
+using LibrarySoftware.network.packets;
+using LibrarySoftware.data;
 
 namespace LibrarySoftware.client
 {
@@ -21,18 +24,44 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenReaderMain : Window
     {
-        //BookManager manager;
-        //Reader presentUser; // proměná uchovávající současného uživatele ve formě třídy Reader
         public ClientScreenReaderMain()
         {
             InitializeComponent();
-            //manager = new BookManager();
-            //DataContext = manager;
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            string searchString = searchTextBox.Text; // ten se následně pošle do databáze a ona pošle výsledky
+            byte searchType = 0;
+            if (sortComboBox.SelectedItem.Equals("Žánr"))
+            {
+                searchType = 1;
+            }
+            else if (sortComboBox.SelectedItem.Equals("Autor"))
+            {
+                searchType = 2;
+            }
+            else if (sortComboBox.SelectedItem.Equals("ISBN"))
+            {
+                searchType = 3;
+            }
+            ClientNetworkManager.sendPacketToServer(new SearchBooksPacket(searchTextBox.Text, searchType, 5, 0));
+            IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
+            switch (packet.getPacketID())
+            {
+                case Registry.packet_bookData:
+                    return;
+                case Registry.packet_readerData:
+                    return;
+                case Registry.packet_searchReplyBooks:
+                    booksListBox.Items.Clear();
+                    foreach (Book b in ((SearchBooksReplyPacket)packet).books)
+                    {
+                        booksListBox.Items.Add(b);
+                    }
+                    return;
+                case Registry.packet_searchReplyUsers:
+                    return;
+            }
         }
 
         private void backListButton_Click(object sender, RoutedEventArgs e)
@@ -95,8 +124,8 @@ namespace LibrarySoftware.client
             sortComboBox.Items.Add("Název");
             sortComboBox.Items.Add("Autor");
             sortComboBox.Items.Add("Žánr");
-            
-            // načtou se data do manager.Přidej();
+            sortComboBox.Items.Add("ISBN");
+            sortComboBox.SelectedItem = "Název";
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

@@ -33,19 +33,23 @@
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" DataContext="{Binding ElementName=booksListBox,Path=SelectedItem}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Název:" Margin="2"/>
-                <TextBlock Margin="2" Text="{Binding NameBook}"/>
+                <TextBlock Margin="2" Text="{Binding name}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Autor:" Margin="2"/>
-                <TextBlock Margin="2" Text="{Binding Author}"/>
+                <TextBlock Margin="2" Text="{Binding author}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Žánr:" Margin="2"/>
-                <TextBlock Margin="2" Text="{Binding Genre}"/>
+                <TextBlock Margin="2" Text="{Binding genre}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Počet stran:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding pages}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Datum vydání:" Margin="2"/>
-                <TextBlock Margin="2" Text="{Binding DatePublishing}"/>
+                <TextBlock Margin="2" Text="{Binding datumVydani, StringFormat= yyyy}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="ISBN:" Margin="2"/>
@@ -53,11 +57,11 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Vypůjčeno:" Margin="2"/>
-                <TextBlock Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding borrowed}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Rezervováno:" Margin="2"/>
-                <TextBlock Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding reserved}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

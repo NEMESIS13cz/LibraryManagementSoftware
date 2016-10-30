@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySoftware.client"
         mc:Ignorable="d"
-        Title="Seznam Knih" Height="320" Width="350" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing">
+        Title="Seznam Knih" Height="340" Width="350" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -27,25 +27,29 @@
                 <Button Name="backListButton" Content="&lt;" Margin="3" Height="20" Click="backListButton_Click"/>
                 <Button Name="nextListButton" Content="&gt;" Margin="3" Height="20" Click="nextListButton_Click"/>
             </StackPanel>
-            <ListBox Name="booksListBox" Margin="5" ItemsSource="{Binding Books}" Height="185"/>
+            <ListBox Name="booksListBox" Margin="5" Height="185"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" DataContext="{Binding ElementName=booksListBox,Path=SelectedItem}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Název:" Margin="2"/>
-                <TextBlock Margin="2" Text="{Binding NameBook}"/>
+                <TextBlock Margin="2" Text="{Binding name}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Autor:" Margin="2"/>
-                <TextBlock Margin="2" Text="{Binding Author}"/>
+                <TextBlock Margin="2" Text="{Binding author}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Žánr:" Margin="2"/>
-                <TextBlock Margin="2" Text="{Binding Genre}"/>
+                <TextBlock Margin="2" Text="{Binding genre}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Počet stran:" Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding pages}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Datum vydání:" Margin="2"/>
-                <TextBlock Margin="2" Text="{Binding DatePublishing}"/>
+                <TextBlock Margin="2" Text="{Binding datumVydani, StringFormat= yyyy}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="ISBN:" Margin="2"/>
@@ -53,11 +57,11 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Vypůjčeno:" Margin="2"/>
-                <TextBlock Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding borrowed}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Rezervováno:" Margin="2"/>
-                <TextBlock Margin="2"/>
+                <TextBlock Margin="2" Text="{Binding reserved}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="2,10" HorizontalAlignment="Center">
                 <Button Content="Přidat" Name="AddButton" Height="25" Width="70" Margin="0,0,5,0" Click="AddButton_Click"/>

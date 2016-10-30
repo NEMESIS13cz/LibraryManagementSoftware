@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LibrarySoftware.utils;
+using LibrarySoftware.data;
 
 namespace LibrarySoftware.client
 {
@@ -20,23 +21,27 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ReturnBookManagerWindow : Window
     {
-        //Reader reader;
-        /*public ReturnBookManagerWindow(Reader reader)
+        public ReturnBookManagerWindow()
         {
             InitializeComponent();
-            this.reader = reader;
-            DataContext = this.reader;
-        }*/
+            DataContext = SharedInfo.currentlyEditingUser;
+        }
 
+        // později ještě dodělat
         private void returnBookButton_Click(object sender, RoutedEventArgs e)
-        {/*
+        {
             if(booksListBox.SelectedItem != null)
             {
                 Book kniha = booksListBox.SelectedItem as Book;
-                kniha.ReturnOfBook();
+                
                 //pošle se do databáze aktualizace
                 MessageBox.Show("Hotovo", "Informace o stavu", MessageBoxButton.OK, MessageBoxImage.Information);
-            }*/
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

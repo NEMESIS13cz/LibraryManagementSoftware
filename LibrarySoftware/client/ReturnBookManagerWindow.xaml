@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySoftware.client"
         mc:Ignorable="d"
-        Title="Vrácení knihy" Height="200" Width="350" WindowStartupLocation="CenterScreen">
+        Title="Vrácení knihy" Height="200" Width="350" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <ListBox Name="booksListBox" Grid.Row="0" Margin="5" ItemsSource="{Binding BorrowedBooks}"/>
+        <ListBox Name="booksListBox" Grid.Row="0" Margin="5" ItemsSource="{Binding borrowedBooks}"/>
         <Button Name="returnBookButton" Content="Vrátit knihu" Height="25" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,10,0" Width="100" Click="returnBookButton_Click"/>
     </Grid>
 </Window>

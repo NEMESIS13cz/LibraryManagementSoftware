@@ -13,32 +13,65 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LibrarySoftware.utils;
 using System.ComponentModel;
+using LibrarySoftware.network.client;
+using LibrarySoftware.network.packets;
+using LibrarySoftware.network;
+using LibrarySoftware.data;
 
 namespace LibrarySoftware.client
 {
     /// <summary>
     /// Interaction logic for BorrowBookWindow.xaml
     /// </summary>
-    public partial class BorrowBookWindow : Window, INotifyPropertyChanged
+    public partial class BorrowBookWindow : Window
     {
-        public event PropertyChangedEventHandler PropertyChanged; // snad lepší způsob, než do listboxu dávat data po jednom
-        //Reader reader;
-        //List<Book> temporalyBooks = new List<Book>();
-        /*public BorrowBookWindow(Reader reader)
+        public BorrowBookWindow()
         {
             InitializeComponent();
-           // this.reader = reader;
-        }*/
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //temporalyBooks.AddRange(reader.ReservedBooks.ToArray());
-            MakeChange("booksListBox");
+            sortComboBox.Items.Add("Název");
+            sortComboBox.Items.Add("Žánr");
+            sortComboBox.Items.Add("Autor");
+            sortComboBox.Items.Add("ISBN");
+            sortComboBox.SelectedItem = "Název";
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-
+            byte searchType = 0;
+            if (sortComboBox.SelectedItem.Equals("Žánr"))
+            {
+                searchType = 1;
+            }
+            else if (sortComboBox.SelectedItem.Equals("Autor"))
+            {
+                searchType = 2;
+            }
+            else if (sortComboBox.SelectedItem.Equals("ISBN"))
+            {
+                searchType = 3;
+            }
+            ClientNetworkManager.sendPacketToServer(new SearchBooksPacket(searchTextBox.Text, searchType, 5, 0));
+            IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
+            switch (packet.getPacketID())
+            {
+                case Registry.packet_bookData:
+                    return;
+                case Registry.packet_readerData:
+                    return;
+                case Registry.packet_searchReplyBooks:
+                    booksListBox.Items.Clear();
+                    foreach (Book b in ((SearchBooksReplyPacket)packet).books)
+                    {
+                        booksListBox.Items.Add(b);
+                    }
+                    return;
+                case Registry.packet_searchReplyUsers:
+                    return;
+            }
         }
 
         private void borrowBook_Click(object sender, RoutedEventArgs e)
@@ -51,12 +84,6 @@ namespace LibrarySoftware.client
             {
                 MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }*/
-        }
-
-        protected void MakeChange(string property)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
         }
     }
 }
