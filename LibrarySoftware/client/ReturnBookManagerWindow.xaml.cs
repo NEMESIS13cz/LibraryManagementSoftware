@@ -42,7 +42,7 @@ namespace LibrarySoftware.client
                 b.borrowedBy = null;
                 // pro uživatele
                 Reader r = new Reader();
-                r = SharedInfo.currentUser;
+                r = SharedInfo.currentlyEditingUser;
                 Book[] borrow;
                 try
                 {
@@ -62,7 +62,7 @@ namespace LibrarySoftware.client
                 r.borrowedBooks = borrow;
 
                 ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(kniha, b));
-                ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentUser.ID));
+                ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentlyEditingUser.ID));
                 
                 MessageBox.Show("Hotovo", "Informace o stavu", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -70,7 +70,10 @@ namespace LibrarySoftware.client
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            foreach(Book b in SharedInfo.currentlyEditingUser.borrowedBooks)
+            {
+                booksListBox.Items.Add(b);
+            }
         }
     }
 }

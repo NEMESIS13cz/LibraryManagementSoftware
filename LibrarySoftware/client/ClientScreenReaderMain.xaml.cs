@@ -24,6 +24,7 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenReaderMain : Window
     {
+        int počet = 0;
         public ClientScreenReaderMain()
         {
             InitializeComponent();
@@ -66,12 +67,19 @@ namespace LibrarySoftware.client
 
         private void backListButton_Click(object sender, RoutedEventArgs e)
         {
-
+            // zobrazí se předchozí packet/seznam/stránka
+            if (počet >= 10)
+            {
+                ClientNetworkManager.sendPacketToServer(new SearchBooksPacket("", 0, 10, počet));
+                počet -= 10;
+            }
         }
 
         private void nextListButton_Click(object sender, RoutedEventArgs e)
         {
-
+            // zobrazí se následující stránka
+            ClientNetworkManager.sendPacketToServer(new SearchBooksPacket("", 0, 10, počet));
+            počet += 10; // asi bude potřebovat ošetřit
         }
 
         private void reserveButton_Click(object sender, RoutedEventArgs e)

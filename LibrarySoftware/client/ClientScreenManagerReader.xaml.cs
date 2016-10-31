@@ -24,6 +24,7 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenManagerReader : Window
     {
+        int počet = 0;
         public ClientScreenManagerReader()
         {
             InitializeComponent();
@@ -109,11 +110,53 @@ namespace LibrarySoftware.client
         private void backListButton_Click(object sender, RoutedEventArgs e)
         {
             // zobrazí se předchozí packet/seznam/stránka
+            if (počet >= 10)
+            {
+                ClientNetworkManager.sendPacketToServer(new SearchUsersPacket("", 0, 10, počet));
+                IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
+                switch (packet.getPacketID())
+                {
+                    case Registry.packet_bookData:
+                        return;
+                    case Registry.packet_readerData:
+                        return;
+                    case Registry.packet_searchReplyBooks:
+                        return;
+                    case Registry.packet_searchReplyUsers:
+                        readerListBox.Items.Clear();
+                        foreach (Reader r in ((SearchUsersReplyPacket)packet).readers)
+                        {
+                            readerListBox.Items.Add(r);
+                        }
+                        počet -= 10;
+                        return;
+                }
+            }
         }
 
         private void nextListButton_Click(object sender, RoutedEventArgs e)
         {
             // zobrazí se následující stránka
+            ClientNetworkManager.sendPacketToServer(new SearchUsersPacket("", 0, 10, počet));
+            IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
+            switch (packet.getPacketID())
+            {
+                case Registry.packet_bookData:
+                    return;
+                case Registry.packet_readerData:
+                    return;
+                case Registry.packet_searchReplyBooks:
+                    return;
+                case Registry.packet_searchReplyUsers:
+                    readerListBox.Items.Clear();
+                    foreach (Reader r in ((SearchUsersReplyPacket)packet).readers)
+                    {
+                        readerListBox.Items.Add(r);
+                    }
+                    if (((SearchUsersReplyPacket)packet).readers.Count() == 10)
+                        počet += 10;
+                    return;
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

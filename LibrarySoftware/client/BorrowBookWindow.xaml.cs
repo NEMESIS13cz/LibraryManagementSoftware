@@ -92,7 +92,7 @@ namespace LibrarySoftware.client
                 n.borrowedBy = SharedInfo.currentlyEditingUser.ID;
                 // Změny pro uživatele
                 Reader r = SharedInfo.currentlyEditingUser;
-                if (r.reservedBooks.Contains(b))
+                if (ObsahujeKnihu(r.reservedBooks, b))
                 {
                     Book[] reserve = new Book[r.reservedBooks.Count() - 1];
                     for (int i = 0, j = 0; i < r.reservedBooks.Count(); i++, j++)
@@ -107,13 +107,25 @@ namespace LibrarySoftware.client
                 Book[] borrow = new Book[r.borrowedBooks.Count() + 1];
                 Array.Copy(r.borrowedBooks, borrow, r.reservedBooks.Count());
                 borrow[r.reservedBooks.Count()] = b;
-                r.reservedBooks = borrow;
+                r.borrowedBooks = borrow;
 
                 ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(b, n));
                 ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentlyEditingUser.ID));
 
                 MessageBox.Show("Úspěšně vypůjčeno", "Úspěch", MessageBoxButton.OK);
             }
+        }
+
+        private bool ObsahujeKnihu(Book[] pole, Book kniha)
+        {
+            foreach (Book b in pole)
+            {
+                if (b.ISBN.Equals(kniha.ISBN))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

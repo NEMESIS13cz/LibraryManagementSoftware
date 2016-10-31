@@ -56,7 +56,7 @@
                 <TextBlock Margin="2" Text="{Binding email}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="2" Text="Rezervonané knihy:"/>
+                <TextBlock Margin="2" Text="Rezervované knihy:"/>
                 <TextBlock Margin="2" Text="{Binding rezervovaneKnihy}" TextWrapping="Wrap"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">

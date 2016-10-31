@@ -67,7 +67,7 @@ namespace LibrarySoftware.server
                                 }
                                 break;
                             case "admin_pass":
-                                Config.adminPassword = Authenticator.hashPassword(pair[1]);
+                                Config.adminPassword = pair[1];
                                 break;
                         }
                     }
