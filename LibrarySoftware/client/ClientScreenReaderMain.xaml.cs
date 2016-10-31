@@ -134,15 +134,23 @@ namespace LibrarySoftware.client
                     // pro uživatele
                     Reader r = new Reader();
                     r = SharedInfo.currentUser;
-                    Book[] reserve = new Book[r.reservedBooks.Count() - 1];
-                    for(int i = 0, j = 0; i < r.reservedBooks.Count(); i++, j++)
+                    Book[] reserve;
+                    try
                     {
-                        if (r.reservedBooks[i] != kniha)
-                            reserve[j] = r.reservedBooks[i];
-                        else
-                            j--;
+                        reserve = new Book[r.reservedBooks.Count() - 1];
+                        for (int i = 0, j = 0; i < r.reservedBooks.Count(); i++, j++)
+                        {
+                            if (r.reservedBooks[i] != kniha)
+                                reserve[j] = r.reservedBooks[i];
+                            else
+                                j--;
+                        }
+                        r.reservedBooks = reserve;
                     }
-                    r.reservedBooks = reserve;
+                    catch 
+                    {
+                        reserve = new Book[0];
+                    }
 
                     ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(kniha, b));
                     ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentUser.ID));

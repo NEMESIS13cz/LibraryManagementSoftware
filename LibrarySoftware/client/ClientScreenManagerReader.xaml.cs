@@ -171,7 +171,7 @@ namespace LibrarySoftware.client
                             ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(kniha, b)); 
                         }
                     }
-                    r.reservedBooks = null;
+                    r.reservedBooks = new Book[0];
                     ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, r.ID));
                 }
             }

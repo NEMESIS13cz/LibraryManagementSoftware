@@ -43,13 +43,21 @@ namespace LibrarySoftware.client
                 // pro uživatele
                 Reader r = new Reader();
                 r = SharedInfo.currentUser;
-                Book[] borrow = new Book[r.borrowedBooks.Count() - 1];
-                for (int i = 0, j = 0; i < r.borrowedBooks.Count(); i++, j++)
+                Book[] borrow;
+                try
                 {
-                    if (r.borrowedBooks[i] != kniha)
-                        borrow[j] = r.borrowedBooks[i];
-                    else
-                        j--;
+                    borrow = new Book[r.borrowedBooks.Count() - 1];
+                    for (int i = 0, j = 0; i < r.borrowedBooks.Count(); i++, j++)
+                    {
+                        if (r.borrowedBooks[i] != kniha)
+                            borrow[j] = r.borrowedBooks[i];
+                        else
+                            j--;
+                    }
+                }
+                catch
+                {
+                    borrow = new Book[0];
                 }
                 r.borrowedBooks = borrow;
 
