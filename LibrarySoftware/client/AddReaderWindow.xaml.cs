@@ -41,6 +41,7 @@ namespace LibrarySoftware.client
                 r.reservedBooks = new Book[0];
                 r.email = emailTextBox.Text;
                 r.password = passwordTextBox.Text;
+                r.administrator = SharedInfo.admin;
                 ClientNetworkManager.sendPacketToServer(new AddUserPacket(r));
                 Close();
             }

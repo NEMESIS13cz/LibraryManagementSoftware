@@ -13,6 +13,7 @@ namespace LibrarySoftware.client
         public static Reader currentUser;
         public static Book currentlyEditingBook;
         public static Reader currentlyEditingUser;
+        public static bool admin = false;
 
         public static void reset()
         {

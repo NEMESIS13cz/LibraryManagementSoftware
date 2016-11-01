@@ -60,6 +60,10 @@ namespace LibrarySoftware.client
         private void librariansButton_Click(object sender, RoutedEventArgs e)
         {
             // Otevře se okno na zaregistrování nového knihovníka nebo vymazání, či nějakou změnu
+            ClientScreenManagerAdmin window = new ClientScreenManagerAdmin();
+            window.Show();
+            windowClosing = true;
+            this.Close();
         }
     }
 }

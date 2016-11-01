@@ -1,0 +1,65 @@
+﻿<Window x:Class="LibrarySoftware.client.ClientScreenManagerAdmin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibrarySoftware.client"
+        mc:Ignorable="d"
+        Title="Knihovníci" Height="300" Width="300" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ComboBox Name="sortComboBox" Margin="0,0,10,0" Width="80" Height="25"/>
+                <TextBox Name="searchTextBox" Width="150" Height="25"/>
+                <Button Height="25" Name="searchButton" Margin="10,0,0,0" Content="Hledat" Click="searchButton_Click"/>
+            </StackPanel>
+            <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Name="backListButton" Content="&lt;" Margin="3" Height="20" Click="backListButton_Click"/>
+                    <Button Name="nextListButton" Content="&gt;" Margin="3" Height="20" Click="nextListButton_Click"/>
+                </StackPanel>
+                <ListBox Name="readerListBox" Margin="5"/>
+            </StackPanel>
+            <Button Content="Zpět" Name="backButton" Width="60" Height="20" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,5,5" Click="backButton_Click"/>
+            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" DataContext="{Binding ElementName=readerListBox,Path=SelectedItem}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Jméno:" Margin="2"/>
+                    <TextBlock Margin="2" Text="{Binding name}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Adresa:" Margin="2"/>
+                    <TextBlock Margin="2" Text="{Binding address}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Datum narození:" Margin="2"/>
+                    <TextBlock Margin="2" Text="{Binding narozeniny, StringFormat=dd.MM.yyyy}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Rodné číslo:" Margin="2"/>
+                    <TextBlock Margin="2" Text="{Binding birthNumber}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="2" Text="Email:"/>
+                    <TextBlock Margin="2" Text="{Binding email}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
+                    <Button Name="addButton" Content="Přidat" Width="85" Margin="2" Height="25" Click="addButton_Click"/>
+                    <Button Name="editButton" Content="Upravit" Width="85" Margin="2" Height="25" Click="editButton_Click"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Name="deleteButton" Content="Smazat" Margin="2,8,2,2" Height="25" Width="170" Click="deleteButton_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
