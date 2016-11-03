@@ -96,5 +96,11 @@ namespace LibrarySoftware
             }
             windowClosing = false;
         }
+
+        private void passwordBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                LoginButton_Click(LoginButton, null);
+        }
     }
 }
