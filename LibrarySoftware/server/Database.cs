@@ -233,7 +233,7 @@ namespace LibrarySoftware.server
 
         public static Reader getUser(string ID)
         {
-            SQLiteDataReader reader = query("SELECT * FROM users WHERE id = @id;", new SQLiteParameter[] { new SQLiteParameter("@id", ID) });
+            SQLiteDataReader reader = query("SELECT * FROM users WHERE id LIKE @id;", new SQLiteParameter[] { new SQLiteParameter("@id", "%" + ID + "%") });
             Reader r = null;
             while (reader.Read())
             {
@@ -278,7 +278,7 @@ namespace LibrarySoftware.server
             return r;
         }
 
-        public static List<Reader> getReaders(string keyword, int category)
+        public static List<Reader> getReaders(string keyword, int category, bool admins)
         {
             string searchValue = "";
             switch (category)
@@ -293,7 +293,15 @@ namespace LibrarySoftware.server
                     searchValue = "name";
                     break;
             }
-            SQLiteDataReader reader = query("SELECT * FROM users WHERE " + searchValue + " = @search ORDER BY " + searchValue + " ASC;", new SQLiteParameter[] { new SQLiteParameter("@search", keyword) });
+            SQLiteDataReader reader;
+            if (admins)
+            {
+                reader = query("SELECT * FROM users WHERE " + searchValue + " LIKE @search ORDER BY " + searchValue + " ASC;", new SQLiteParameter[] { new SQLiteParameter("@search", "%" + keyword + "%") });
+            }
+            else
+            {
+                reader = query("SELECT * FROM users WHERE " + searchValue + " LIKE @search AND admin = 0 ORDER BY " + searchValue + " ASC;", new SQLiteParameter[] { new SQLiteParameter("@search", "%" + keyword + "%") });
+            }
             List<Reader> readers = new List<Reader>();
             while (reader.Read())
             {

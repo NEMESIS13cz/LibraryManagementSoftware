@@ -121,14 +121,14 @@ namespace LibrarySoftware.network.server
                 case Registry.packet_searchUsers:
                     count = ((SearchUsersPacket)packet).amountOfUsers;
                     offset = ((SearchUsersPacket)packet).offsetOfUsers;
-                    List<Reader> readers = Database.getReaders(((SearchUsersPacket)packet).keyword, ((SearchUsersPacket)packet).category);
+                    List<Reader> readers = Database.getReaders(((SearchUsersPacket)packet).keyword, ((SearchUsersPacket)packet).category, ((SearchUsersPacket)packet).getAdmins);
                     if (count + offset > readers.Count)
                     {
                         count = readers.Count - offset;
                     }
                     if (count <= 0)
                     {
-                        sendPacketToClient(client, new SearchBooksReplyPacket(new Book[0]));
+                        sendPacketToClient(client, new SearchUsersReplyPacket(new Reader[0]));
                         return;
                     }
                     Reader[] readersArray = new Reader[count];

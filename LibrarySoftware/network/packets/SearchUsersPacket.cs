@@ -18,13 +18,15 @@ namespace LibrarySoftware.network.packets
         // 1 = rodné číslo
         // 2 = e-mail
         public byte category { get; set; }
+        public bool getAdmins { get; set; }
 
-        public SearchUsersPacket(string keyword, byte searchBy, int amount, int offset)
+        public SearchUsersPacket(string keyword, byte searchBy, int amount, int offset, bool admins)
         {
             this.keyword = keyword;
             this.category = searchBy;
             this.amountOfUsers = amount;
             this.offsetOfUsers = offset;
+            this.getAdmins = admins;
         }
 
         public int getPacketID()

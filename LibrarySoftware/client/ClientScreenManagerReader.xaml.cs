@@ -87,7 +87,7 @@ namespace LibrarySoftware.client
             {
                 searchType = 2;
             }
-            ClientNetworkManager.sendPacketToServer(new SearchUsersPacket(searchTextBox.Text, searchType, 5, 0));
+            ClientNetworkManager.sendPacketToServer(new SearchUsersPacket(searchTextBox.Text, searchType, 5, 0, false));
             IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
             switch (packet.getPacketID())
             {
@@ -112,7 +112,7 @@ namespace LibrarySoftware.client
             // zobrazí se předchozí packet/seznam/stránka
             if (počet >= 10)
             {
-                ClientNetworkManager.sendPacketToServer(new SearchUsersPacket("", 0, 10, počet));
+                ClientNetworkManager.sendPacketToServer(new SearchUsersPacket("", 0, 10, počet, false));
                 IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
                 switch (packet.getPacketID())
                 {
@@ -137,7 +137,7 @@ namespace LibrarySoftware.client
         private void nextListButton_Click(object sender, RoutedEventArgs e)
         {
             // zobrazí se následující stránka
-            ClientNetworkManager.sendPacketToServer(new SearchUsersPacket("", 0, 10, počet));
+            ClientNetworkManager.sendPacketToServer(new SearchUsersPacket("", 0, 10, počet, false));
             IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
             switch (packet.getPacketID())
             {
