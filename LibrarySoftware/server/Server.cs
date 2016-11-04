@@ -15,9 +15,7 @@ namespace LibrarySoftware.server
     class Server
     {
         public static Server instance;
-        
         private Address addr;
-
         public bool isRunning = true;
 
         static void Main(string[] args)
@@ -29,6 +27,7 @@ namespace LibrarySoftware.server
 
         public void start()
         {
+            Logger.open();
             loadConfigFiles();
             initializeDatabase();
             Terminal.start();
@@ -41,6 +40,7 @@ namespace LibrarySoftware.server
         {
             if (File.Exists("library.cfg"))
             {
+                Logger.log("[Config]: Načítání konfigurace");
                 StreamReader reader = new StreamReader("library.cfg", Encoding.Default);
                 string buffer = "";
 
@@ -76,17 +76,20 @@ namespace LibrarySoftware.server
             }
             else
             {
+                Logger.log("[Config]: Konfigurační složka neexistuje, vytvářím...");
                 StreamWriter writer = File.CreateText("library.cfg");
                 writer.WriteLine("port=" + Registry.serverPort);
                 writer.WriteLine("admin_pass=" + Registry.defaultAdminPass);
                 writer.Close();
             }
+            Logger.log("[Config]: Server port: " + Config.serverPort);
         }
 
         private void initializeDatabase()
         {
             if (!File.Exists("database.sql"))
             {
+                Logger.log("[Database]: SQLite Databáze neexistuje, vytvářím...");
                 SQLiteConnection.CreateFile("database.sql");
             }
             Database.connect();

@@ -25,6 +25,10 @@ namespace LibrarySoftware.client
     public partial class ClientScreenReaderMain : Window
     {
         int počet = 0;
+        string textbox = "";
+        byte searchType = 0;
+        bool endOfList = false;
+
         public ClientScreenReaderMain()
         {
             InitializeComponent();
@@ -32,7 +36,7 @@ namespace LibrarySoftware.client
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            byte searchType = 0;
+            textbox = searchTextBox.Text;
             if (sortComboBox.SelectedItem.Equals("Žánr"))
             {
                 searchType = 1;
@@ -45,7 +49,11 @@ namespace LibrarySoftware.client
             {
                 searchType = 3;
             }
-            ClientNetworkManager.sendPacketToServer(new SearchBooksPacket(searchTextBox.Text, searchType, 5, 0));
+            else
+            {
+                searchType = 0;
+            }
+            ClientNetworkManager.sendPacketToServer(new SearchBooksPacket(textbox, searchType, 10, 0));
             IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
             switch (packet.getPacketID())
             {
@@ -59,6 +67,12 @@ namespace LibrarySoftware.client
                     {
                         booksListBox.Items.Add(b);
                     }
+                    počet = 10;
+                    endOfList = false;
+                    if (((SearchBooksReplyPacket)packet).books.Count() < 10)
+                    {
+                        endOfList = true;
+                    }
                     return;
                 case Registry.packet_searchReplyUsers:
                     return;
@@ -68,18 +82,65 @@ namespace LibrarySoftware.client
         private void backListButton_Click(object sender, RoutedEventArgs e)
         {
             // zobrazí se předchozí packet/seznam/stránka
-            if (počet >= 10)
+            if (počet > 10)
             {
-                ClientNetworkManager.sendPacketToServer(new SearchBooksPacket("", 0, 10, počet));
                 počet -= 10;
+                ClientNetworkManager.sendPacketToServer(new SearchBooksPacket(textbox, searchType, 10, počet - 10));
+                IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
+                switch (packet.getPacketID())
+                {
+                    case Registry.packet_bookData:
+                        return;
+                    case Registry.packet_readerData:
+                        return;
+                    case Registry.packet_searchReplyBooks:
+                        booksListBox.Items.Clear();
+                        foreach (Book b in ((SearchBooksReplyPacket)packet).books)
+                        {
+                            booksListBox.Items.Add(b);
+                        }
+                        endOfList = false;
+                        if (((SearchBooksReplyPacket)packet).books.Count() < 10)
+                        {
+                            endOfList = true;
+                        }
+                        return;
+                    case Registry.packet_searchReplyUsers:
+                        return;
+                }
             }
         }
 
         private void nextListButton_Click(object sender, RoutedEventArgs e)
         {
+            if (endOfList)
+            {
+                return;
+            }
             // zobrazí se následující stránka
-            ClientNetworkManager.sendPacketToServer(new SearchBooksPacket("", 0, 10, počet));
-            počet += 10; // asi bude potřebovat ošetřit
+            ClientNetworkManager.sendPacketToServer(new SearchBooksPacket(textbox, searchType, 10, počet));
+            IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
+            switch (packet.getPacketID())
+            {
+                case Registry.packet_bookData:
+                    return;
+                case Registry.packet_readerData:
+                    return;
+                case Registry.packet_searchReplyBooks:
+                    booksListBox.Items.Clear();
+                    foreach (Book b in ((SearchBooksReplyPacket)packet).books)
+                    {
+                        booksListBox.Items.Add(b);
+                    }
+                    if (((SearchBooksReplyPacket)packet).books.Count() < 10)
+                    {
+                        endOfList = true;
+                    }
+                    počet += 10;
+                    return;
+                case Registry.packet_searchReplyUsers:
+                    return;
+            }
         }
 
         private void reserveButton_Click(object sender, RoutedEventArgs e)
@@ -179,6 +240,7 @@ namespace LibrarySoftware.client
             sortComboBox.Items.Add("Žánr");
             sortComboBox.Items.Add("ISBN");
             sortComboBox.SelectedItem = "Název";
+            searchButton_Click(searchButton, null);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

@@ -94,7 +94,7 @@ namespace LibrarySoftware
         
         private void connectionListener()
         {
-            Console.WriteLine("[Network]: Socket vytvořen...");
+            Logger.log("[Network]: Server-Socket inicializován");
             
             while (server.isRunning)
             {
@@ -104,7 +104,7 @@ namespace LibrarySoftware
                     Client client = new Client(clientSocket);
                     IPEndPoint ep = ((IPEndPoint)clientSocket.RemoteEndPoint);
 
-                    Console.WriteLine("[Network]: Nové připojení (" + ep.Address + ":" + ep.Port + ")");
+                    Logger.log("[Network]: Nové připojení (" + ep.Address + ":" + ep.Port + ")");
                 }
                 catch (Exception)
                 {

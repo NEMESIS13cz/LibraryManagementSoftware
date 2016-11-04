@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibrarySoftware.client"
         mc:Ignorable="d"
-        Title="Přehled knih" Height="300" Width="300" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing" Icon="book.ico">
+        Title="Přehled knih" Height="300" Width="300" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -27,7 +27,7 @@
                 <Button Name="backListButton" Content="&lt;" Margin="3" Height="20" Click="backListButton_Click"/>
                 <Button Name="nextListButton" Content="&gt;" Margin="3" Height="20" Click="nextListButton_Click"/>
             </StackPanel>
-            <ListBox Name="booksListBox" Margin="5"/>
+            <ListBox Name="booksListBox" Margin="5" Height="185"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" DataContext="{Binding ElementName=booksListBox,Path=SelectedItem}">

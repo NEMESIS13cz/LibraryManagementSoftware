@@ -13,6 +13,7 @@ using System.Runtime.Serialization.Formatters.Soap;
 using LibrarySoftware.network.client;
 using LibrarySoftware.network.server;
 using System.Net;
+using LibrarySoftware.server;
 
 namespace LibrarySoftware.network
 {
@@ -32,6 +33,8 @@ namespace LibrarySoftware.network
             receiver = new Thread(start);
             start = new ThreadStart(transmitterRun);
             transmitter = new Thread(start);
+            receiver.IsBackground = true;
+            transmitter.IsBackground = true;
             receiver.Start();
             transmitter.Start();
         }
@@ -106,7 +109,10 @@ namespace LibrarySoftware.network
             {
                 Thread.Sleep(1);
             }
-            Console.WriteLine("[Network]: Pripojení ztraceno (" + ep.Address + ":" + ep.Port + ")");
+            if (!Side.isClient)
+            {
+                Logger.log("[Network]: Pripojení ztraceno (" + ep.Address + ":" + ep.Port + ")");
+            }
         }
 
         private void transmitterRun()

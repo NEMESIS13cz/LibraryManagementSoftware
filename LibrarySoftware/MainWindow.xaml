@@ -19,7 +19,7 @@
                 <TextBox Name="usernameTextBox" Width="150"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-                <Label Content="_Heslo:" Target="{Binding ElementName=passwordTextBox}" Width="45"/>
+                <Label Content="_Heslo:" Target="{Binding ElementName=passwordBox}" Width="45"/>
                 <PasswordBox Name="passwordBox" Width="150" KeyDown="passwordBox_KeyDown"/>
             </StackPanel>
 

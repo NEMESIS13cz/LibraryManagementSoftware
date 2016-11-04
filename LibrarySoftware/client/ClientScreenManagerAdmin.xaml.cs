@@ -32,9 +32,6 @@ namespace LibrarySoftware.client
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
-            ClientScreenManagerMain window = new ClientScreenManagerMain();
-
-            window.Show();
             this.Close();
         }
 
@@ -173,6 +170,7 @@ namespace LibrarySoftware.client
             sortComboBox.Items.Add("Rodné číslo");
             sortComboBox.Items.Add("Email");
             sortComboBox.SelectedItem = "Jméno";
+            searchButton_Click(searchButton, null);
         }
     }
 }

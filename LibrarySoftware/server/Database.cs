@@ -14,6 +14,7 @@ namespace LibrarySoftware.server
 
         public static void connect()
         {
+            Logger.log("[Database]: Připojování SQLite databáze");
             db = new SQLiteConnection("Data source=database.sql;Version=3;");
             db.Open();
             
@@ -22,7 +23,7 @@ namespace LibrarySoftware.server
 
             if (!reader.HasRows)
             {
-                Console.WriteLine("[Database]: Vytvářím SQL table 'books'");
+                Logger.log("[Database]: Vytvářím SQL table 'books'");
                 query("CREATE TABLE books (author VARCHAR(1024), name VARCHAR(1024), pages SMALLINT, genre VARCHAR(1024), " +
                     "date BIGINT, isbn VARCHAR(13), borrowed TINYINT, reserved TINYINT, borrowedBy VARCHAR(64), reservedBy VARCHAR(64))",
                     new SQLiteParameter[0]);
@@ -33,7 +34,7 @@ namespace LibrarySoftware.server
 
             if (!reader.HasRows)
             {
-                Console.WriteLine("[Database]: Vytvářím SQL table 'users'");
+                Logger.log("[Database]: Vytvářím SQL table 'users'");
                 query("CREATE TABLE users (name VARCHAR(512), address VARCHAR(512), birthNumber VARCHAR(10), birthDate BIGINT, " + 
                     "email VARCHAR(512), borrowedBooks VARCHAR(6656), reservedBooks VARCHAR(6656), admin TINYINT, password CHAR(64), id CHAR(64))",
                     new SQLiteParameter[0]);
@@ -41,7 +42,7 @@ namespace LibrarySoftware.server
             Reader admin = getUser("0");
             if (admin == null)
             {
-                Console.WriteLine("[Database]: Vytvářím administrátorský účet");
+                Logger.log("[Database]: Vytvářím administrátorský účet");
                 admin = new Reader();
                 admin.name = "Administrátor";
                 admin.address = "---";
@@ -55,15 +56,25 @@ namespace LibrarySoftware.server
                 admin.ID = "0";
                 addUser(admin);
             }
+            else
+            {
+                Logger.log("[Database]: Administrátorský účet existuje");
+            }
+            Logger.log("[Database]: Databáze připojena");
         }
 
         public static void close()
         {
             db.Close();
+            Logger.log("[Database]: Databáze odpojena");
         }
 
         public static void addBook(Book book)
         {
+            if (getBook(book.ISBN) != null)
+            {
+                return;
+            }
             query("INSERT INTO books (author, name, pages, genre, date, isbn, borrowed, " + 
                 "reserved, borrowedBy, reservedBy) VALUES (@author, @name, @pages, @genre, " + 
                 "@date, @isbn, @borrowed, @reserved, @borrowedBy, @reservedBy);", 
@@ -72,6 +83,7 @@ namespace LibrarySoftware.server
                 new SQLiteParameter("@date", book.datePublished), new SQLiteParameter("@isbn", book.ISBN),
                 new SQLiteParameter("@borrowed", book.borrowed ? 1 : 0), new SQLiteParameter("@reserved", book.reserved ? 1 : 0),
                 new SQLiteParameter("@reservedBy", book.reservedBy), new SQLiteParameter("@borrowedBy", book.borrowedBy)});
+            Logger.log("[Database]: Přidána kniha \"" + book.name + "\" od \"" + book.author + "\" (ISBN: " + book.ISBN + " )");
         }
 
         public static List<Book> getBooks(string keyword, int category)
@@ -92,7 +104,7 @@ namespace LibrarySoftware.server
                     searchValue = "name";
                     break;
             }
-            SQLiteDataReader reader = query("SELECT * FROM books WHERE " + searchValue + " = @search ORDER BY " + searchValue + " ASC;", new SQLiteParameter[] { new SQLiteParameter("@search", keyword)});
+            SQLiteDataReader reader = query("SELECT * FROM books WHERE " + searchValue + " LIKE @search ORDER BY " + searchValue + " ASC;", new SQLiteParameter[] { new SQLiteParameter("@search", "%" + keyword + "%")});
             List<Book> books = new List<Book>();
             while (reader.Read())
             {
@@ -120,7 +132,7 @@ namespace LibrarySoftware.server
             {
                 if (book != null)
                 {
-                    Console.WriteLine("[Database]: Více knih ze stejným ISBN v databázi (" + ISBN + ")");
+                    Logger.log("[Database]: Více knih ze stejným ISBN v databázi (" + ISBN + ")");
                     break;
                 }
                 book = new Book();
@@ -148,11 +160,13 @@ namespace LibrarySoftware.server
                 new SQLiteParameter("@isbn", book.ISBN), new SQLiteParameter("@borrowed", book.borrowed ? 1 : 0),
                 new SQLiteParameter("@reserved", book.reserved ? 1 : 0), new SQLiteParameter("@reservedBy", book.reservedBy),
                 new SQLiteParameter("@borrowedBy", book.borrowedBy), new SQLiteParameter("@toChange", ISBN) });
+            Logger.log("[Database]: Upravena kniha " + ISBN + ": \"" + book.name + "\" od \"" + book.author + "\" (ISBN: " + book.ISBN + " )");
         }
 
         public static void deleteBook(string ISBN)
         {
             query("DELETE FROM books WHERE isbn = @isbn", new SQLiteParameter[] { new SQLiteParameter("@isbn", ISBN) });
+            Logger.log("[Database]: Smazána kniha " + ISBN);
         }
 
         public static void addUser(Reader reader)
@@ -192,6 +206,14 @@ namespace LibrarySoftware.server
                 new SQLiteParameter("@birthDate", reader.birthDate), new SQLiteParameter("@email", reader.email),
                 new SQLiteParameter("@borrowedBooks", borrowed), new SQLiteParameter("@reservedBooks", reserved),
                 new SQLiteParameter("@admin", reader.administrator ? 1 : 0), new SQLiteParameter("@password", reader.password), new SQLiteParameter("@id", reader.ID) });
+            if (reader.administrator)
+            {
+                Logger.log("[Database]: Přidán administrátor \"" + reader.name + "\" e-mail \"" + reader.email + "\" (ID: " + reader.ID + ")");
+            }
+            else
+            {
+                Logger.log("[Database]: Přidán čtenář \"" + reader.name + "\" e-mail \"" + reader.email + "\" (ID: " + reader.ID + ")");
+            }
         }
 
         public static void updateUser(string ID, Reader reader)
@@ -229,17 +251,25 @@ namespace LibrarySoftware.server
                 new SQLiteParameter("@borrowedBooks", borrowed), new SQLiteParameter("@reservedBooks", reserved),
                 new SQLiteParameter("@admin", reader.administrator ? 1 : 0), new SQLiteParameter("@id", reader.ID),
                 new SQLiteParameter("@password", reader.password), new SQLiteParameter("@toChange", ID)});
+            if (reader.administrator)
+            {
+                Logger.log("[Database]: Upraven administrátor " + ID + ": \"" + reader.name + "\" e-mail \"" + reader.email + "\" (ID: " + reader.ID + ")");
+            }
+            else
+            {
+                Logger.log("[Database]: Upraven čtenář " + ID + ": \"" + reader.name + "\" e-mail \"" + reader.email + "\" (ID: " + reader.ID + ")");
+            }
         }
 
         public static Reader getUser(string ID)
         {
-            SQLiteDataReader reader = query("SELECT * FROM users WHERE id LIKE @id;", new SQLiteParameter[] { new SQLiteParameter("@id", "%" + ID + "%") });
+            SQLiteDataReader reader = query("SELECT * FROM users WHERE id = @id;", new SQLiteParameter[] { new SQLiteParameter("@id", ID) });
             Reader r = null;
             while (reader.Read())
             {
                 if (r != null)
                 {
-                    Console.WriteLine("[Database]: Více uživatelů ze stejným ID v databázi (" + ID + ")");
+                    Logger.log("[Database]: Více uživatelů ze stejným ID v databázi (" + ID + ")");
                     r.ID = "-";
                     break;
                 }
@@ -296,7 +326,7 @@ namespace LibrarySoftware.server
             SQLiteDataReader reader;
             if (admins)
             {
-                reader = query("SELECT * FROM users WHERE " + searchValue + " LIKE @search ORDER BY " + searchValue + " ASC;", new SQLiteParameter[] { new SQLiteParameter("@search", "%" + keyword + "%") });
+                reader = query("SELECT * FROM users WHERE " + searchValue + " LIKE @search AND admin = 1 ORDER BY " + searchValue + " ASC;", new SQLiteParameter[] { new SQLiteParameter("@search", "%" + keyword + "%") });
             }
             else
             {
@@ -343,7 +373,20 @@ namespace LibrarySoftware.server
 
         public static void deleteUser(string ID)
         {
+            Reader r = getUser(ID);
+            if (r == null)
+            {
+                return;
+            }
             query("DELETE FROM users WHERE id = @id;", new SQLiteParameter[] { new SQLiteParameter("@id", ID) });
+            if (r.administrator)
+            {
+                Logger.log("[Database]: Smazán administrátor " + ID);
+            }
+            else
+            {
+                Logger.log("[Database]: Smazán čtenář " + ID);
+            }
         }
 
         public static string getUserID(string email)

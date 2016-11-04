@@ -17,7 +17,7 @@ namespace LibrarySoftware.network.server
         public static void openSocket(Address address)
         {
             closeConnection();
-            conn = new LibrarySoftware.Connection();
+            conn = new Connection();
             conn.startListening(address, Server.instance);
         }
 
@@ -54,12 +54,14 @@ namespace LibrarySoftware.network.server
                         {
                             // admin
                             sendPacketToClient(client, new LoginReplyPacket(r, 2));
+                            Logger.log("[Network]: Administrátor " + r.name + " (" + r.email + ") se přihlásil.");
                             return;
                         }
                         else
                         {
                             // normální čtenář
                             sendPacketToClient(client, new LoginReplyPacket(r, 1));
+                            Logger.log("[Network]: Čtenář " + r.name + " (" + r.email + ") se přihlásil.");
                             return;
                         }
                     }
@@ -93,7 +95,7 @@ namespace LibrarySoftware.network.server
                         return;
                     }
                     Book[] booksArray = new Book[count];
-                    for (int i = offset, j = 0; i < count; i++, j++)
+                    for (int i = offset, j = 0; j < count; i++, j++)
                     {
                         booksArray[j] = books[i];
                     }
@@ -132,7 +134,7 @@ namespace LibrarySoftware.network.server
                         return;
                     }
                     Reader[] readersArray = new Reader[count];
-                    for (int i = offset, j = 0; i < count; i++, j++)
+                    for (int i = offset, j = 0; j < count; i++, j++)
                     {
                         readersArray[j] = readers[i];
                     }
@@ -156,6 +158,10 @@ namespace LibrarySoftware.network.server
             if (conn != null)
             {
                 conn.closeConnection();
+                if (!Side.isClient)
+                {
+                    Logger.log("[Network]: Server-Socket vypnut");
+                }
             }
         }
     }

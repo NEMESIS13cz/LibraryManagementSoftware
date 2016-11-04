@@ -145,6 +145,7 @@
     <Compile Include="network\server\ServerNetworkManager.cs" />
     <Compile Include="server\Authenticator.cs" />
     <Compile Include="server\Config.cs" />
+    <Compile Include="server\Logger.cs" />
     <Compile Include="server\Terminal.cs" />
     <Compile Include="server\Database.cs" />
     <Compile Include="utils\Address.cs" />
