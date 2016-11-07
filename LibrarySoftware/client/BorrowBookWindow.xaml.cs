@@ -120,7 +120,7 @@ namespace LibrarySoftware.client
         {
             foreach (Book b in pole)
             {
-                if (b.ISBN.Equals(kniha.ISBN))
+                if (b != null && b.ISBN.Equals(kniha.ISBN))
                 {
                     return true;
                 }
