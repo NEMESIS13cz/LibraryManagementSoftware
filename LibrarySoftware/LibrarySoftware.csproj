@@ -95,6 +95,9 @@
     <Compile Include="client\BorrowBookWindow.xaml.cs">
       <DependentUpon>BorrowBookWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="client\ChangeIPAddress.xaml.cs">
+      <DependentUpon>ChangeIPAddress.xaml</DependentUpon>
+    </Compile>
     <Compile Include="client\ClientScreenManagerAdmin.xaml.cs">
       <DependentUpon>ClientScreenManagerAdmin.xaml</DependentUpon>
     </Compile>
@@ -164,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="client\BorrowBookWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="client\ChangeIPAddress.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

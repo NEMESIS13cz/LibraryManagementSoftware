@@ -28,6 +28,14 @@
         </StackPanel>
 
         <Image Source="owl-start-screen.png" Grid.Row="0" />
-        <Button Name="guestButton" Content="Guest" Grid.Row="2" Width="100" Height="25" HorizontalAlignment="Right" Click="guestButton_Click"/>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Name="IPButton" Content="Input IP address" Grid.Column="0" Width="100" Height="25" HorizontalAlignment="Left" Click="IPButton_Click"/>
+            <Button Name="guestButton" Content="Guest" Grid.Column="1" Width="100" Height="25" HorizontalAlignment="Right" Click="guestButton_Click"/>
+        </Grid>
     </Grid>
 </Window>

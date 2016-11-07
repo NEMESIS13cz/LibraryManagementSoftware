@@ -1,0 +1,26 @@
+﻿<Window x:Class="LibrarySoftware.client.ChangeIPAddress"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibrarySoftware.client"
+        mc:Ignorable="d"
+        Title="IP address of server" Height="150" Width="400" WindowStartupLocation="CenterScreen" Icon="/LibrarySoftware;component/book.ico">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Zadejte IP adresu serveru:" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" Target="{Binding ElementName=IPAddressTextBox}"/>
+        <TextBox Name="IPAddressTextBox" Height="25" Grid.Row="0" Grid.Column="1" Width="150" Margin="5,0,0,0"/>
+        <Label Content="Zadejte port serveru:" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" Target="{Binding ElementName=portTextBox}"/>
+        <TextBox Name="portTextBox" Height="25" Width="150" Margin="5,0,0,0" Grid.Row="1" Grid.Column="1"/>
+        <Button Name="saveButton" Content="Uložit" Height="25" Grid.Column="1" Width="100" HorizontalAlignment="Right" Margin="5" Grid.Row="2" Click="saveButton_Click"/>
+    </Grid>
+</Window>

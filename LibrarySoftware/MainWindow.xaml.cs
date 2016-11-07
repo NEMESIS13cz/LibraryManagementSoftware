@@ -102,5 +102,11 @@ namespace LibrarySoftware
             if (e.Key == Key.Enter)
                 LoginButton_Click(LoginButton, null);
         }
+
+        private void IPButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeIPAddress window = new ChangeIPAddress();
+            window.ShowDialog();
+        }
     }
 }
