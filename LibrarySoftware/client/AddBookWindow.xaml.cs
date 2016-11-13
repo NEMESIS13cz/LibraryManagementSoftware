@@ -29,6 +29,7 @@ namespace LibrarySoftware.client
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
+            // vytvoří se kniha ze zadaných údajů a poté odešle serveru, který ji uloží do databáze
             Book book = new Book();
 
             book.name = nameTextBox.Text;

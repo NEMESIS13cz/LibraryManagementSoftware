@@ -47,6 +47,7 @@ namespace LibrarySoftware.client
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
+            // bude vyhledáno podle našich kritérií
             textbox = searchTextBox.Text;
             if (sortComboBox.SelectedItem.Equals("Žánr"))
             {
@@ -66,13 +67,13 @@ namespace LibrarySoftware.client
             }
             ClientNetworkManager.sendPacketToServer(new SearchBooksPacket(textbox, searchType, 10, 0));
             IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
-            switch (packet.getPacketID())
+            switch (packet.getPacketID()) // zkontrolujeme zda byl dodán správný packet/správná data
             {
                 case Registry.packet_bookData:
                     return;
                 case Registry.packet_readerData:
                     return;
-                case Registry.packet_searchReplyBooks:
+                case Registry.packet_searchReplyBooks: // byly správná a zobrazí se v listboxu
                     booksListBox.Items.Clear();
                     foreach (Book b in ((SearchBooksReplyPacket)packet).books)
                     {
@@ -80,7 +81,7 @@ namespace LibrarySoftware.client
                     }
                     počet = 10;
                     endOfList = false;
-                    if (((SearchBooksReplyPacket)packet).books.Count() < 10)
+                    if (((SearchBooksReplyPacket)packet).books.Count() < 10) // zjistí zda bylo už ukázáno všechno z výběru
                     {
                         endOfList = true;
                     }
@@ -92,7 +93,7 @@ namespace LibrarySoftware.client
 
         private void backListButton_Click(object sender, RoutedEventArgs e)
         {
-            // zobrazí se předchozí packet/seznam/stránka
+            // zobrazí se předchozí packet/seznam/stránka a to i pokud vyhledal a výsledků bylo víc
             if (počet > 10)
             {
                 počet -= 10;

@@ -37,7 +37,7 @@ namespace LibrarySoftware.client
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            SharedInfo.admin = true;
+            SharedInfo.admin = true; // pro přidání nového knihovníka jsou podobné informace jako o čtenáře a toto zajistí, že bude mít práva admina
             AddReaderWindow window = new AddReaderWindow();
             window.ShowDialog();
             SharedInfo.admin = false;
@@ -45,6 +45,7 @@ namespace LibrarySoftware.client
 
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
+            // tímto můžeme upravit informace o knihovníkovi
             if (readerListBox.SelectedItem != null)
             {
                 SharedInfo.currentlyEditingUser = readerListBox.SelectedItem as Reader;
@@ -60,6 +61,7 @@ namespace LibrarySoftware.client
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
+            // můžeme knihovníka i smazat, pokud už zde nepracuje
             if (readerListBox.SelectedItem != null)
             {
                 string name = readerListBox.SelectedItem.ToString();
@@ -77,6 +79,7 @@ namespace LibrarySoftware.client
         
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
+            // princip hledání je u všech stejný, zjistí se podle čeho a následně vyhodnotí
             byte searchType = 0;
             if (sortComboBox.SelectedItem.Equals("Rodné číslo"))
             {
@@ -87,7 +90,7 @@ namespace LibrarySoftware.client
                 searchType = 2;
             }
             ClientNetworkManager.sendPacketToServer(new SearchUsersPacket(searchTextBox.Text, searchType, 5, 0, true));
-            IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
+            IPacket packet = ClientNetworkManager.pollSynchronizedPackets(); // počkáme na odpověď
             switch (packet.getPacketID())
             {
                 case Registry.packet_bookData:
@@ -96,7 +99,7 @@ namespace LibrarySoftware.client
                     return;
                 case Registry.packet_searchReplyBooks:
                     return;
-                case Registry.packet_searchReplyUsers:
+                case Registry.packet_searchReplyUsers: // dostali jsme správná data
                     readerListBox.Items.Clear();
                     foreach (Reader r in ((SearchUsersReplyPacket)packet).readers)
                     {

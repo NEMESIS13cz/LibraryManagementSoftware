@@ -33,27 +33,28 @@ namespace LibrarySoftware
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            // Přihlášení do systému
             if (!ClientNetworkManager.connectToServer(new Address(Registry.serverAddress)))
                 MessageBox.Show("Nepodařilo se připojit k serveru", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             else
             {
-                if (passwordBox.Password.Length == 0 || usernameTextBox.Text.Length == 0)
+                if (passwordBox.Password.Length == 0 || usernameTextBox.Text.Length == 0) //kontrola dat
                 {
                     MessageBox.Show("Heslo nebo jméno nemůže být prázdné.", "Login", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    ClientNetworkManager.sendPacketToServer(new LoginDataPacket(usernameTextBox.Text, passwordBox.Password));
-                    ClientNetworkManager.pollSynchronizedPackets();
+                    ClientNetworkManager.sendPacketToServer(new LoginDataPacket(usernameTextBox.Text, passwordBox.Password)); // data se pošlou serveru
+                    ClientNetworkManager.pollSynchronizedPackets(); // přijmeme data od serveru - vyhodnocení
                     switch (SharedInfo.userType)
                     {
-                        case 1:
+                        case 1: // Přihlášení bylo úspěšné jako čtenář
                             ClientScreenReaderMain newWindowR = new ClientScreenReaderMain();
                             newWindowR.Show();
                             windowClosing = true;
                             this.Close();
                             break;
-                        case 2:
+                        case 2: // Přihlášení bylo úspěšné jako knihovník
                             ClientScreenManagerMain newWindowA = new ClientScreenManagerMain();
                             newWindowA.Show();
                             windowClosing = true;
@@ -89,6 +90,7 @@ namespace LibrarySoftware
 
         private void windowClose(object sender, EventArgs e)
         {
+            // zajišťuje odpojení od serveru (pouze pokud opravdu vypínáme)
             if (!windowClosing)
             {
                 ClientNetworkManager.disconnect();
@@ -99,12 +101,14 @@ namespace LibrarySoftware
 
         private void passwordBox_KeyDown(object sender, KeyEventArgs e)
         {
+            // usnadnění pro přihlašování (komu se chce klikat na login - stačí zmáčknout enter)
             if (e.Key == Key.Enter)
                 LoginButton_Click(LoginButton, null);
         }
 
         private void IPButton_Click(object sender, RoutedEventArgs e)
         {
+            // připojení nebude probíhat na stejných počítačích, proto můžete změnit na IP adresu a port, který vám knihovna dá
             ChangeIPAddress window = new ChangeIPAddress();
             window.ShowDialog();
         }

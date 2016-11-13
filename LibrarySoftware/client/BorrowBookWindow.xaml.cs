@@ -32,6 +32,7 @@ namespace LibrarySoftware.client
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            // přidání podle čeho můžete hledat + výchozí stav
             sortComboBox.Items.Add("Název");
             sortComboBox.Items.Add("Žánr");
             sortComboBox.Items.Add("Autor");
@@ -41,7 +42,7 @@ namespace LibrarySoftware.client
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            byte searchType = 0;
+            byte searchType = 0; // přiřadíme, který způsob hledání jsme dali (výchozí je název)
             if (sortComboBox.SelectedItem.Equals("Žánr"))
             {
                 searchType = 1;
@@ -54,6 +55,7 @@ namespace LibrarySoftware.client
             {
                 searchType = 3;
             }
+            // pošle se serveru s požadavkem na výsledky podle zadaného kritéria a následně zobrazí v listBoxu
             ClientNetworkManager.sendPacketToServer(new SearchBooksPacket(searchTextBox.Text, searchType, 5, 0));
             IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
             switch (packet.getPacketID())
@@ -79,7 +81,7 @@ namespace LibrarySoftware.client
             if(booksListBox.SelectedItem != null)
             {
                 Book b = (Book)booksListBox.SelectedItem;
-                if (b.borrowed || (b.reserved && b.reservedBy != SharedInfo.currentlyEditingUser.ID))
+                if (b.borrowed || (b.reserved && b.reservedBy != SharedInfo.currentlyEditingUser.ID)) //kontrola zda si ji může půjčit
                 {
                     MessageBox.Show("Kniha je vypůjčená nebo rezervována jiným čtenářem.", "Varování", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
@@ -92,7 +94,7 @@ namespace LibrarySoftware.client
                 n.borrowedBy = SharedInfo.currentlyEditingUser.ID;
                 // Změny pro uživatele
                 Reader r = SharedInfo.currentlyEditingUser;
-                if (ObsahujeKnihu(r.reservedBooks, b))
+                if (ObsahujeKnihu(r.reservedBooks, b)) // pokud ji má uživatel reservovanou smaže se z jeho rezervace
                 {
                     Book[] reserve = new Book[r.reservedBooks.Count() - 1];
                     for (int i = 0, j = 0; i < r.reservedBooks.Count(); i++, j++)
@@ -104,11 +106,12 @@ namespace LibrarySoftware.client
                     }
                     r.reservedBooks = reserve;
                 }
+                // přidáme knihu do vypůjčených pole je statické proto takto
                 Book[] borrow = new Book[r.borrowedBooks.Count() + 1];
                 Array.Copy(r.borrowedBooks, borrow, r.reservedBooks.Count());
                 borrow[r.reservedBooks.Count()] = b;
                 r.borrowedBooks = borrow;
-
+                // odešle se serveru
                 ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(b, n));
                 ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentlyEditingUser.ID));
 

@@ -30,6 +30,8 @@ namespace LibrarySoftware.client
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
+            // vytvoří čtenáře, kterého pošleme serveru a ten do databáze;
+            // pokud určitě části nejsou vyplněné nebo špatně vyhodí to běhovou chybu
             try
             {
                 Reader r = new Reader();
