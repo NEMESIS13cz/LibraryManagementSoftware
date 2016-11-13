@@ -24,10 +24,10 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenReaderMain : Window
     {
-        int počet = 0;
-        string textbox = "";
-        byte searchType = 0;
-        bool endOfList = false;
+        int počet = 0; // zajišťuje, abychom nepřekročily množství knih a to z obou směrů
+        string textbox = ""; // uchovává v sobě s čím porovnáváme při hledání
+        byte searchType = 0; // podle čeho hledáme
+        bool endOfList = false; // zda bylo ukázáno vše
 
         public ClientScreenReaderMain()
         {
@@ -36,6 +36,7 @@ namespace LibrarySoftware.client
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
+            // hledání knih podle zadaných kritérií
             textbox = searchTextBox.Text;
             if (sortComboBox.SelectedItem.Equals("Žánr"))
             {
@@ -51,25 +52,25 @@ namespace LibrarySoftware.client
             }
             else
             {
-                searchType = 0;
+                searchType = 0; // podle názvu
             }
-            ClientNetworkManager.sendPacketToServer(new SearchBooksPacket(textbox, searchType, 10, 0));
-            IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
-            switch (packet.getPacketID())
+            ClientNetworkManager.sendPacketToServer(new SearchBooksPacket(textbox, searchType, 10, 0)); // požadavek pošleme serveru
+            IPacket packet = ClientNetworkManager.pollSynchronizedPackets(); // počkáme na odpověď
+            switch (packet.getPacketID()) // kterého typu přišla odpověď?
             {
                 case Registry.packet_bookData:
                     return;
                 case Registry.packet_readerData:
                     return;
-                case Registry.packet_searchReplyBooks:
+                case Registry.packet_searchReplyBooks: // dostali jsme správný typ odpovědi a zpracujeme
                     booksListBox.Items.Clear();
-                    foreach (Book b in ((SearchBooksReplyPacket)packet).books)
+                    foreach (Book b in ((SearchBooksReplyPacket)packet).books) // synchronizujeme se seznamem
                     {
                         booksListBox.Items.Add(b);
                     }
                     počet = 10;
                     endOfList = false;
-                    if (((SearchBooksReplyPacket)packet).books.Count() < 10)
+                    if (((SearchBooksReplyPacket)packet).books.Count() < 10) // zobrazili jsme všechny?
                     {
                         endOfList = true;
                     }
@@ -145,10 +146,11 @@ namespace LibrarySoftware.client
 
         private void reserveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (booksListBox.SelectedItem != null)
+            // rezervujeme si knihu pro pozdější vypůjčení
+            if (booksListBox.SelectedItem != null) // označili jsme nějakou knihu?
             {
                 Book kniha = booksListBox.SelectedItem as Book;
-                if (kniha.reserved || kniha.borrowed)
+                if (kniha.reserved || kniha.borrowed) // není kniha už rezervována nebo půjčena?
                 {
                     MessageBox.Show("Kniha je už rezervována nebo půjčená, zkuste to prosím později.", "Upozornění", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                     return;
@@ -156,6 +158,7 @@ namespace LibrarySoftware.client
 
                 string message = "Přejete si zarezervovat " + kniha + "?";
 
+                // Dotaz zda si ji chci opravdu rezervovat
                 if (MessageBox.Show(message, "Dotaz", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     // změny pro knihu
@@ -170,10 +173,11 @@ namespace LibrarySoftware.client
                     reserve[r.reservedBooks.Count()] = b;
                     r.reservedBooks = reserve;
 
+                    // musí se upravit vztahy jak pro knihu tak pro čtenáře
                     ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(kniha, b));
                     ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentUser.ID));
 
-                    booksListBox.Items.Remove(kniha);
+                    booksListBox.Items.Remove(kniha); // odstraníme ji a přidáme aktualizovanou
                     booksListBox.Items.Add(b);
                     SharedInfo.currentUser = r;
 
@@ -185,10 +189,11 @@ namespace LibrarySoftware.client
 
         private void deleteReserveButton_Click(object sender, RoutedEventArgs e)
         {
-            if(booksListBox.SelectedItem != null)
+            // Pokud jsme si rezervaci rozmysleli, můžeme ji zde odstranit
+            if(booksListBox.SelectedItem != null) // je nějaká kniha označená?
             {
                 Book kniha = booksListBox.SelectedItem as Book;
-                if (!SharedInfo.currentUser.reservedBooks.Contains(kniha))
+                if (!SharedInfo.currentUser.reservedBooks.Contains(kniha)) // Máme ji opravdu rezervovanou MY?
                 {
                     MessageBox.Show("Tato kniha není rezervována nebo není k dispozici nebo rezervace nepatří vám.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -204,6 +209,7 @@ namespace LibrarySoftware.client
                     Reader r = new Reader();
                     r = SharedInfo.currentUser;
                     Book[] reserve;
+                    // zrušení rezervace
                     try
                     {
                         reserve = new Book[r.reservedBooks.Count() - 1];
@@ -221,6 +227,7 @@ namespace LibrarySoftware.client
                         reserve = new Book[0];
                     }
 
+                    // informování databáze
                     ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(kniha, b));
                     ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentUser.ID));
 
@@ -235,6 +242,7 @@ namespace LibrarySoftware.client
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            // přidání kritérií a nastavení výchozí + načtení knih
             sortComboBox.Items.Add("Název");
             sortComboBox.Items.Add("Autor");
             sortComboBox.Items.Add("Žánr");
@@ -245,6 +253,7 @@ namespace LibrarySoftware.client
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            // co se stane po zavření?
             ClientNetworkManager.disconnect();
 
             MainWindow window = new MainWindow();

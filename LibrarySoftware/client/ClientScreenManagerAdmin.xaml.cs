@@ -24,7 +24,7 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenManagerAdmin : Window
     {
-        int počet = 0;
+        int počet = 0; // zajišťuje abychom nepřekročily množství knih a to z obou okrajů
         public ClientScreenManagerAdmin()
         {
             InitializeComponent();
@@ -130,7 +130,7 @@ namespace LibrarySoftware.client
                         {
                             readerListBox.Items.Add(r);
                         }
-                        počet -= 10;
+                        počet -= 10; 
                         return;
                 }
             }

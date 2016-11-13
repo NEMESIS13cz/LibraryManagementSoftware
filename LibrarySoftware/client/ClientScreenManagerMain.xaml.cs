@@ -20,7 +20,7 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenManagerMain : Window
     {
-        public static bool windowClosing = false;
+        public static bool windowClosing = false; // opravdu zavíráme nebo jen přepínáme mezi okny?
 
         public ClientScreenManagerMain()
         {
@@ -29,6 +29,7 @@ namespace LibrarySoftware.client
 
         private void ReadersButton_Click(object sender, RoutedEventArgs e)
         {
+            // pro seznam a úpravu čtenářů
             ClientScreenManagerReader window = new ClientScreenManagerReader();
 
             window.Show();
@@ -38,6 +39,7 @@ namespace LibrarySoftware.client
 
         private void BooksButton_Click(object sender, RoutedEventArgs e)
         {
+            // otevřeme pro seznam a úpravu knih
             ClientScreenManagerBook window = new ClientScreenManagerBook();
 
             window.Show();
@@ -47,7 +49,8 @@ namespace LibrarySoftware.client
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (!windowClosing)
+            // po zavření se odhlaš
+            if (!windowClosing) // opravdu zavíráme okno?
             {
                 ClientNetworkManager.disconnect();
 

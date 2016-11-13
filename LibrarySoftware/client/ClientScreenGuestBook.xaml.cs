@@ -25,10 +25,10 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenGuestBook : Window
     {
-        int počet = 0;
-        string textbox = "";
-        byte searchType = 0;
-        bool endOfList = false;
+        int počet = 0; // zajišťuje, abychom nepřekročily množství knih a to z obou směrů
+        string textbox = ""; // uchovává v sobě s čím porovnáváme při hledání
+        byte searchType = 0; // podle čeho hledáme
+        bool endOfList = false; // zda bylo ukázáno vše
 
         public ClientScreenGuestBook()
         {

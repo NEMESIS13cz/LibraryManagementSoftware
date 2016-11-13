@@ -24,7 +24,7 @@ namespace LibrarySoftware.client
     /// </summary>
     public partial class ClientScreenManagerReader : Window
     {
-        int počet = 0;
+        int počet = 0; // zda jsme na konci nebo na začátku seznamu, abychom nepřekročili rozsah
         public ClientScreenManagerReader()
         {
             InitializeComponent();
@@ -32,20 +32,23 @@ namespace LibrarySoftware.client
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
+            // pokud chceme zpět
             this.Close();
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
+            // otevře se okno pro přidání nového čtenáře
             AddReaderWindow window = new AddReaderWindow();
             window.ShowDialog();
         }
 
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
-            if (readerListBox.SelectedItem != null)
+            // upravíme stávájícího čtenáře
+            if (readerListBox.SelectedItem != null) // máme nějakého zmáčknutého?
             {
-                SharedInfo.currentlyEditingUser = readerListBox.SelectedItem as Reader;
+                SharedInfo.currentlyEditingUser = readerListBox.SelectedItem as Reader; // zapamatujeme si, kterého jdeme upravovat
                 EditReaderWindow window = new EditReaderWindow();
                 window.ShowDialog();
                 SharedInfo.currentlyEditingUser = null;
@@ -58,24 +61,28 @@ namespace LibrarySoftware.client
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (readerListBox.SelectedItem != null)
+            // smažeme čtenáře
+            if (readerListBox.SelectedItem != null) // označili jsme nějakého čtenáře, kterého chceme smazat?
             {
                 string name = readerListBox.SelectedItem.ToString();
                 
+                // opravdu ho chceme smazat?
                 if (MessageBox.Show("Přejete si vymazat " + name + "?", "Dotaz", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
+                    // ano
                     ClientNetworkManager.sendPacketToServer(new DeleteUserPacket(readerListBox.SelectedItem as Reader));
                     MessageBox.Show("Hotovo!", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
                     readerListBox.Items.Remove(readerListBox.SelectedItem as Reader);
                 }
             }
-            else
+            else // nikoho jsme neoznačili
                 MessageBox.Show("Nebyl vybrán žádný čtenář!", "Upozornění", MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            byte searchType = 0;
+            // hledáme čtenáře v databázi, vyhovující našim kritériům
+            byte searchType = 0; // podle jména
             if (sortComboBox.SelectedItem.Equals("Rodné číslo"))
             {
                 searchType = 1;
@@ -84,9 +91,9 @@ namespace LibrarySoftware.client
             {
                 searchType = 2;
             }
-            ClientNetworkManager.sendPacketToServer(new SearchUsersPacket(searchTextBox.Text, searchType, 5, 0, false));
-            IPacket packet = ClientNetworkManager.pollSynchronizedPackets();
-            switch (packet.getPacketID())
+            ClientNetworkManager.sendPacketToServer(new SearchUsersPacket(searchTextBox.Text, searchType, 5, 0, false)); // dotaz pro server
+            IPacket packet = ClientNetworkManager.pollSynchronizedPackets(); // odpověď
+            switch (packet.getPacketID()) // jakého typu je odpověď
             {
                 case Registry.packet_bookData:
                     return;
@@ -94,9 +101,9 @@ namespace LibrarySoftware.client
                     return;
                 case Registry.packet_searchReplyBooks:
                     return;
-                case Registry.packet_searchReplyUsers:
+                case Registry.packet_searchReplyUsers: // správný typ
                     readerListBox.Items.Clear();
-                    foreach (Reader r in ((SearchUsersReplyPacket)packet).readers)
+                    foreach (Reader r in ((SearchUsersReplyPacket)packet).readers) // načteme do seznamu
                     {
                         readerListBox.Items.Add(r);
                     }
@@ -158,12 +165,14 @@ namespace LibrarySoftware.client
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            // co se má stát po zavření tohoto okna? - pouze zobrazit menu
             ClientScreenManagerMain window = new ClientScreenManagerMain();
             window.Show();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            // přidání našich možných kritérií hledání + výchozí a načtení knih
             sortComboBox.Items.Add("Jméno");
             sortComboBox.Items.Add("Rodné číslo");
             sortComboBox.Items.Add("Email");
@@ -173,10 +182,11 @@ namespace LibrarySoftware.client
 
         private void borrowButton_Click(object sender, RoutedEventArgs e)
         {
-            // otevře se nové okno
-            if(readerListBox.SelectedItem != null)
+            // otevře se nové okno pro vypůjčení knihy
+            if(readerListBox.SelectedItem != null) // vypůjčujeme někomu?
             {
-                SharedInfo.currentlyEditingUser = readerListBox.SelectedItem as Reader;
+                // Ano
+                SharedInfo.currentlyEditingUser = readerListBox.SelectedItem as Reader; // komu vypůjčujeme, zapamatujeme si
                 BorrowBookWindow window = new BorrowBookWindow();
                 window.ShowDialog();
                 SharedInfo.currentlyEditingUser = null;
@@ -185,10 +195,11 @@ namespace LibrarySoftware.client
 
         private void returnButton_Click(object sender, RoutedEventArgs e)
         {
-            // otevře se nové okno
-            if(readerListBox.SelectedItem != null)
+            // otevře se nové okno pro vrácení knih(y)
+            if(readerListBox.SelectedItem != null) // Označili jsme toho, kdo vrací knihu?
             {
-                SharedInfo.currentlyEditingUser = readerListBox.SelectedItem as Reader;
+                // ANO
+                SharedInfo.currentlyEditingUser = readerListBox.SelectedItem as Reader; // zapamatujeme si ho
                 ReturnBookManagerWindow window = new ReturnBookManagerWindow();
                 window.ShowDialog();
                 SharedInfo.currentlyEditingUser = null;
@@ -197,23 +208,27 @@ namespace LibrarySoftware.client
 
         private void deleteReserveButton_Click(object sender, RoutedEventArgs e)
         {
-            if(readerListBox.SelectedItem != null)
+            // Odstranění VŠECH rezervací, které dotyčný čtenář má (pokud jsme mu je popůjčovali, samy jsou odstraněny)
+            if(readerListBox.SelectedItem != null)  // máme dotyčného označeného?
             {
+                // ANO
+                //Opravdu si přejeme je smazat?
                 if(MessageBox.Show("Přejete si zrušit rezervaci(e) u "+readerListBox.SelectedItem.ToString(),"Dotaz",MessageBoxButton.YesNo,MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
+                    // Ano smažou se
                     Reader r = readerListBox.SelectedItem as Reader;
-                    foreach (Book kniha in r.reservedBooks)
+                    foreach (Book kniha in r.reservedBooks) // postupné smazání všech
                     {
                         if (kniha != null)
                         {
                             Book b = kniha;
                             b.reserved = false;
                             b.reservedBy = null;
-                            ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(kniha, b)); 
+                            ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(kniha, b)); // musí se smazat vztahy pro každou knihu
                         }
                     }
                     r.reservedBooks = new Book[0];
-                    ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, r.ID));
+                    ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, r.ID)); // smazání vztahu i pro čtenáře
                 }
             }
         }
