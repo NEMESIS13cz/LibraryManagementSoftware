@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LibrarySoftware.data;
 using LibrarySoftware.utils;
+using System.IO;
 
 namespace LibrarySoftware.client
 {
@@ -18,6 +19,7 @@ namespace LibrarySoftware.client
         public static bool admin = false; // zda dotyčný je admin
         public static int Port = Registry.serverPort;
         public static string ServerAddress = Registry.serverAddress;
+        private static string NameOfFile = "Data.msd";
 
         public static void reset()
         {
@@ -25,6 +27,30 @@ namespace LibrarySoftware.client
             currentUser = null;
             currentlyEditingBook = null;
             currentlyEditingUser = null;
+        }
+        
+        public static void RememberOnIPAndPort()
+        {
+            StreamReader sw;
+            string pom;
+
+            using (sw = new StreamReader(NameOfFile))
+            {
+                if ((pom = sw.ReadLine()) != null)
+                {
+                    string[] pole = pom.Split(':');
+                    ServerAddress = pole[0];
+                    Port = Convert.ToInt32(pole[1]);
+                }
+            }
+        }
+
+        public static void WriteChangeIP ()
+        {
+            using(StreamWriter sw = new StreamWriter(NameOfFile, false))
+            {
+                sw.WriteLine(ServerAddress + ":" + Port.ToString());
+            }
         }
     }
 }
