@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibrarySoftware.data;
+using LibrarySoftware.utils;
 
 namespace LibrarySoftware.client
 {
@@ -15,6 +16,8 @@ namespace LibrarySoftware.client
         public static Book currentlyEditingBook;
         public static Reader currentlyEditingUser;
         public static bool admin = false; // zda dotyčný je admin
+        public static int Port = Registry.serverPort;
+        public static string ServerAddress = Registry.serverAddress;
 
         public static void reset()
         {
