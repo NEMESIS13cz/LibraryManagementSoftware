@@ -29,10 +29,10 @@ namespace LibrarySoftware.client
             DataContext = SharedInfo.currentlyEditingUser;
         }
 
-        // později ještě dodělat
         private void returnBookButton_Click(object sender, RoutedEventArgs e)
         {
-            if(booksListBox.SelectedItem != null)
+            // Vrátí knihu a smažeji ze seznamu vypůjčených
+            if(booksListBox.SelectedItem != null) // zda je nějaká kniha zmáčknuta
             {
                 Book kniha = booksListBox.SelectedItem as Book;
 
@@ -44,6 +44,7 @@ namespace LibrarySoftware.client
                 Reader r = new Reader();
                 r = SharedInfo.currentlyEditingUser;
                 Book[] borrow;
+                // samotné odstranění od uživatele
                 try
                 {
                     borrow = new Book[r.borrowedBooks.Count() - 1];
@@ -61,6 +62,7 @@ namespace LibrarySoftware.client
                 }
                 r.borrowedBooks = borrow;
 
+                // informování databáze o změnách
                 ClientNetworkManager.sendPacketToServer(new ModifyBookPacket(kniha, b));
                 ClientNetworkManager.sendPacketToServer(new ModifyUserPacket(r, SharedInfo.currentlyEditingUser.ID));
                 
@@ -70,7 +72,7 @@ namespace LibrarySoftware.client
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach(Book b in SharedInfo.currentlyEditingUser.borrowedBooks)
+            foreach(Book b in SharedInfo.currentlyEditingUser.borrowedBooks) // mačtení vypůjčených knih
             {
                 booksListBox.Items.Add(b);
             }
