@@ -9,11 +9,12 @@ namespace LibrarySoftware.client
 {
     class SharedInfo
     {
+        // Sdílené informace pro předávání mezi okny
         public static byte userType;
         public static Reader currentUser;
         public static Book currentlyEditingBook;
         public static Reader currentlyEditingUser;
-        public static bool admin = false;
+        public static bool admin = false; // zda dotyčný je admin
 
         public static void reset()
         {
