@@ -34,7 +34,7 @@ namespace LibrarySoftware
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             // Přihlášení do systému
-            if (!ClientNetworkManager.connectToServer(new Address(Registry.serverAddress)))
+            if (!ClientNetworkManager.connectToServer(new Address(SharedInfo.ServerAddress, SharedInfo.Port)))
                 MessageBox.Show("Nepodařilo se připojit k serveru", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             else
             {
