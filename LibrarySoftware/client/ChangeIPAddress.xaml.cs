@@ -30,9 +30,16 @@ namespace LibrarySoftware.client
             string IPAddress = IPAddressTextBox.Text;
             string Port = portTextBox.Text;
 
-            //Zde se to převede do registru a následně do config souboru
+            SharedInfo.Port = Port;
+            SharedInfo.ServerAddress = IPAddress;
 
             this.Close();
+        }
+        
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            IPAddressTextBox.Text = SharedInfo.ServerAddress;
+            portTextBox.Text = SharedInfo.Port.ToString();
         }
     }
 }
