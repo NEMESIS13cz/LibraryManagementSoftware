@@ -27,13 +27,25 @@ namespace LibrarySoftware.client
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            string IPAddress = IPAddressTextBox.Text;
-            string Port = portTextBox.Text;
+            try
+            {
+                if (IPAddressTextBox.Text == "" || portTextBox.Text == "")
+                    throw new ArgumentException("Údaje nemohou být prázdné!");
 
-            SharedInfo.Port = Port;
-            SharedInfo.ServerAddress = IPAddress;
+                string IPAddress = IPAddressTextBox.Text;
+                int Port = Convert.ToInt32(portTextBox.Text);
 
-            this.Close();
+                SharedInfo.Port = Port;
+                SharedInfo.ServerAddress = IPAddress;
+
+                SharedInfo.WriteChangeIP();
+
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Varování", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
         
         private void Window_Loaded(object sender, RoutedEventArgs e)
