@@ -59,13 +59,20 @@ namespace LibrarySoftware
         public Client connect(Address address)
         {
             IPAddress ip = null;
-            foreach (IPAddress i in Dns.GetHostEntry(address.host).AddressList)
+            if (!address.host.Contains("."))
             {
-                if (i.AddressFamily == AddressFamily.InterNetwork)
+                foreach (IPAddress i in Dns.GetHostEntry(address.host).AddressList)
                 {
-                    ip = i;
-                    break;
+                    if (i.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        ip = i;
+                        break;
+                    }
                 }
+            }
+            else
+            {
+                ip = IPAddress.Parse(address.host);
             }
             if (ip == null)
             {
