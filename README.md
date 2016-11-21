@@ -1,9 +1,5 @@
 # LibraryManagementSoftware
 
-Just a school project :D
-
------
-
 ## Klient
 
 #### **Knihovníci**
